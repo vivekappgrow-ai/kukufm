@@ -1,0 +1,944 @@
+[
+  {
+    "id": "seed-mathematics",
+    "title": "Maths, one idea at a time",
+    "instructor": "StudyAI Learning Team",
+    "subject": "Mathematics",
+    "level": "Class 8",
+    "duration": "2h 30m",
+    "lessons": 15,
+    "rating": "4.8",
+    "accent": "lavender",
+    "icon": "∫",
+    "description": "A demo audio-first Mathematics course with five chapters and three lesson units per chapter.",
+    "progress": 0,
+    "language": "Both",
+    "chapters": [
+      {
+        "title": "Number patterns",
+        "duration": "8:00",
+        "body": "Demo Mathematics lesson: Number patterns. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Number patterns: key ideas",
+          "Number patterns: worked example",
+          "Number patterns: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Number patterns",
+            "text": "Start here: Number patterns. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect mathematics to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Algebra in action",
+        "duration": "9:00",
+        "body": "Demo Mathematics lesson: Algebra in action. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Algebra in action: key ideas",
+          "Algebra in action: worked example",
+          "Algebra in action: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Algebra in action",
+            "text": "Start here: Algebra in action. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect mathematics to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Geometry around us",
+        "duration": "10:00",
+        "body": "Demo Mathematics lesson: Geometry around us. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Geometry around us: key ideas",
+          "Geometry around us: worked example",
+          "Geometry around us: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Geometry around us",
+            "text": "Start here: Geometry around us. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect mathematics to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Working with data",
+        "duration": "11:00",
+        "body": "Demo Mathematics lesson: Working with data. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Working with data: key ideas",
+          "Working with data: worked example",
+          "Working with data: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Working with data",
+            "text": "Start here: Working with data. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect mathematics to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Practice & recap",
+        "duration": "12:00",
+        "body": "Demo Mathematics lesson: Practice & recap. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Practice & recap: key ideas",
+          "Practice & recap: worked example",
+          "Practice & recap: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Practice & recap",
+            "text": "Start here: Practice & recap. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect mathematics to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seed-science",
+    "title": "Science all around us",
+    "instructor": "StudyAI Learning Team",
+    "subject": "Science",
+    "level": "Class 8",
+    "duration": "2h 30m",
+    "lessons": 15,
+    "rating": "4.8",
+    "accent": "sage",
+    "icon": "◉",
+    "description": "A demo audio-first Science course with five chapters and three lesson units per chapter.",
+    "progress": 0,
+    "language": "Both",
+    "chapters": [
+      {
+        "title": "Living systems",
+        "duration": "8:00",
+        "body": "Demo Science lesson: Living systems. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Living systems: key ideas",
+          "Living systems: worked example",
+          "Living systems: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Living systems",
+            "text": "Start here: Living systems. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect science to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Matter around us",
+        "duration": "9:00",
+        "body": "Demo Science lesson: Matter around us. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Matter around us: key ideas",
+          "Matter around us: worked example",
+          "Matter around us: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Matter around us",
+            "text": "Start here: Matter around us. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect science to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Energy in motion",
+        "duration": "10:00",
+        "body": "Demo Science lesson: Energy in motion. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Energy in motion: key ideas",
+          "Energy in motion: worked example",
+          "Energy in motion: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Energy in motion",
+            "text": "Start here: Energy in motion. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect science to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Our changing planet",
+        "duration": "11:00",
+        "body": "Demo Science lesson: Our changing planet. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Our changing planet: key ideas",
+          "Our changing planet: worked example",
+          "Our changing planet: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Our changing planet",
+            "text": "Start here: Our changing planet. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect science to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Practice & recap",
+        "duration": "12:00",
+        "body": "Demo Science lesson: Practice & recap. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Practice & recap: key ideas",
+          "Practice & recap: worked example",
+          "Practice & recap: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Practice & recap",
+            "text": "Start here: Practice & recap. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect science to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seed-english",
+    "title": "English for curious minds",
+    "instructor": "StudyAI Learning Team",
+    "subject": "English",
+    "level": "Class 8",
+    "duration": "2h 30m",
+    "lessons": 15,
+    "rating": "4.8",
+    "accent": "blue",
+    "icon": "Aa",
+    "description": "A demo audio-first English course with five chapters and three lesson units per chapter.",
+    "progress": 0,
+    "language": "Both",
+    "chapters": [
+      {
+        "title": "Reading with purpose",
+        "duration": "8:00",
+        "body": "Demo English lesson: Reading with purpose. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Reading with purpose: key ideas",
+          "Reading with purpose: worked example",
+          "Reading with purpose: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Reading with purpose",
+            "text": "Start here: Reading with purpose. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect english to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Build your vocabulary",
+        "duration": "9:00",
+        "body": "Demo English lesson: Build your vocabulary. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Build your vocabulary: key ideas",
+          "Build your vocabulary: worked example",
+          "Build your vocabulary: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Build your vocabulary",
+            "text": "Start here: Build your vocabulary. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect english to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Clear sentences",
+        "duration": "10:00",
+        "body": "Demo English lesson: Clear sentences. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Clear sentences: key ideas",
+          "Clear sentences: worked example",
+          "Clear sentences: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Clear sentences",
+            "text": "Start here: Clear sentences. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect english to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Confident speaking",
+        "duration": "11:00",
+        "body": "Demo English lesson: Confident speaking. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Confident speaking: key ideas",
+          "Confident speaking: worked example",
+          "Confident speaking: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Confident speaking",
+            "text": "Start here: Confident speaking. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect english to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Practice & recap",
+        "duration": "12:00",
+        "body": "Demo English lesson: Practice & recap. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Practice & recap: key ideas",
+          "Practice & recap: worked example",
+          "Practice & recap: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Practice & recap",
+            "text": "Start here: Practice & recap. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect english to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seed-hindi",
+    "title": "हिंदी: सुनें और सीखें",
+    "instructor": "StudyAI Learning Team",
+    "subject": "Hindi",
+    "level": "Class 8",
+    "duration": "2h 30m",
+    "lessons": 15,
+    "rating": "4.8",
+    "accent": "peach",
+    "icon": "अ",
+    "description": "A demo audio-first Hindi course with five chapters and three lesson units per chapter.",
+    "progress": 0,
+    "language": "Both",
+    "chapters": [
+      {
+        "title": "भाषा और व्याकरण",
+        "duration": "8:00",
+        "body": "Demo Hindi lesson: भाषा और व्याकरण. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "भाषा और व्याकरण: key ideas",
+          "भाषा और व्याकरण: worked example",
+          "भाषा और व्याकरण: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "भाषा और व्याकरण",
+            "text": "Start here: भाषा और व्याकरण. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect hindi to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "शब्दों की दुनिया",
+        "duration": "9:00",
+        "body": "Demo Hindi lesson: शब्दों की दुनिया. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "शब्दों की दुनिया: key ideas",
+          "शब्दों की दुनिया: worked example",
+          "शब्दों की दुनिया: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "शब्दों की दुनिया",
+            "text": "Start here: शब्दों की दुनिया. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect hindi to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "पठन कौशल",
+        "duration": "10:00",
+        "body": "Demo Hindi lesson: पठन कौशल. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "पठन कौशल: key ideas",
+          "पठन कौशल: worked example",
+          "पठन कौशल: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "पठन कौशल",
+            "text": "Start here: पठन कौशल. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect hindi to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "रचनात्मक लेखन",
+        "duration": "11:00",
+        "body": "Demo Hindi lesson: रचनात्मक लेखन. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "रचनात्मक लेखन: key ideas",
+          "रचनात्मक लेखन: worked example",
+          "रचनात्मक लेखन: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "रचनात्मक लेखन",
+            "text": "Start here: रचनात्मक लेखन. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect hindi to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "अभ्यास और पुनरावृत्ति",
+        "duration": "12:00",
+        "body": "Demo Hindi lesson: अभ्यास और पुनरावृत्ति. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "अभ्यास और पुनरावृत्ति: key ideas",
+          "अभ्यास और पुनरावृत्ति: worked example",
+          "अभ्यास और पुनरावृत्ति: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "अभ्यास और पुनरावृत्ति",
+            "text": "Start here: अभ्यास और पुनरावृत्ति. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect hindi to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seed-gk",
+    "title": "Everyday general knowledge",
+    "instructor": "StudyAI Learning Team",
+    "subject": "GK",
+    "level": "All classes",
+    "duration": "2h 30m",
+    "lessons": 15,
+    "rating": "4.8",
+    "accent": "sage",
+    "icon": "✳",
+    "description": "A demo audio-first GK course with five chapters and three lesson units per chapter.",
+    "progress": 0,
+    "language": "Both",
+    "chapters": [
+      {
+        "title": "India at a glance",
+        "duration": "8:00",
+        "body": "Demo GK lesson: India at a glance. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "India at a glance: key ideas",
+          "India at a glance: worked example",
+          "India at a glance: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "India at a glance",
+            "text": "Start here: India at a glance. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect gk to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "People and places",
+        "duration": "9:00",
+        "body": "Demo GK lesson: People and places. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "People and places: key ideas",
+          "People and places: worked example",
+          "People and places: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "People and places",
+            "text": "Start here: People and places. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect gk to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Science in daily life",
+        "duration": "10:00",
+        "body": "Demo GK lesson: Science in daily life. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Science in daily life: key ideas",
+          "Science in daily life: worked example",
+          "Science in daily life: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Science in daily life",
+            "text": "Start here: Science in daily life. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect gk to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "World and environment",
+        "duration": "11:00",
+        "body": "Demo GK lesson: World and environment. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "World and environment: key ideas",
+          "World and environment: worked example",
+          "World and environment: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "World and environment",
+            "text": "Start here: World and environment. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect gk to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Practice & recap",
+        "duration": "12:00",
+        "body": "Demo GK lesson: Practice & recap. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Practice & recap: key ideas",
+          "Practice & recap: worked example",
+          "Practice & recap: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Practice & recap",
+            "text": "Start here: Practice & recap. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect gk to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seed-computer",
+    "title": "Computer basics, simply",
+    "instructor": "StudyAI Learning Team",
+    "subject": "Computer",
+    "level": "Class 8",
+    "duration": "2h 30m",
+    "lessons": 15,
+    "rating": "4.8",
+    "accent": "blue",
+    "icon": "</>",
+    "description": "A demo audio-first Computer course with five chapters and three lesson units per chapter.",
+    "progress": 0,
+    "language": "Both",
+    "chapters": [
+      {
+        "title": "Inside a computer",
+        "duration": "8:00",
+        "body": "Demo Computer lesson: Inside a computer. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Inside a computer: key ideas",
+          "Inside a computer: worked example",
+          "Inside a computer: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Inside a computer",
+            "text": "Start here: Inside a computer. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect computer to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Thinking in algorithms",
+        "duration": "9:00",
+        "body": "Demo Computer lesson: Thinking in algorithms. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Thinking in algorithms: key ideas",
+          "Thinking in algorithms: worked example",
+          "Thinking in algorithms: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Thinking in algorithms",
+            "text": "Start here: Thinking in algorithms. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect computer to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Internet essentials",
+        "duration": "10:00",
+        "body": "Demo Computer lesson: Internet essentials. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Internet essentials: key ideas",
+          "Internet essentials: worked example",
+          "Internet essentials: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Internet essentials",
+            "text": "Start here: Internet essentials. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect computer to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Digital safety",
+        "duration": "11:00",
+        "body": "Demo Computer lesson: Digital safety. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Digital safety: key ideas",
+          "Digital safety: worked example",
+          "Digital safety: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Digital safety",
+            "text": "Start here: Digital safety. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect computer to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      },
+      {
+        "title": "Practice & recap",
+        "duration": "12:00",
+        "body": "Demo Computer lesson: Practice & recap. This sample chapter includes three short audio lesson units, a written recap and a practice prompt. Replace the demo narration with reviewed, licensed teaching material before publishing.",
+        "audioSrc": "/audio/physics-01.wav",
+        "lessons": [
+          "Practice & recap: key ideas",
+          "Practice & recap: worked example",
+          "Practice & recap: quick recap"
+        ],
+        "slides": [
+          {
+            "time": 0,
+            "title": "Practice & recap",
+            "text": "Start here: Practice & recap. Listen to the audio while you explore this visual summary."
+          },
+          {
+            "time": 15,
+            "title": "A useful example",
+            "text": "Connect computer to something familiar. Pause and describe the key idea in your own words."
+          },
+          {
+            "time": 30,
+            "title": "Quick recap",
+            "text": "Review the main point, then try the chapter quiz to check your understanding."
+          }
+        ]
+      }
+    ]
+  }
+]

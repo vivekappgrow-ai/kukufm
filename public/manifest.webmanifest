@@ -1,0 +1,17 @@
+{
+  "name": "StudyAI — learn at your pace",
+  "short_name": "StudyAI",
+  "description": "A calmer way to learn, one small step at a time.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f7fb",
+  "theme_color": "#f7f7fb",
+  "icons": [
+    {
+      "src": "/studyai-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

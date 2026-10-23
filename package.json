@@ -1,0 +1,40 @@
+{
+  "name": "studyai",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "rooms": "node server/index.mjs",
+    "agent": "node agent/index.mjs start",
+    "agent:dev": "node agent/index.mjs dev",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "seed:demo": "node scripts/seed-demo.mjs",
+    "seed:rooms": "node scripts/seed-live-rooms.mjs",
+    "smoke:rooms": "node scripts/smoke-live-rooms.mjs"
+  },
+  "dependencies": {
+    "@livekit/agents": "^1.9.3",
+    "@livekit/agents-plugin-openai": "^1.9.3",
+    "@livekit/agents-plugin-silero": "^1.9.3",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "livekit-client": "^2.23.0",
+    "livekit-server-sdk": "^2.19.1",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "socket.io": "^4.8.4",
+    "socket.io-client": "^4.8.4",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  }
+}

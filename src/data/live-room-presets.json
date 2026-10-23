@@ -1,0 +1,22 @@
+{
+  "roomPresets": [
+    {
+      "name": "Maths Quiz Duel",
+      "roomType": "duel",
+      "subject": "Mathematics",
+      "classRange": "Class 8"
+    },
+    {
+      "name": "Science Study Group",
+      "roomType": "study-group",
+      "subject": "Science",
+      "classRange": "Class 8"
+    },
+    {
+      "name": "Teacher-led Revision",
+      "roomType": "classroom",
+      "subject": "Mathematics",
+      "classRange": "Class 8"
+    }
+  ]
+}
