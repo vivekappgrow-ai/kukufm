@@ -32,7 +32,7 @@ type Course = {
   chapters: Chapter[];
   language?: "English" | "Hindi" | "Both";
 };
-type View = "home" | "explore" | "classic-home" | "classic-explore" | "new-hot" | "search" | "library" | "series" | "lesson" | "player" | "ai-tutor" | "my-learning" | "tutor" | "profile" | "profile-preferences" | "progress" | "parent" | "settings" | "games" | "dashboard" | "admin" | "admin-preview" | "live-rooms";
+type View = "home" | "explore" | "classic-home" | "classic-explore" | "new-hot" | "search" | "library" | "series" | "lesson" | "player" | "ai-tutor" | "my-learning" | "tutor" | "profile" | "profile-preferences" | "progress" | "parent" | "pricing" | "settings" | "games" | "dashboard" | "admin" | "admin-preview" | "live-rooms";
 type ChatMessage = { role: "student" | "tutor"; text: string };
 type ThemeName = "dark" | "light" | "amoled" | "sunrise" | "forest" | "ocean" | "kids";
 type BoardName = "UP Board" | "NCERT" | "CBSE";
@@ -171,6 +171,7 @@ const LazyParentRoute = lazy(() => import("./pages/catalog-pages").then((module)
 const LazySettingsRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.SettingsRoute })));
 const LazyProfileRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.ProfileRoute })));
 const LazyAdminRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.AdminRoute })));
+const LazyPricingPage = lazy(() => import("./pages/pricing-page").then((module) => ({ default: module.PricingPage })));
 
 function viewFromPath(pathname: string): View {
   const path = pathname.replace(/\/+$/, "") || "/";
@@ -180,7 +181,7 @@ function viewFromPath(pathname: string): View {
     "/": "home", "/explore": "explore", "/classic/home": "classic-home", "/classic/explore": "classic-explore", "/new-hot": "new-hot", "/search": "search",
     "/library": "library", "/series": "series", "/lesson": "lesson", "/player": "player",
     "/ai-tutor": "ai-tutor", "/tutor": "tutor", "/profile": "profile", "/profile/preferences": "profile-preferences", "/progress": "progress",
-    "/parent": "parent", "/settings": "settings", "/admin": "admin", "/admin/preview": "admin-preview", "/games": "games",
+    "/parent": "parent", "/pricing": "pricing", "/settings": "settings", "/admin": "admin", "/admin/preview": "admin-preview", "/games": "games",
     "/dashboard": "dashboard", "/live-rooms": "live-rooms", "/my-learning": "my-learning",
   };
   return routes[path] ?? "home";
@@ -196,7 +197,7 @@ function pathForView(view: View, courseId?: string) {
     series: `/series/${encodeURIComponent(courseId ?? "")}`.replace(/\/$/, ""),
     lesson: `/lesson/${encodeURIComponent(courseId ?? "")}`.replace(/\/$/, ""),
     player: "/player", "ai-tutor": "/ai-tutor", "my-learning": "/my-learning", tutor: "/tutor",
-    profile: "/profile", "profile-preferences": "/profile/preferences", progress: "/progress", parent: "/parent", settings: "/settings",
+    profile: "/profile", "profile-preferences": "/profile/preferences", progress: "/progress", parent: "/parent", pricing: "/pricing", settings: "/settings",
     games: "/games", dashboard: "/dashboard", admin: "/admin", "admin-preview": "/admin/preview", "live-rooms": "/live-rooms",
   };
   return routes[view];
@@ -815,6 +816,7 @@ export default function App() {
     "profile-preferences": "Profile preferences",
     progress: "Your progress",
     parent: "Parent overview",
+    pricing: "Plans for your family",
     settings: "Settings",
     games: "Quiz games",
     dashboard: "Learning dashboard",
@@ -936,6 +938,7 @@ export default function App() {
           {view === "ai-tutor" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading AI tutor"><span /><span /><span /></div>}><LazyAiTutorRoute {...catalogProps} /></Suspense>}
           {view === "progress" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading progress"><span /><span /><span /></div>}><LazyProgressRoute {...catalogProps} /></Suspense>}
           {view === "parent" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading parent overview"><span /><span /><span /></div>}><LazyParentRoute {...catalogProps} /></Suspense>}
+          {view === "pricing" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading plans"><span /><span /><span /></div>}><LazyPricingPage /></Suspense>}
           {view === "settings" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading settings"><span /><span /><span /></div>}><LazySettingsRoute {...catalogProps} /></Suspense>}
           {view === "my-learning" && <LearningPage course={activeCourse} chapterIndex={chapterIndex} elapsed={elapsed} onSeek={seekTo} onOpen={openLesson} onChapter={(index) => { if (audioRef.current && currentChapter.audioSrc) persistAudioPosition(`${activeCourse.id}:${chapterIndex}`, audioRef.current.currentTime); stopNarration(); setChapterIndex(index); setElapsed(0); }} onQuiz={() => setQuizOpen(true)} savedIds={savedIds} onSave={toggleSave} bookmarks={bookmarks[`${activeCourse.id}:${chapterIndex}`] ?? []} onBookmark={addTimestampBookmark} onJumpBookmark={seekBookmark} note={notes[`${activeCourse.id}:${chapterIndex}`] ?? ""} onNoteChange={saveChapterNote} />}
           {view === "tutor" && <TutorPage chat={chat} input={chatInput} onInput={setChatInput} onSend={sendMessage} course={activeCourse} voiceName={studyVoices.find((voice) => voice.id === voiceId)?.name ?? "Guru Ji"} studentClass={studentClass} onCall={startCall} />}

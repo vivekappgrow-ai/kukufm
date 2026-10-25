@@ -40,7 +40,7 @@ export type CatalogCourse = {
 };
 
 export type CatalogView =
-  | "home" | "explore" | "new-hot" | "search" | "library" | "series"
+  | "home" | "explore" | "new-hot" | "search" | "library" | "series" | "pricing"
   | "lesson" | "player" | "ai-tutor" | "profile" | "profile-preferences" | "progress" | "parent"
   | "settings" | "admin" | "admin-preview";
 
@@ -463,7 +463,7 @@ function AiTutorPage(props: CatalogProps) {
 }
 
 function ParentPage(props: CatalogProps) {
-  return <div className="catalog-page"><Header eyebrow="FAMILY VIEW" title="Parent overview" detail="A private summary of learning activity on this device." /><section className="catalog-parent-card"><h2>Learning snapshot</h2><p>Only locally tracked activity is shown. This is not a verified guardian account.</p><div><span>Listening time<strong>{props.minutes} min</strong></span><span>Completed lessons<strong>{props.completed}</strong></span><span>Courses in progress<strong>{props.courses.filter((course) => course.progress > 0).length}</strong></span></div></section></div>;
+  return <div className="catalog-page"><Header eyebrow="FAMILY VIEW" title="Parent overview" detail="A private summary of learning activity on this device." /><section className="catalog-parent-card"><h2>Learning snapshot</h2><p>Only locally tracked activity is shown. This is not a verified guardian account.</p><div><span>Listening time<strong>{props.minutes} min</strong></span><span>Completed lessons<strong>{props.completed}</strong></span><span>Courses in progress<strong>{props.courses.filter((course) => course.progress > 0).length}</strong></span></div><button className="catalog-primary" onClick={() => props.onNavigate("pricing")}>View plans and trial terms <ArrowRight size={15} /></button></section></div>;
 }
 
 function SettingsPage(props: CatalogProps) {
