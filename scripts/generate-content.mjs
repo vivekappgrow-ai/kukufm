@@ -234,8 +234,11 @@ function publicUrl(path) {
 }
 
 async function main() {
-  const source = JSON.parse(await readFile(sourcePath, "utf8"));
-  if (!Array.isArray(source) || source.length !== 15) throw new Error(`Expected exactly 15 source lessons; received ${source?.length ?? "invalid data"}.`);
+  const baseSource = JSON.parse(await readFile(sourcePath, "utf8"));
+  const extraSourcePath = join(root, "src", "data", "lesson-source-extra.json");
+  const extraSource = existsSync(extraSourcePath) ? JSON.parse(await readFile(extraSourcePath, "utf8")) : [];
+  const source = [...baseSource, ...extraSource];
+  if (!Array.isArray(source) || source.length !== 55) throw new Error(`Expected 55 source lessons across the listed Class 5 topics; received ${source?.length ?? "invalid data"}.`);
   for (const lesson of source) assertLesson(lesson);
   const imageLicense = apiKey ? "AI-generated with OpenAI Images; original prompt; no third-party assets." : "Original StudyAI SVG gradient illustration; no third-party assets.";
   const manifest = [];

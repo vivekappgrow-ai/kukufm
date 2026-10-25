@@ -6,6 +6,10 @@ import express from "express";
 import { Server } from "socket.io";
 import { AccessToken, LiveKitAPI, RoomServiceClient } from "livekit-server-sdk";
 import { rateLimit } from "express-rate-limit";
+import helmet from "helmet";
+import { registerTutorRoutes } from "./ai-tutor.mjs";
+import { registerPaymentRoutes } from "./payments.mjs";
+import { getStoreMode } from "./data/store.mjs";
 
 const PORT = Number(process.env.ROOMS_PORT ?? 8787);
 const HOST = process.env.ROOMS_HOST ?? "127.0.0.1";
@@ -112,10 +116,13 @@ function filterProfanity(message) {
 }
 
 const app = express();
-app.use(express.json({ limit: "16kb" }));
+app.disable("x-powered-by");
+app.use("/api/checkout/webhook", express.raw({ type: "application/json", limit: "1mb" }));
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(express.json({ limit: "1mb" }));
 const sessionLimiter = rateLimit({ windowMs: 15 * 60_000, limit: 12, standardHeaders: "draft-8", legacyHeaders: false });
 const apiLimiter = rateLimit({ windowMs: 60_000, limit: 90, standardHeaders: "draft-8", legacyHeaders: false });
-app.get("/api/health", (_request, response) => response.json({ ok: true, provider: roomService ? "livekit" : "unconfigured" }));
+app.get("/api/health", (_request, response) => response.json({ ok: true, provider: roomService ? "livekit" : "unconfigured", store: getStoreMode() }));
 app.post("/api/session", sessionLimiter, (request, response) => {
   if (!DEMO_MODE) {
     response.status(404).json({ error: "Use the configured identity provider to sign in." });
@@ -135,6 +142,11 @@ app.post("/api/session", sessionLimiter, (request, response) => {
 });
 app.use("/api", apiLimiter);
 app.use("/api", authenticate);
+registerTutorRoutes(app, {
+  apiKey: process.env.OPENAI_API_KEY,
+  manifestPath: new URL("../src/data/lesson-manifest.json", import.meta.url),
+});
+registerPaymentRoutes(app, { storeMode: getStoreMode() });
 
 app.get("/api/lessons", async (request, response) => {
   try {

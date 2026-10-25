@@ -44,6 +44,8 @@ export type CatalogView =
   | "lesson" | "player" | "ai-tutor" | "profile" | "profile-preferences" | "progress" | "parent"
   | "settings" | "admin" | "admin-preview";
 
+export type CatalogTheme = "dark" | "light" | "amoled" | "sunrise" | "forest" | "ocean" | "kids";
+
 export type CatalogProps = {
   courses: CatalogCourse[];
   activeCourse: CatalogCourse;
@@ -59,7 +61,9 @@ export type CatalogProps = {
   elapsed: number;
   playing: boolean;
   chapterIndex: number;
-  libraryTab: "Courses" | "In progress" | "Saved" | "Downloaded";
+  libraryTab: "Courses" | "In progress" | "Saved" | "Downloaded" | "History" | "Completed";
+  theme: CatalogTheme;
+  onThemeChange: (theme: CatalogTheme) => void;
   onSearch: (value: string) => void;
   onLibraryTab: (tab: CatalogProps["libraryTab"]) => void;
   onOpenSeries: (course: CatalogCourse) => void;
@@ -342,10 +346,10 @@ function SearchPage(props: CatalogProps) {
 }
 
 function LibraryPage(props: CatalogProps) {
-  const tabs = ["Courses", "In progress", "Saved", "Downloaded"] as const;
+  const tabs = ["Courses", "In progress", "Saved", "Downloaded", "History", "Completed"] as const;
   const tab = props.libraryTab;
   const [sort, setSort] = useState("Recents");
-  const library = props.courses.filter((course) => tab === "In progress" ? course.progress > 0 : tab === "Saved" ? props.savedIds.includes(course.id) : tab === "Downloaded" ? false : true);
+  const library = props.courses.filter((course) => tab === "In progress" ? course.progress > 0 && course.progress < 100 : tab === "Saved" ? props.savedIds.includes(course.id) : tab === "Downloaded" ? false : tab === "History" ? props.recentCourseIds.includes(course.id) : tab === "Completed" ? course.progress >= 100 : true);
   const orderedLibrary = useMemo(() => [...library].sort((first, second) => {
     if (sort === "Title") return first.title.localeCompare(second.title);
     if (sort === "Progress") return second.progress - first.progress;
@@ -357,7 +361,7 @@ function LibraryPage(props: CatalogProps) {
     <Header eyebrow="YOUR PERSONAL SHELF" title="Your Library" detail="Saved courses and listening progress, all in one place." />
     <Tabs items={[...tabs]} selected={tab} onSelect={props.onLibraryTab} />
     <div className="catalog-library-tools"><span>{library.length} {library.length === 1 ? "course" : "courses"}</span><label>Sort by <select aria-label="Sort library" value={sort} onChange={(event) => setSort(event.target.value)}><option>Recents</option><option>Title</option><option>Progress</option></select><ChevronDown size={13} /></label></div>
-    {tab === "Downloaded" ? <EmptyState icon={<Download size={22} />} title="No offline lessons yet" detail="Downloads will appear here when offline lesson caching is enabled." /> : library.length ? <div className="catalog-library-list">{orderedLibrary.map((course) => <article key={course.id} className="library-row"><button className="library-cover-button" onClick={() => props.onOpenSeries(course)}><Cover course={course} /></button><div className="library-row-copy"><button onClick={() => props.onOpenSeries(course)}><strong>{course.title}</strong></button><span>{course.subject} · {course.level} · {course.lessons} lessons</span><ProgressBar value={course.progress} /></div><span className="library-progress-label">{course.progress > 0 ? `${course.progress}%` : "Not started"}</span><button className="catalog-secondary" onClick={() => props.onPlayLesson(course)}>Listen</button></article>)}</div> : <EmptyState icon={<Bookmark size={22} />} title={`No ${tab.toLowerCase()} courses yet`} detail={tab === "Saved" ? "Save a course with the heart button and it will be waiting here." : "Start a course and it will appear in this shelf."} action={<button className="catalog-secondary" onClick={() => props.onNavigate("explore")}>Explore courses</button>} />}
+    {tab === "Downloaded" ? <EmptyState icon={<Download size={22} />} title="No offline lessons yet" detail="Downloads will appear here when offline lesson caching is enabled." /> : library.length ? <div className="catalog-library-list">{orderedLibrary.map((course) => <article key={course.id} className="library-row"><button className="library-cover-button" onClick={() => props.onOpenSeries(course)}><Cover course={course} /></button><div className="library-row-copy"><button onClick={() => props.onOpenSeries(course)}><strong>{course.title}</strong></button><span>{course.subject} · {course.level} · {course.lessons} lessons</span><ProgressBar value={course.progress} /></div><span className="library-progress-label">{course.progress > 0 ? `${course.progress}%` : "Not started"}</span><button className="catalog-secondary" onClick={() => props.onPlayLesson(course)}>Listen</button></article>)}</div> : <EmptyState icon={<Bookmark size={22} />} title={`No ${tab.toLowerCase()} courses yet`} detail={tab === "Saved" ? "Save a course with the heart button and it will be waiting here." : tab === "History" ? "Lessons you open will appear here." : tab === "Completed" ? "Finish a course to find it here." : "Start a course and it will appear in this shelf."} action={<button className="catalog-secondary" onClick={() => props.onNavigate("explore")}>Explore courses</button>} />}
   </div>;
 }
 
@@ -467,7 +471,13 @@ function ParentPage(props: CatalogProps) {
 }
 
 function SettingsPage(props: CatalogProps) {
-  return <div className="catalog-page"><Header eyebrow="MAKE IT YOURS" title="Settings" detail="Learning preferences and privacy controls." /><section className="catalog-settings-list"><article><span><strong>Learning preferences</strong><small>Class, board, language, voice and theme preferences.</small></span><button className="catalog-secondary" onClick={() => props.onNavigate("profile-preferences")}>Open preferences</button></article><article><span><strong>Playback</strong><small>Playback speed and volume are available in the persistent player.</small></span><button className="catalog-secondary" onClick={() => props.onNavigate("player")}>Open player</button></article><article><span><strong>Privacy</strong><small>Profile, course progress, notes, and bookmarks are stored in this browser.</small></span></article></section></div>;
+  const themes: { id: CatalogTheme; label: string; color: string }[] = [
+    { id: "dark", label: "Dark", color: "#25232d" }, { id: "light", label: "Light", color: "#f7f7fb" },
+    { id: "amoled", label: "AMOLED", color: "#050505" }, { id: "sunrise", label: "Sunrise", color: "#cf7c5e" },
+    { id: "forest", label: "Forest", color: "#578a6b" }, { id: "ocean", label: "Ocean", color: "#5285ac" },
+    { id: "kids", label: "Kids Bright", color: "#f1ca68" },
+  ];
+  return <div className="catalog-page"><Header eyebrow="MAKE IT YOURS" title="Settings" detail="Learning preferences and privacy controls." /><section className="catalog-settings-list"><article><span><strong>Learning preferences</strong><small>Class, board, language and voice preferences.</small></span><button className="catalog-secondary" onClick={() => props.onNavigate("profile-preferences")}>Open preferences</button></article><article className="settings-theme-row"><span><strong>Appearance</strong><small>Preview a theme and it will be saved on this device.</small></span><div className="settings-theme-options" role="group" aria-label="Choose appearance theme">{themes.map((item) => <button key={item.id} className={props.theme === item.id ? "selected" : ""} aria-pressed={props.theme === item.id} onClick={() => props.onThemeChange(item.id)}><i style={{ background: item.color }} />{item.label}</button>)}</div></article><article><span><strong>Playback</strong><small>Playback speed and volume are available in the persistent player.</small></span><button className="catalog-secondary" onClick={() => props.onNavigate("player")}>Open player</button></article><article><span><strong>Privacy</strong><small>Profile, course progress, notes, and bookmarks are stored in this browser.</small></span></article></section></div>;
 }
 
 function AdminPage(props: CatalogProps) {

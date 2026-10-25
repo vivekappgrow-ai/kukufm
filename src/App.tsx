@@ -3,6 +3,7 @@ import demoCatalog from "./data/demo-seed.json";
 import liveRoomPresets from "./data/live-room-presets.json";
 import { studyLessonCourses } from "./data/lessons";
 import { studyVoices } from "./data/voices";
+import { authProvider } from "./auth/auth";
 import type { Participant, Room as LiveKitRoom, Track as LiveKitTrack } from "livekit-client";
 import type { Socket } from "socket.io-client";
 import {
@@ -206,7 +207,7 @@ function pathForView(view: View, courseId?: string) {
 function loadSaved() {
   try {
     const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}") as {
-      name?: string; email?: string; courses?: Course[]; completed?: number; minutes?: number;
+      name?: string; email?: string; parentName?: string; parentPinHash?: string; courses?: Course[]; completed?: number; minutes?: number;
       quizScore?: number; saved?: string[]; studentClass?: number; board?: BoardName;
       studyLanguage?: StudyLanguage; voiceId?: string; theme?: ThemeName;
       setupComplete?: boolean; guardianConsentAccepted?: boolean; autoPlayNext?: boolean; voiceSpeed?: number; voicePitch?: number;
@@ -288,11 +289,14 @@ export default function App() {
   const [recentCourseIds, setRecentCourseIds] = useState<string[]>(() => loadLocalRecord("studyai-recent-courses", []));
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All subjects");
-  const [libraryTab, setLibraryTab] = useState<"Courses" | "In progress" | "Saved" | "Downloaded">("Courses");
+  const [libraryTab, setLibraryTab] = useState<"Courses" | "In progress" | "Saved" | "Downloaded" | "History" | "Completed">("Courses");
   const [name, setName] = useState(saved.name ?? "");
   const [email, setEmail] = useState(saved.email ?? "");
+  const [parentName, setParentName] = useState(saved.parentName ?? "");
+  const [parentPin, setParentPin] = useState("");
+  const [parentPinHash, setParentPinHash] = useState(saved.parentPinHash ?? "");
   const [setupComplete, setSetupComplete] = useState(saved.setupComplete ?? false);
-  const [setupStage, setSetupStage] = useState<SetupStage>(saved.setupComplete ? null : saved.name && saved.guardianConsentAccepted ? "class" : "profile");
+  const [setupStage, setSetupStage] = useState<SetupStage>(saved.setupComplete && saved.parentPinHash ? null : saved.name && saved.guardianConsentAccepted && saved.parentPinHash ? "class" : "profile");
   const [studentClass, setStudentClass] = useState(saved.studentClass ?? 5);
   const [board, setBoard] = useState<BoardName>(saved.board ?? "NCERT");
   const [studyLanguage, setStudyLanguage] = useState<StudyLanguage>(saved.studyLanguage ?? "Hindi");
@@ -348,11 +352,13 @@ export default function App() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       name: setupStage === "profile" ? saved.name ?? "" : name,
       email: setupStage === "profile" ? saved.email ?? "" : email,
+      parentName: setupStage === "profile" ? saved.parentName ?? "" : parentName,
+      parentPinHash,
       courses, completed, minutes, quizScore, saved: savedIds,
       studentClass, board,       studyLanguage, voiceId, theme, setupComplete,
       guardianConsentAccepted: guardianConsent, autoPlayNext, voiceSpeed, voicePitch,
     }));
-  }, [name, email, courses, completed, minutes, quizScore, savedIds, studentClass, board, studyLanguage, voiceId, theme, setupComplete, setupStage, guardianConsent, autoPlayNext, voiceSpeed, voicePitch]);
+  }, [name, email, parentName, parentPinHash, courses, completed, minutes, quizScore, savedIds, studentClass, board, studyLanguage, voiceId, theme, setupComplete, setupStage, guardianConsent, autoPlayNext, voiceSpeed, voicePitch]);
 
   useEffect(() => saveLocalRecord("studyai-bookmarks", bookmarks), [bookmarks]);
   useEffect(() => saveLocalRecord("studyai-notes", notes), [notes]);
@@ -400,7 +406,7 @@ export default function App() {
       setCompleted((value) => value + 1);
       setMinutes((value) => value + Math.max(1, Math.round(audio.duration / 60)));
       setCourses((items) => items.map((item) => item.id === activeCourse.id
-        ? { ...item, progress: Math.min(100, item.progress + 8) } : item));
+        ? { ...item, progress: chapterIndex === activeCourse.chapters.length - 1 ? 100 : Math.min(96, item.progress + 8) } : item));
       if (chapterIndex < activeCourse.chapters.length - 1) {
         autoPlayNextRef.current = autoPlayEnabledRef.current;
         setChapterIndex(chapterIndex + 1);
@@ -447,6 +453,39 @@ export default function App() {
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
   }, [volume]);
+
+  useEffect(() => {
+    if (!("mediaSession" in navigator) || !audioRef.current) return;
+    const session = navigator.mediaSession;
+    const audio = audioRef.current;
+    session.metadata = new MediaMetadata({
+      title: currentChapter.title,
+      artist: activeCourse.instructor,
+      album: activeCourse.title,
+      artwork: activeCourse.coverImage ? [{ src: activeCourse.coverImage, sizes: "512x512", type: "image/png" }] : [],
+    });
+    session.playbackState = playing ? "playing" : "paused";
+    const actions: [MediaSessionAction, MediaSessionActionHandler][] = [
+      ["play", () => { void audio.play().then(() => setPlaying(true)).catch((error: unknown) => console.error("Media Session playback failed.", error)); }],
+      ["pause", () => { audio.pause(); setPlaying(false); }],
+      ["seekbackward", (details) => skipAudio(-(details.seekOffset ?? 10))],
+      ["seekforward", (details) => skipAudio(details.seekOffset ?? 10)],
+      ["seekto", (details) => { if (details.seekTime !== undefined) seekTo(details.seekTime); }],
+      ["previoustrack", () => changeChapter(-1)],
+      ["nexttrack", () => changeChapter(1)],
+    ];
+    for (const [action, handler] of actions) {
+      try { session.setActionHandler(action, handler); } catch { /* Unsupported action in this browser. */ }
+    }
+    if (audioDuration > 0 && Number.isFinite(audioDuration)) {
+      try { session.setPositionState({ duration: audioDuration, playbackRate: audio.playbackRate, position: Math.min(elapsed, audioDuration) }); } catch { /* Position state is optional. */ }
+    }
+    return () => {
+      for (const [action] of actions) {
+        try { session.setActionHandler(action, null); } catch { /* Unsupported action in this browser. */ }
+      }
+    };
+  }, [activeCourse.coverImage, activeCourse.instructor, activeCourse.title, audioDuration, currentChapter.title, elapsed, playing]);
 
   useEffect(() => {
     autoPlayEnabledRef.current = autoPlayNext;
@@ -664,7 +703,7 @@ export default function App() {
   }
 
   function changePlaybackSpeed() {
-    const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+    const speeds = [0.75, 1, 1.25, 1.5];
     const nextSpeed = speeds[(speeds.indexOf(playbackSpeed) + 1) % speeds.length];
     setPlaybackSpeed(nextSpeed);
     if (audioRef.current) audioRef.current.playbackRate = nextSpeed;
@@ -751,11 +790,26 @@ export default function App() {
     setSavedIds((ids) => ids.includes(courseId) ? ids.filter((id) => id !== courseId) : [...ids, courseId]);
   }
 
-  function signIn(event: React.FormEvent<HTMLFormElement>) {
+  async function signIn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!name.trim() || !guardianConsent) return;
-    setGuardianConsent(true);
-    setSetupStage("class");
+    if (!/^\d{4}$/.test(parentPin)) {
+      setNotice("Set a 4-digit parent PIN to continue.");
+      return;
+    }
+    try {
+      await authProvider.createGuestSession();
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      const pinBytes = new TextEncoder().encode(`${Array.from(salt).join(".")}:${parentPin}`);
+      const digest = await crypto.subtle.digest("SHA-256", pinBytes);
+      setParentPinHash(`${Array.from(salt).join(".")}:${Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("")}`);
+      setParentPin("");
+      setGuardianConsent(true);
+      setSetupStage("class");
+    } catch (error) {
+      console.error("The local demo profile could not be created.", error);
+      setNotice("Secure setup is unavailable in this browser. Use HTTPS or localhost and try again.");
+    }
   }
 
   function previewVoice(voiceIdToPreview: string) {
@@ -840,6 +894,8 @@ export default function App() {
     playing,
     chapterIndex,
     libraryTab,
+    theme,
+    onThemeChange: setTheme,
     onSearch: setSearch,
     onLibraryTab: setLibraryTab,
     onOpenSeries: openSeries,
@@ -875,6 +931,8 @@ export default function App() {
             ["In progress", "library"],
             ["Saved", "library"],
             ["Downloaded", "library"],
+            ["History", "library"],
+            ["Completed", "library"],
           ].map(([label, destination]) => <button key={label} className={`sidebar-library-filter${libraryTab === label ? " selected" : ""}`} onClick={() => { setLibraryTab(label as typeof libraryTab); setView(destination as View); setMobileNav(false); }}>{label}{label === "Saved" && savedIds.length > 0 && <span>{savedIds.length}</span>}</button>)}
           <label className="sidebar-sort">Sort by <select aria-label="Library sort order"><option>Recents</option></select></label>
         </div>
@@ -988,10 +1046,10 @@ export default function App() {
         <div className="setup-progress"><span className={setupStage !== "profile" ? "done" : "current"}>Profile</span><i /><span className={["board", "language", "voice"].includes(setupStage) ? "done" : setupStage === "class" ? "current" : ""}>Class</span><i /><span className={["language", "voice"].includes(setupStage) ? "done" : setupStage === "board" ? "current" : ""}>Board</span><i /><span className={setupStage === "language" || setupStage === "voice" ? "current" : ""}>Language</span><i /><span className={setupStage === "voice" ? "current" : ""}>Voice</span></div>
         {setupStage === "profile" && <>
           <div className="welcome-art"><div className="welcome-sun"><Sparkles size={25} /></div><span className="art-dot dot-a" /><span className="art-dot dot-b" /><div className="art-book"><BookOpen size={34} /></div></div>
-          <span className="eyebrow">A LITTLE SPACE TO LEARN</span><h2 id="setup-title">Your next big idea<br />starts <em>right here.</em></h2>
-          <p>Set up your learner profile, choose your curriculum and find a voice you enjoy learning with.</p>
-          <form onSubmit={signIn} className="welcome-form"><label>Your name<input autoFocus required value={name} onChange={(event) => setName(event.target.value)} placeholder="e.g. Aditi Sharma" /></label><label>Email address <span className="optional">(optional)</span><input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" /></label><label className="guardian-consent"><input type="checkbox" required checked={guardianConsent} onChange={(event) => setGuardianConsent(event.target.checked)} /><span>A parent or guardian has given permission to create this local demo profile.</span></label><button className="primary-button wide" type="submit">Continue to setup <ArrowRight size={16} /></button></form>
-          <div className="demo-notice"><ShieldCheck size={15} /> Local demo confirmation only; production needs verified guardian consent.</div>
+          <span className="eyebrow">PARENT / GUARDIAN SETUP</span><h2 id="setup-title">A safe start for<br />curious minds.</h2>
+          <p>First, a parent or guardian creates the local account. Then choose a nickname and learning path for your child.</p>
+          <form onSubmit={signIn} className="welcome-form"><label>Parent / guardian name <span className="optional">(optional)</span><input autoComplete="name" value={parentName} onChange={(event) => setParentName(event.target.value)} placeholder="Parent or guardian" /></label><label>Parent email <span className="optional">(optional)</span><input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="parent@example.com" /></label><label>Child nickname<input autoFocus required maxLength={32} value={name} onChange={(event) => setName(event.target.value)} placeholder="A nickname, not a full name" /></label><label>Parent PIN<input required inputMode="numeric" autoComplete="new-password" pattern="[0-9]{4}" minLength={4} maxLength={4} value={parentPin} onChange={(event) => setParentPin(event.target.value.replace(/\D/g, "").slice(0, 4))} placeholder="4 digits" /></label><label className="guardian-consent"><input type="checkbox" required checked={guardianConsent} onChange={(event) => setGuardianConsent(event.target.checked)} /><span>I am a parent/guardian and consent to this local demo profile.<br /><span lang="hi">मैं अभिभावक हूँ और इस स्थानीय डेमो प्रोफ़ाइल की अनुमति देता/देती हूँ।</span></span></label><button className="primary-button wide" type="submit">Continue to child setup <ArrowRight size={16} /></button></form>
+          <div className="demo-notice"><ShieldCheck size={15} /> Demo consent only, not legally verified. No child phone, address, or location is requested. PIN is local-only and not account security.</div>
         </>}
         {setupStage === "class" && <div className="setup-step-content"><span className="eyebrow">STEP 1 OF 3 · YOUR LEARNING LEVEL</span><h2 id="setup-title">Which class are you in?</h2><p>We’ll use this to show lessons that fit your school level.</p><div className="class-picker">{Array.from({ length: 12 }, (_, index) => index + 1).map((classNumber) => <button key={classNumber} className={studentClass === classNumber ? "selected" : ""} onClick={() => { setStudentClass(classNumber); setSetupStage("board"); }}>{classNumber}</button>)}</div>{setupComplete && <button className="setup-cancel" onClick={closeSetup}>Cancel</button>}</div>}
         {setupStage === "board" && <div className="setup-step-content"><span className="eyebrow">STEP 2 OF 3 · YOUR CURRICULUM</span><h2 id="setup-title">Choose your board</h2><p>We’ll tailor examples and study paths to your curriculum.</p><div className="choice-card-list">{(["UP Board", "NCERT", "CBSE"] as BoardName[]).map((boardOption) => <button key={boardOption} className={board === boardOption ? "selected" : ""} onClick={() => { setBoard(boardOption); setSetupStage("language"); }}><span className="choice-card-icon"><BookOpen size={19} /></span><span><strong>{boardOption}</strong><small>{boardOption === "UP Board" ? "Uttar Pradesh state curriculum" : boardOption === "NCERT" ? "National curriculum framework" : "Central Board of Secondary Education"}</small></span><ArrowRight size={17} /></button>)}</div><button className="setup-back" onClick={() => setSetupStage("class")}><ArrowLeft size={14} /> Change class</button></div>}
