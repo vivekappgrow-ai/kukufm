@@ -136,6 +136,19 @@ app.post("/api/session", sessionLimiter, (request, response) => {
 app.use("/api", apiLimiter);
 app.use("/api", authenticate);
 
+app.get("/api/lessons", async (request, response) => {
+  try {
+    const manifestText = await readFile(new URL("../src/data/lesson-manifest.json", import.meta.url), "utf8");
+    const lessons = JSON.parse(manifestText);
+    if (!Array.isArray(lessons)) throw new Error("Lesson manifest must contain an array.");
+    const canReviewDrafts = ["teacher", "admin"].includes(request.user?.role);
+    response.json({ lessons: canReviewDrafts ? lessons : lessons.filter((lesson) => lesson?.status === "approved") });
+  } catch (error) {
+    console.error("Lesson manifest could not be served.", error);
+    response.status(503).json({ error: "Lesson catalog is unavailable. Generate the lesson manifest and try again." });
+  }
+});
+
 app.post("/api/call/token", async (request, response) => {
   if (!request.user?.sub) {
     response.status(401).json({ error: "A valid session is required to start a call." });

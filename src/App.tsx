@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import demoCatalog from "./data/demo-seed.json";
 import liveRoomPresets from "./data/live-room-presets.json";
+import { studyLessonCourses } from "./data/lessons";
 import { studyVoices } from "./data/voices";
 import type { Participant, Room as LiveKitRoom, Track as LiveKitTrack } from "livekit-client";
 import type { Socket } from "socket.io-client";
@@ -12,7 +13,7 @@ import {
   MessageCircle, Moon, PhoneOff, ShieldCheck, SkipBack, SkipForward, Sparkles, Star, Sun, Target, Timer, Upload, Users, Volume2, X,
 } from "lucide-react";
 
-type Chapter = { title: string; duration: string; body: string; audioSrc?: string; lessons?: string[]; slides?: { time: number; title: string; text: string }[] };
+type Chapter = { title: string; duration: string; body: string; audioSrc?: string; videoUrl?: string; captionsUrl?: string | null; coverImage?: string; diagramImage?: string; transcript?: string; keyPoints?: string[]; quiz?: { question: string; choices: [string, string, string]; answer: number; explanation: string }[]; difficulty?: string; status?: string; lessonId?: string; lessons?: string[]; slides?: { time: number; title: string; text: string }[] };
 type Course = {
   id: string;
   title: string;
@@ -26,10 +27,12 @@ type Course = {
   icon: string;
   description: string;
   progress: number;
+  coverImage?: string;
+  publishedAt?: string;
   chapters: Chapter[];
   language?: "English" | "Hindi" | "Both";
 };
-type View = "home" | "explore" | "my-learning" | "tutor" | "profile" | "games" | "dashboard" | "admin" | "live-rooms";
+type View = "home" | "explore" | "classic-home" | "classic-explore" | "new-hot" | "search" | "library" | "series" | "lesson" | "player" | "ai-tutor" | "my-learning" | "tutor" | "profile" | "profile-preferences" | "progress" | "parent" | "settings" | "games" | "dashboard" | "admin" | "admin-preview" | "live-rooms";
 type ChatMessage = { role: "student" | "tutor"; text: string };
 type ThemeName = "dark" | "light" | "amoled" | "sunrise" | "forest" | "ocean" | "kids";
 type BoardName = "UP Board" | "NCERT" | "CBSE";
@@ -49,7 +52,7 @@ const initialCourses: Course[] = [
     accent: "lavender",
     icon: "◉",
     description: "Build a strong foundation in motion, forces and the ideas behind them—with clear, everyday examples.",
-    progress: 36,
+    progress: 0,
     chapters: [
       { title: "The language of motion", duration: "00:30", audioSrc: "/audio/physics-01.wav", body: "Welcome to the language of motion. Physics describes how objects move by tracking their position over time. Imagine watching a train pass a platform. A person on the platform sees the train move, while a passenger sees the platform move backwards. Motion depends on the observer's frame of reference. In this lesson, we will distinguish distance from displacement, speed from velocity, and explore what each tells us about a journey." },
       { title: "Distance & displacement", duration: "11:05", body: "Let's distinguish distance from displacement. If you walk one full lap around a track and return to your starting point, you've covered a distance equal to the track's length. But your displacement is zero, because your final position is the same as your starting position. Distance is a scalar: it has magnitude only. Displacement is a vector: it has both magnitude and direction. This simple distinction is essential for describing motion accurately." },
@@ -68,7 +71,7 @@ const initialCourses: Course[] = [
     accent: "peach",
     icon: "∫",
     description: "Understand limits, derivatives and integrals through intuitive explanations and worked examples.",
-    progress: 12,
+    progress: 0,
     chapters: [
       { title: "A gentle start with limits", duration: "10:12", body: "A limit asks what value a function approaches as its input gets closer to a particular point. Think about walking toward a doorway: you can get closer and closer without needing to step through it. In the same way, a function may approach a value near a point even if the function is not defined exactly at that point. This idea is the foundation of calculus." },
       { title: "What a derivative means", duration: "12:30", body: "A derivative measures how quickly something changes at a particular instant. If position changes over time, its derivative is velocity. On a graph, the derivative at a point is the slope of the tangent line. We begin with average change over an interval, then shrink that interval toward zero to discover the instantaneous rate of change." },
@@ -144,14 +147,60 @@ const initialChat: ChatMessage[] = [
 ];
 const navItems: { id: View; label: string; icon: typeof Home }[] = [
   { id: "home", label: "Home", icon: Home },
+  { id: "search", label: "Search", icon: Search },
+  { id: "new-hot", label: "New & Hot", icon: Flame },
   { id: "explore", label: "Explore", icon: Compass },
-  { id: "my-learning", label: "My learning", icon: BookOpen },
-  { id: "tutor", label: "AI tutor", icon: Sparkles },
-  { id: "games", label: "Quiz games", icon: Gamepad2 },
-  { id: "dashboard", label: "Dashboard", icon: BarChart3 },
-  { id: "live-rooms", label: "Live rooms", icon: Video },
+  { id: "library", label: "Your Library", icon: BookOpen },
+  { id: "ai-tutor", label: "AI Tutor", icon: Sparkles },
+  { id: "progress", label: "Progress", icon: BarChart3 },
+  { id: "profile", label: "Profile", icon: Users },
 ];
 const STORAGE_KEY = "studyai-demo-v1";
+
+const LazyHomeRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.HomeRoute })));
+const LazyExploreRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.ExploreRoute })));
+const LazyNewHotRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.NewHotRoute })));
+const LazySearchRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.SearchRoute })));
+const LazyLibraryRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.LibraryRoute })));
+const LazySeriesRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.SeriesRoute })));
+const LazyLessonRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.LessonRoute })));
+const LazyPlayerRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.PlayerRoute })));
+const LazyAiTutorRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.AiTutorRoute })));
+const LazyProgressRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.ProgressRoute })));
+const LazyParentRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.ParentRoute })));
+const LazySettingsRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.SettingsRoute })));
+const LazyProfileRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.ProfileRoute })));
+const LazyAdminRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.AdminRoute })));
+
+function viewFromPath(pathname: string): View {
+  const path = pathname.replace(/\/+$/, "") || "/";
+  if (path.startsWith("/series/")) return "series";
+  if (path.startsWith("/lesson/")) return "lesson";
+  const routes: Record<string, View> = {
+    "/": "home", "/explore": "explore", "/classic/home": "classic-home", "/classic/explore": "classic-explore", "/new-hot": "new-hot", "/search": "search",
+    "/library": "library", "/series": "series", "/lesson": "lesson", "/player": "player",
+    "/ai-tutor": "ai-tutor", "/tutor": "tutor", "/profile": "profile", "/profile/preferences": "profile-preferences", "/progress": "progress",
+    "/parent": "parent", "/settings": "settings", "/admin": "admin", "/admin/preview": "admin-preview", "/games": "games",
+    "/dashboard": "dashboard", "/live-rooms": "live-rooms", "/my-learning": "my-learning",
+  };
+  return routes[path] ?? "home";
+}
+
+function viewFromLocation(): View {
+  return new URLSearchParams(window.location.search).has("room") ? "live-rooms" : viewFromPath(window.location.pathname);
+}
+
+function pathForView(view: View, courseId?: string) {
+  const routes: Record<View, string> = {
+    home: "/", explore: "/explore", "classic-home": "/classic/home", "classic-explore": "/classic/explore", "new-hot": "/new-hot", search: "/search", library: "/library",
+    series: `/series/${encodeURIComponent(courseId ?? "")}`.replace(/\/$/, ""),
+    lesson: `/lesson/${encodeURIComponent(courseId ?? "")}`.replace(/\/$/, ""),
+    player: "/player", "ai-tutor": "/ai-tutor", "my-learning": "/my-learning", tutor: "/tutor",
+    profile: "/profile", "profile-preferences": "/profile/preferences", progress: "/progress", parent: "/parent", settings: "/settings",
+    games: "/games", dashboard: "/dashboard", admin: "/admin", "admin-preview": "/admin/preview", "live-rooms": "/live-rooms",
+  };
+  return routes[view];
+}
 
 function loadSaved() {
   try {
@@ -210,28 +259,35 @@ function persistAudioPosition(key: string, seconds: number) {
 
 export default function App() {
   const saved = useMemo(loadSaved, []);
-  const [courses, setCourses] = useState<Course[]>(() => [...initialCourses, ...demoCourses].map((course) => ({
+  const [courses, setCourses] = useState<Course[]>(() => [...initialCourses, ...demoCourses, ...studyLessonCourses].map((course) => ({
     ...course,
     progress: saved.courses?.find((savedCourse) => savedCourse.id === course.id)?.progress ?? course.progress,
     language: course.language ?? "English",
   })));
   const [bookmarks, setBookmarks] = useState<Record<string, number[]>>(() => loadLocalRecord("studyai-bookmarks", {}));
   const [notes, setNotes] = useState<Record<string, string>>(() => loadLocalRecord("studyai-notes", {}));
-  const [view, setView] = useState<View>(() => new URLSearchParams(window.location.search).has("room") ? "live-rooms" : "home");
+  const [view, setViewState] = useState<View>(viewFromLocation);
+  function setView(nextView: View, courseId?: string) {
+    setViewState(nextView);
+    const nextPath = pathForView(nextView, courseId);
+    if (window.location.pathname !== nextPath) window.history.pushState({}, "", nextPath);
+  }
   const [activeCourse, setActiveCourse] = useState<Course>(courses[0]);
   const [chapterIndex, setChapterIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const [minutes, setMinutes] = useState(saved.minutes ?? 18);
-  const [completed, setCompleted] = useState(saved.completed ?? 3);
+  const [minutes, setMinutes] = useState(saved.minutes ?? 0);
+  const [completed, setCompleted] = useState(saved.completed ?? 0);
   const [quizScore, setQuizScore] = useState<number | undefined>(saved.quizScore);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [voiceSpeed, setVoiceSpeed] = useState(saved.voiceSpeed ?? 1);
   const [voicePitch, setVoicePitch] = useState(saved.voicePitch ?? 1);
   const [autoPlayNext, setAutoPlayNext] = useState(saved.autoPlayNext ?? true);
   const [savedIds, setSavedIds] = useState<string[]>(saved.saved ?? []);
+  const [recentCourseIds, setRecentCourseIds] = useState<string[]>(() => loadLocalRecord("studyai-recent-courses", []));
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All subjects");
+  const [libraryTab, setLibraryTab] = useState<"Courses" | "In progress" | "Saved" | "Downloaded">("Courses");
   const [name, setName] = useState(saved.name ?? "");
   const [email, setEmail] = useState(saved.email ?? "");
   const [setupComplete, setSetupComplete] = useState(saved.setupComplete ?? false);
@@ -275,6 +331,19 @@ export default function App() {
   const quizQuestions = useMemo(() => getQuizQuestions(activeCourse), [activeCourse]);
 
   useEffect(() => {
+    function syncLocation() {
+      setViewState(viewFromLocation());
+      const match = window.location.pathname.match(/^\/(?:series|lesson)\/([^/]+)/);
+      if (!match) return;
+      const course = courses.find((item) => item.id === decodeURIComponent(match[1]));
+      if (course) setActiveCourse(course);
+    }
+    syncLocation();
+    window.addEventListener("popstate", syncLocation);
+    return () => window.removeEventListener("popstate", syncLocation);
+  }, [courses]);
+
+  useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       name: setupStage === "profile" ? saved.name ?? "" : name,
       email: setupStage === "profile" ? saved.email ?? "" : email,
@@ -286,6 +355,7 @@ export default function App() {
 
   useEffect(() => saveLocalRecord("studyai-bookmarks", bookmarks), [bookmarks]);
   useEffect(() => saveLocalRecord("studyai-notes", notes), [notes]);
+  useEffect(() => saveLocalRecord("studyai-recent-courses", recentCourseIds), [recentCourseIds]);
 
   useEffect(() => () => {
     audioRef.current?.pause();
@@ -395,7 +465,7 @@ export default function App() {
 
   useEffect(() => {
     function handlePlayerKeys(event: KeyboardEvent) {
-      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement) return;
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement || (event.target instanceof HTMLElement && (event.target.isContentEditable || Boolean(event.target.closest("button, a, [role='button']"))))) return;
       if (event.code === "Space") {
         event.preventDefault();
         if (!currentChapter.audioSrc || !audioRef.current) return;
@@ -408,6 +478,10 @@ export default function App() {
         seekTo(Math.max(0, audioRef.current.currentTime - 10));
       } else if (event.key === "ArrowRight" && audioRef.current && Number.isFinite(audioDuration) && audioDuration > 0) {
         seekTo(Math.min(audioDuration, audioRef.current.currentTime + 10));
+      } else if (event.key === "/" || ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k")) {
+        event.preventDefault();
+        setView("search");
+        document.getElementById("global-search")?.focus();
       }
     }
     window.addEventListener("keydown", handlePlayerKeys);
@@ -455,11 +529,28 @@ export default function App() {
 
   function openLesson(course: Course, index = 0) {
     stopNarration();
+    setRecentCourseIds((items) => [course.id, ...items.filter((id) => id !== course.id)].slice(0, 30));
     setActiveCourse(course);
     setChapterIndex(index);
     setElapsed(0);
-    setView("my-learning");
+    setView("lesson", course.id);
     setMobileNav(false);
+  }
+
+  function openSeries(course: Course) {
+    setRecentCourseIds((items) => [course.id, ...items.filter((id) => id !== course.id)].slice(0, 30));
+    setActiveCourse(course);
+    setChapterIndex(0);
+    setView("series", course.id);
+    setMobileNav(false);
+  }
+
+  function selectQueueLesson(course: Course, index: number) {
+    stopNarration();
+    setActiveCourse(course);
+    setChapterIndex(index);
+    setElapsed(0);
+    setView("player", course.id);
   }
 
   async function startCall() {
@@ -709,41 +800,94 @@ export default function App() {
   const screenTitle: Record<View, string> = {
     home: "Your learning space",
     explore: "Find your next aha moment",
+    "classic-home": "Classic learning space",
+    "classic-explore": "Classic course discovery",
+    "new-hot": "New & Hot",
+    search: "Search the library",
+    library: "Your Library",
+    series: activeCourse.title,
+    lesson: currentChapter.title,
+    player: "Now playing",
+    "ai-tutor": "AI Tutor",
     "my-learning": "Pick up where you left off",
     tutor: "Your AI study buddy",
     profile: "Your profile",
+    "profile-preferences": "Profile preferences",
+    progress: "Your progress",
+    parent: "Parent overview",
+    settings: "Settings",
     games: "Quiz games",
     dashboard: "Learning dashboard",
     admin: "Demo content studio",
+    "admin-preview": "Local content studio preview",
     "live-rooms": "Live study rooms",
+  };
+  const catalogProps = {
+    courses,
+    activeCourse,
+    savedIds,
+    recentCourseIds,
+    search,
+    name,
+    studentClass,
+    board,
+    minutes,
+    completed,
+    progress: progressAverage,
+    elapsed,
+    playing,
+    chapterIndex,
+    libraryTab,
+    onSearch: setSearch,
+    onLibraryTab: setLibraryTab,
+    onOpenSeries: openSeries,
+    onPlayLesson: openLesson,
+    onSelectQueueLesson: selectQueueLesson,
+    onToggleSaved: toggleSave,
+    onNavigate: setView,
+    onPlayback: togglePlayback,
+    onNotice: setNotice,
   };
 
   return (
-    <ThemeProvider theme={theme}><div className="app-shell">
+    <ThemeProvider theme={theme}><div className={`app-shell${view === "player" ? " player-fullscreen" : ""}`}>
       <aside className={`sidebar ${mobileNav ? "sidebar-open" : ""}`}>
         <a className="brand" href="#" onClick={(event) => { event.preventDefault(); setView("home"); }}>
           <span className="brand-mark"><AudioLines size={20} strokeWidth={2.4} /></span>
           <span>study<span className="brand-ai">ai</span></span>
         </a>
-        <div className="workspace-label">YOUR WORKSPACE</div>
+        <div className="workspace-label">DISCOVER</div>
         <nav className="side-nav" aria-label="Main navigation">
           {navItems.map(({ id, label, icon: Icon }) => (
             <button key={id} className={`nav-link ${view === id ? "active" : ""}`} onClick={() => { setView(id); setMobileNav(false); }}>
               <Icon size={18} strokeWidth={1.9} /><span>{label}</span>
-              {id === "tutor" && <span className="nav-new">NEW</span>}
+              {id === "new-hot" && <span className="nav-new">NEW</span>}
             </button>
           ))}
         </nav>
         <div className="sidebar-divider" />
+        <div className="workspace-label">YOUR LIBRARY</div>
+        <div className="sidebar-library-card">
+          {[
+            ["Courses", "library"],
+            ["In progress", "library"],
+            ["Saved", "library"],
+            ["Downloaded", "library"],
+          ].map(([label, destination]) => <button key={label} className={`sidebar-library-filter${libraryTab === label ? " selected" : ""}`} onClick={() => { setLibraryTab(label as typeof libraryTab); setView(destination as View); setMobileNav(false); }}>{label}{label === "Saved" && savedIds.length > 0 && <span>{savedIds.length}</span>}</button>)}
+          <label className="sidebar-sort">Sort by <select aria-label="Library sort order"><option>Recents</option></select></label>
+        </div>
         <div className="workspace-label">YOUR SPACE</div>
-        <button className={`nav-link ${view === "profile" ? "active" : ""}`} onClick={() => setView("profile")}><Bookmark size={18} /><span>Saved for later</span></button>
+        <button className={`nav-link ${view === "tutor" ? "active" : ""}`} onClick={() => setView("tutor")}><Sparkles size={18} /><span>Tutor demo</span></button>
+        <button className={`nav-link ${view === "games" ? "active" : ""}`} onClick={() => setView("games")}><Gamepad2 size={18} /><span>Quiz games</span></button>
+        <button className={`nav-link ${view === "live-rooms" ? "active" : ""}`} onClick={() => setView("live-rooms")}><Video size={18} /><span>Live rooms</span></button>
         <button className="nav-link" onClick={() => setNotice("Your study planner is coming soon.")}><Target size={18} /><span>Study planner</span><span className="nav-soon">SOON</span></button>
         <button className={`nav-link ${view === "admin" ? "active" : ""}`} onClick={() => setView("admin")}><Upload size={18} /><span>Content studio</span></button>
+        <button className={`nav-link ${view === "settings" ? "active" : ""}`} onClick={() => setView("settings")}><MoreHorizontal size={18} /><span>Settings</span></button>
         <div className="sidebar-spacer" />
         <div className="streak-card">
-          <div className="streak-icon"><Flame size={17} fill="currentColor" /></div>
-          <div><strong>3 day streak</strong><span>You're building a habit!</span></div>
-          <span className="streak-count">03</span>
+          <div className="streak-icon"><Flame size={17} /></div>
+          <div><strong>Your learning time</strong><span>{minutes} minutes recorded</span></div>
+          <span className="streak-count">{completed}</span>
         </div>
         <button className="profile-switch" onClick={() => setView("profile")}>
           <span className="avatar">{firstName.slice(0, 1).toUpperCase()}</span>
@@ -756,12 +900,14 @@ export default function App() {
         <header className="topbar">
           <div className="topbar-left">
             <button className="icon-button mobile-menu" aria-label="Open navigation" onClick={() => setMobileNav(!mobileNav)}><Menu size={19} /></button>
+            <button className="icon-button route-arrow" aria-label="Go back" onClick={() => window.history.back()}><ArrowLeft size={17} /></button>
+            <button className="icon-button route-arrow" aria-label="Go forward" onClick={() => window.history.forward()}><ArrowRight size={17} /></button>
             <div className="breadcrumb"><span>Workspace</span><ChevronRight size={14} /><strong>{screenTitle[view]}</strong></div>
           </div>
           <div className="topbar-actions">
             <label className="global-search">
               <Search size={16} />
-              <input aria-label="Search courses" placeholder="Search anything..." value={search} onChange={(event) => { setSearch(event.target.value); if (event.target.value) setView("explore"); }} />
+              <input id="global-search" aria-label="Search courses" placeholder="Search anything..." value={search} onFocus={() => setView("search")} onChange={(event) => { setSearch(event.target.value); setView("search"); }} />
               <kbd><Command size={11} /> K</kbd>
             </label>
             <span className="topbar-divider" />
@@ -771,20 +917,34 @@ export default function App() {
           </div>
         </header>
         <div className="page-scroll">
-          {view === "home" && <HomePage firstName={firstName} progressAverage={progressAverage} minutes={minutes} completed={completed} courses={courses} savedIds={savedIds} onOpen={openLesson} onView={setView} onSave={toggleSave} onQuiz={() => setQuizOpen(true)} onCall={startCall} onBrowseChip={(chip) => {
+          {view === "home" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading home"><span /><span /><span /></div>}><LazyHomeRoute {...catalogProps} /></Suspense>}
+          {view === "explore" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading Explore"><span /><span /><span /></div>}><LazyExploreRoute {...catalogProps} /></Suspense>}
+          {view === "classic-home" && <HomePage firstName={firstName} progressAverage={progressAverage} minutes={minutes} completed={completed} courses={courses} savedIds={savedIds} onOpen={openSeries} onView={setView} onSave={toggleSave} onQuiz={() => setQuizOpen(true)} onCall={startCall} onBrowseChip={(chip) => {
             setSearch("");
             if (chip === "Quiz") { setView("games"); return; }
             setCategory(chip === "Stories" ? "History" : chip === "Kids" ? "Science" : chip === "Languages" ? "Languages" : "All subjects");
             if (chip === "Exams") setSearch("Exam prep");
             setView("explore");
           }} language={language} />}
-          {view === "explore" && <ExplorePage courses={filteredCourses} category={category} onCategory={setCategory} onOpen={openLesson} savedIds={savedIds} onSave={toggleSave} query={search} onQuery={setSearch} />}
+          {view === "classic-explore" && <ExplorePage courses={filteredCourses} category={category} onCategory={setCategory} onOpen={openSeries} savedIds={savedIds} onSave={toggleSave} query={search} onQuery={setSearch} />}
+          {view === "new-hot" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading New and Hot"><span /><span /><span /></div>}><LazyNewHotRoute {...catalogProps} /></Suspense>}
+          {view === "search" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading search"><span /><span /><span /></div>}><LazySearchRoute {...catalogProps} /></Suspense>}
+          {view === "library" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading library"><span /><span /><span /></div>}><LazyLibraryRoute {...catalogProps} /></Suspense>}
+          {view === "series" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading series"><span /><span /><span /></div>}><LazySeriesRoute {...catalogProps} /></Suspense>}
+          {view === "lesson" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading lesson"><span /><span /><span /></div>}><LazyLessonRoute {...catalogProps} /></Suspense>}
+          {view === "player" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading player"><span /><span /><span /></div>}><LazyPlayerRoute {...catalogProps} /></Suspense>}
+          {view === "ai-tutor" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading AI tutor"><span /><span /><span /></div>}><LazyAiTutorRoute {...catalogProps} /></Suspense>}
+          {view === "progress" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading progress"><span /><span /><span /></div>}><LazyProgressRoute {...catalogProps} /></Suspense>}
+          {view === "parent" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading parent overview"><span /><span /><span /></div>}><LazyParentRoute {...catalogProps} /></Suspense>}
+          {view === "settings" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading settings"><span /><span /><span /></div>}><LazySettingsRoute {...catalogProps} /></Suspense>}
           {view === "my-learning" && <LearningPage course={activeCourse} chapterIndex={chapterIndex} elapsed={elapsed} onSeek={seekTo} onOpen={openLesson} onChapter={(index) => { if (audioRef.current && currentChapter.audioSrc) persistAudioPosition(`${activeCourse.id}:${chapterIndex}`, audioRef.current.currentTime); stopNarration(); setChapterIndex(index); setElapsed(0); }} onQuiz={() => setQuizOpen(true)} savedIds={savedIds} onSave={toggleSave} bookmarks={bookmarks[`${activeCourse.id}:${chapterIndex}`] ?? []} onBookmark={addTimestampBookmark} onJumpBookmark={seekBookmark} note={notes[`${activeCourse.id}:${chapterIndex}`] ?? ""} onNoteChange={saveChapterNote} />}
           {view === "tutor" && <TutorPage chat={chat} input={chatInput} onInput={setChatInput} onSend={sendMessage} course={activeCourse} voiceName={studyVoices.find((voice) => voice.id === voiceId)?.name ?? "Guru Ji"} studentClass={studentClass} onCall={startCall} />}
-          {view === "profile" && <ProfilePage name={name} email={email} minutes={minutes} completed={completed} progress={progressAverage} savedCount={savedIds.length} theme={theme} setTheme={setTheme} studentClass={studentClass} board={board} studyLanguage={studyLanguage} setStudyLanguage={setStudyLanguage} voiceId={voiceId} onEditLearning={() => setSetupStage("class")} onEditVoice={() => setSetupStage("voice")} autoPlayNext={autoPlayNext} setAutoPlayNext={setAutoPlayNext} voiceSpeed={voiceSpeed} setVoiceSpeed={setVoiceSpeed} voicePitch={voicePitch} setVoicePitch={setVoicePitch} onReset={() => { localStorage.removeItem(STORAGE_KEY); window.location.reload(); }} />}
+          {view === "profile" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading profile"><span /><span /><span /></div>}><LazyProfileRoute {...catalogProps} /></Suspense>}
+          {view === "profile-preferences" && <ProfilePage name={name} email={email} minutes={minutes} completed={completed} progress={progressAverage} savedCount={savedIds.length} theme={theme} setTheme={setTheme} studentClass={studentClass} board={board} studyLanguage={studyLanguage} setStudyLanguage={setStudyLanguage} voiceId={voiceId} onEditLearning={() => setSetupStage("class")} onEditVoice={() => setSetupStage("voice")} autoPlayNext={autoPlayNext} setAutoPlayNext={setAutoPlayNext} voiceSpeed={voiceSpeed} setVoiceSpeed={setVoiceSpeed} voicePitch={voicePitch} setVoicePitch={setVoicePitch} onReset={() => { localStorage.removeItem(STORAGE_KEY); window.location.reload(); }} />}
           {view === "games" && <GamesPage roomCode={roomCode} joinCode={joinCode} onJoinCode={setJoinCode} onCreate={() => { const code = String(Math.floor(100000 + Math.random() * 900000)); setRoomCode(code); if (navigator.clipboard) navigator.clipboard.writeText(code).then(() => setNotice("Demo room created; room code copied."), (error: unknown) => { console.error("Demo room code could not be copied.", error); setNotice(`Demo room ${code} created. Copy the code to invite a friend.`); }); else setNotice(`Demo room ${code} created. Copy the code to invite a friend.`); }} onJoin={() => setNotice(joinCode.length === 6 ? `Room ${joinCode} is a local demo. Connect a realtime service for multiplayer.` : "Enter a valid 6-digit room code.")} onPlay={() => setQuizOpen(true)} />}
           {view === "dashboard" && <DashboardPage courses={courses} minutes={minutes} completed={completed} quizScore={quizScore} progress={progressAverage} onOpen={openLesson} />}
-          {view === "admin" && <AdminPage uploadName={adminUpload} onUpload={setAdminUpload} courses={courses} onNotice={setNotice} />}
+          {view === "admin" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading admin"><span /><span /><span /></div>}><LazyAdminRoute {...catalogProps} /></Suspense>}
+          {view === "admin-preview" && <AdminPage uploadName={adminUpload} onUpload={setAdminUpload} courses={courses} onNotice={setNotice} />}
           {view === "live-rooms" && <LiveRoomsPage learnerName={name || "Learner"} onNotice={setNotice} />}
           <CallModal open={callOpen} status={callStatus} transcript={callTranscript} seconds={callSeconds} summary={callSummary} onClose={() => { setCallOpen(false); setCallSummary(undefined); setCallStatus("ended"); }} voiceName={studyVoices.find((voice) => voice.id === voiceId)?.name ?? "Guru Ji"} />
           <footer className="page-footer"><span>Made for curious minds <span className="footer-heart">♥</span></span><span>Learning should feel like yours.</span><span className="footer-build">STUDYAI · DEMO BUILD</span></footer>
@@ -794,8 +954,8 @@ export default function App() {
       <audio ref={audioRef} preload="metadata" />
       <div className={`mini-player ${view === "my-learning" ? "player-expanded-context" : ""}`}>
         <div className="player-track">
-          <div className={`player-cover cover-${activeCourse.accent}`}><span>{activeCourse.icon}</span></div>
-          <button className="player-track-text player-track-open" aria-label={`Open full lesson player, voice profile ${studyVoices.find((voice) => voice.id === voiceId)?.name ?? "Guru Ji"}`} onClick={() => setView("my-learning")}><strong>{currentChapter.title}</strong><span>{activeCourse.title} <i>·</i> {studyVoices.find((voice) => voice.id === voiceId)?.name ?? "Guru Ji"} voice profile</span></button>
+          <div className={`player-cover cover-${activeCourse.accent}`} aria-hidden="true">{(currentChapter.coverImage ?? activeCourse.coverImage) && <img src={currentChapter.coverImage ?? activeCourse.coverImage} alt="" loading="lazy" decoding="async" />}<span>{activeCourse.icon}</span></div>
+          <button className="player-track-text player-track-open" aria-label={`Open full lesson player, voice profile ${studyVoices.find((voice) => voice.id === voiceId)?.name ?? "Guru Ji"}`} onClick={() => setView("player")}><strong>{currentChapter.title}</strong><span>{activeCourse.title} <i>·</i> {studyVoices.find((voice) => voice.id === voiceId)?.name ?? "Guru Ji"} voice profile</span></button>
           <button className="player-save" title="Call Guru Ji" onClick={startCall}><PhoneOff size={16} /></button>
           <button className={`player-save ${savedIds.includes(activeCourse.id) ? "is-saved" : ""}`} title="Save course" onClick={() => toggleSave(activeCourse.id)}><Heart size={16} fill={savedIds.includes(activeCourse.id) ? "currentColor" : "none"} /></button>
         </div>
@@ -810,11 +970,11 @@ export default function App() {
           </div>
           <div className="seek-row"><span>{formatTime(elapsed)}</span><input aria-label="Seek lesson" type="range" min={0} max={lessonDuration || 1} value={elapsed} disabled={!currentChapter.audioSrc || !lessonDuration} style={{ "--range-progress": `${lessonDuration ? (elapsed / lessonDuration) * 100 : 0}%` } as React.CSSProperties} onChange={(event) => seekTo(Number(event.target.value))} /><span>{lessonDuration ? formatTime(lessonDuration) : "--:--"}</span></div>
         </div>
-        <div className="player-extra"><span className="speech-label"><Volume2 size={16} /><input aria-label="Audio volume" type="range" min={0} max={1} step={0.05} value={volume} onChange={(event) => setVolume(Number(event.target.value))} /></span><label className="sleep-control" title="Sleep timer"><Timer size={14} /><select aria-label="Sleep timer" value={sleepMinutes} onChange={(event) => setSleepMinutes(Number(event.target.value))}><option value={0}>Timer off</option><option value={15}>15 min</option><option value={30}>30 min</option><option value={60}>60 min</option></select></label><span className="queue-button">{audioLoading ? "Loading audio…" : currentChapter.audioSrc ? "Demo sample" : "Audio unavailable"}</span></div>
+        <div className="player-extra"><span className="speech-label"><Volume2 size={16} /><input aria-label="Audio volume" type="range" min={0} max={1} step={0.05} value={volume} onChange={(event) => setVolume(Number(event.target.value))} /></span><label className="sleep-control" title="Sleep timer"><Timer size={14} /><select aria-label="Sleep timer" value={sleepMinutes} onChange={(event) => setSleepMinutes(Number(event.target.value))}><option value={0}>Timer off</option><option value={15}>15 min</option><option value={30}>30 min</option><option value={60}>60 min</option></select></label><span className="queue-button">{audioLoading ? "Loading audio…" : currentChapter.audioSrc ? "Demo sample" : "Audio unavailable"}</span><button className="queue-button" aria-label="Open play queue" onClick={() => setView("player")}>Queue</button></div>
       </div>
 
       <nav className="mobile-tabbar" aria-label="Quick navigation">
-        {[["home", "Home", Home], ["explore", "Learn", Compass], ["games", "Games", Gamepad2], ["dashboard", "Progress", BarChart3], ["profile", "Profile", Languages]].map(([id, label, Icon]) => {
+        {[["home", "Home", Home], ["explore", "Explore", Compass], ["ai-tutor", "AI", Sparkles], ["library", "Library", BookOpen], ["profile", "Profile", Languages]].map(([id, label, Icon]) => {
           const TabIcon = Icon as typeof Home;
           return <button key={id as string} className={view === id ? "active" : ""} onClick={() => setView(id as View)}><TabIcon size={18} /><span>{label as string}</span></button>;
         })}

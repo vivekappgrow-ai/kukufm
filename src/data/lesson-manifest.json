@@ -1,0 +1,857 @@
+[
+  {
+    "id": "class5-fractions-sharing-roti",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Maths",
+    "chapter": "Fractions",
+    "title": "Roti ko barabar baantna: fractions",
+    "description": "Roti aur doston ki madad se fraction ko hisson ke roop mein samjho.",
+    "transcript": "Namaste! Aaj hum fractions ko ghar ke ek bilkul aam scene se samjhenge. Socho, garam roti bani hai aur use chaar doston mein barabar baantna hai. Roti ko chaar same-size hisson mein kaato. Har hissa poori roti ka one-fourth, yaani ek-batta-chaar, hai. Fraction mein neeche ka number batata hai ki poori cheez ko kitne barabar hisson mein baanta. Upar ka number batata hai ki hum unmein se kitne hisse dekh rahe hain.\n\nAgar tum ek hissa lete ho, to tumhare paas one-fourth hai. Do hisse milkar two-fourths hote hain. Dhyaan rahe, hisson ka size barabar hona chahiye. Agar ek tukda bada aur doosra chhota hai, to unhe equal fourths nahi keh sakte. Ek paper circle banao, use fold karke chaar barabar parts dikhao. Ab teen parts rang do. Rang wala hissa three-fourths hai. Picture dekhkar fraction likhna aasaan hota hai.\n\nAb ek chhota sawaal: agar roti ko do barabar parts mein baantkar ek part khaya, to kitna hissa khaya? One-half. Fraction ko padhte waqt pehle numerator, phir denominator bolo. Aaj ka recap: denominator total equal parts batata hai, numerator liye gaye parts batata hai, aur equal-size parts bahut zaroori hain. Agli baar plate par fruit baantte hue khud fraction dhoondhna!",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-fractions-sharing-roti-cover.svg",
+    "diagramImage": "/media/images/class5-fractions-sharing-roti-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-fractions-sharing-roti.vtt",
+    "keyPoints": [
+      "Fraction poori cheez ke equal parts dikhata hai.",
+      "Denominator total equal parts, numerator chune hue parts batata hai.",
+      "Fraction banane ke liye parts ka barabar hona zaroori hai."
+    ],
+    "quiz": [
+      {
+        "question": "Roti ko chaar equal parts mein baantkar ek part lene par fraction kya hai?",
+        "choices": [
+          "1/2",
+          "1/4",
+          "4/1"
+        ],
+        "answer": 1,
+        "explanation": "Chaar equal parts mein se ek part, one-fourth hota hai."
+      },
+      {
+        "question": "Fraction ka denominator kya batata hai?",
+        "choices": [
+          "Total equal parts",
+          "Rang ki hui parts",
+          "Roti ka taste"
+        ],
+        "answer": 0,
+        "explanation": "Denominator poori cheez ke total equal parts batata hai."
+      },
+      {
+        "question": "Kya alag size ke tukde fourths kehlayenge?",
+        "choices": [
+          "Haan, hamesha",
+          "Nahi, parts equal hone chahiye",
+          "Sirf plate par"
+        ],
+        "answer": 1,
+        "explanation": "Fraction ke parts same size ke hone chahiye."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "guru-ji"
+  },
+  {
+    "id": "class5-fractions-number-line",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Maths",
+    "chapter": "Fractions",
+    "title": "Number line par fraction ki jagah",
+    "description": "Ek seedhe number path par halves aur quarters dhoondho.",
+    "transcript": "Aaj fraction ko number line par chal kar dhoondhenge. Notebook mein zero se one tak ek seedhi line banao. Yeh poori line ek whole ko dikhati hai. Beech mein ek nishaan lagao. Ab line do equal parts mein bant gayi; beech ka point one-half hai. Agar isi line ko chaar equal jumps mein baanto, to nishaan one-fourth, two-fourths aur three-fourths par honge. Aakhri point one hai.\n\nSocho tum ghar se dukaan tak ka raasta chal rahe ho. Poora raasta one hai. Agar aadha raasta chal chuke ho, tum one-half par ho. Teen barabar steps mein se do chalne par two-thirds hota, bas har step ki lambai equal honi chahiye. Number line fraction ko sirf pizza ya roti ka hissa nahi, balki number ki tarah bhi dikhati hai.\n\nChalo practice: zero aur one ke beech line ko chaar equal parts mein baanto. Doosre nishaan ka fraction kya hai? Two-fourths. Is jagah ko one-half bhi keh sakte hain, kyunki do-fourths poore ke aadhe ke barabar hain. Line par left se right jaane par fraction bada hota hai. Apni line par one-fourth aur three-fourths ko alag rang do. Recap: pehle whole line banao, phir equal parts karo, aur zero se ginte hue sahi nishaan par fraction likho.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-fractions-number-line-cover.svg",
+    "diagramImage": "/media/images/class5-fractions-number-line-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-fractions-number-line.vtt",
+    "keyPoints": [
+      "Zero se one tak ki line ek whole hoti hai.",
+      "Equal jumps fraction ke nishaan banate hain.",
+      "Number line par right ki taraf badhne se fraction bada hota hai."
+    ],
+    "quiz": [
+      {
+        "question": "Zero aur one ke beech ka midpoint kya hai?",
+        "choices": [
+          "1/4",
+          "1/2",
+          "1/3"
+        ],
+        "answer": 1,
+        "explanation": "Midpoint poore interval ka aadha hota hai."
+      },
+      {
+        "question": "One ko four equal jumps mein baantne par doosra mark kya hai?",
+        "choices": [
+          "2/4",
+          "1/4",
+          "4/4"
+        ],
+        "answer": 0,
+        "explanation": "Zero se doosre jump tak two-fourths hote hain."
+      },
+      {
+        "question": "Number line par fractions kis taraf badhte hain?",
+        "choices": [
+          "Left",
+          "Right",
+          "Har jagah same"
+        ],
+        "answer": 1,
+        "explanation": "Zero se one ki taraf, right jaane par value badhti hai."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "didi"
+  },
+  {
+    "id": "class5-fractions-equivalent",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Maths",
+    "chapter": "Fractions",
+    "title": "Alag fractions, barabar hissa",
+    "description": "Equivalent fractions ko rang-bhare paper strips se dekho.",
+    "transcript": "Kabhi do alag fractions ek hi amount dikhate hain. Is idea ko equivalent fractions kehte hain. Ek paper strip lo aur use do barabar parts mein fold karo. Ek part rangne par one-half milta hai. Ab doosri strip ko chaar equal parts mein baanto aur do parts rang do. Yeh two-fourths hai. Rang wala area dono strips mein barabar hai, isliye one-half aur two-fourths equivalent hain.\n\nYeh jaadu nahi, equal groups ka idea hai. Numerator aur denominator dono ko ek hi number se multiply karne par fraction ki value wahi rehti hai. One-half ko do se multiply karo: upar one times two, neeche two times two. Humein two-fourths milta hai. Hamesha dono numbers par same operation karo. Sirf numerator ko badaloge to amount badal jayega.\n\nGhar mein ek chocolate bar ko do equal pieces mein se ek lena, chaar pieces mein se do lene jaisa hi hai. Lekin pieces equal size ke hone chahiye. Ek drawing banao: pehli rectangle ko do parts mein baanto aur ek rang do. Doosri rectangle ko chaar parts mein baanto aur do rang do. Ab areas compare karo. Aaj yaad rakho: equivalent fractions likhne mein numbers alag ho sakte hain, par dikhaya gaya hissa same hota hai. Picture se jaanchna ek achha tareeka hai.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-fractions-equivalent-cover.svg",
+    "diagramImage": "/media/images/class5-fractions-equivalent-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-fractions-equivalent.vtt",
+    "keyPoints": [
+      "Equivalent fractions same amount dikhate hain.",
+      "Numerator aur denominator ko ek hi number se multiply kar sakte hain.",
+      "Rang-bhari equal-size drawings se equivalence check karo."
+    ],
+    "quiz": [
+      {
+        "question": "One-half ke barabar kaunsa fraction hai?",
+        "choices": [
+          "2/4",
+          "1/4",
+          "3/4"
+        ],
+        "answer": 0,
+        "explanation": "Two-fourths ka rang wala hissa one-half jitna hai."
+      },
+      {
+        "question": "Equivalent fraction banate waqt kya karna chahiye?",
+        "choices": [
+          "Sirf numerator badlo",
+          "Dono numbers ko same number se multiply karo",
+          "Denominator hata do"
+        ],
+        "answer": 1,
+        "explanation": "Dono ko ek hi number se multiply karne par value same rehti hai."
+      },
+      {
+        "question": "Drawing compare karte waqt parts kaise hone chahiye?",
+        "choices": [
+          "Barabar size ke",
+          "Alag rang ke hi",
+          "Gol hi"
+        ],
+        "answer": 0,
+        "explanation": "Fractions equal parts par based hote hain."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "dada-ji"
+  },
+  {
+    "id": "class5-decimals-rupees-paise",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Maths",
+    "chapter": "Decimals",
+    "title": "Rupees aur paise mein decimal",
+    "description": "Bazaar ke chhote hisaab se decimal point samjho.",
+    "transcript": "Aaj hum decimals ko bazaar ke bill se samjhenge. Ek rupaye mein sau paise hote hain. Agar pencil ki keemat chaar rupaye aur pachaas paise hai, to ise 4.50 rupees likhte hain. Decimal point rupees aur paise ke hisson ko alag dikhata hai. Point ke turant baad wala digit tenths ki jagah, aur uske baad wala hundredths ki jagah hota hai.\n\nNumber 4.50 mein four poore rupees hain, five tenths of a rupee aur zero hundredths. Five tenths rupee pachaas paise ke barabar hote hain. Dhyaan do: 4.5 aur 4.50 ka amount same hai. Aakhri zero jodne se value nahi badalti, kyunki paise ke hundredths mein kuch extra nahi joda gaya.\n\nAb apne aas-paas ka example: agar aam ka juice 12 rupaye 25 paise ka hai, bill par 12.25 likh sakte hain. Decimal point ke dono taraf ki jagah ko sahi padho. 12.25 ka matlab 12 rupees aur 25 paise hai; 12.5 ka matlab 12 rupees aur 50 paise. Dono alag hain. Ek imaginary dukaan banao, teen cheezein chuno aur unke daam rupees-paise format mein likho. Recap: decimal point whole rupees ko paise se alag karta hai; do digits paise dikhate hain; aur 4.5 aur 4.50 barabar value hain.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-decimals-rupees-paise-cover.svg",
+    "diagramImage": "/media/images/class5-decimals-rupees-paise-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-decimals-rupees-paise.vtt",
+    "keyPoints": [
+      "Decimal point rupees aur paise ko alag karta hai.",
+      "Decimal ke baad do digits paise dikhate hain.",
+      "4.5 aur 4.50 ka amount same hai."
+    ],
+    "quiz": [
+      {
+        "question": "7 rupees 25 paise ko kaise likhenge?",
+        "choices": [
+          "7.25",
+          "7.5",
+          "725"
+        ],
+        "answer": 0,
+        "explanation": "Do decimal places paise ke hundredths ko dikhate hain."
+      },
+      {
+        "question": "4.5 aur 4.50 ka value kaisa hai?",
+        "choices": [
+          "4.50 bada hai",
+          "Dono barabar hain",
+          "4.5 bada hai"
+        ],
+        "answer": 1,
+        "explanation": "Aakhri zero jodne se amount nahi badalta."
+      },
+      {
+        "question": "Decimal point ke baad doosri jagah kya dikhati hai?",
+        "choices": [
+          "Hundredths",
+          "Thousands",
+          "Tens"
+        ],
+        "answer": 0,
+        "explanation": "Doosri place hundredths ki hoti hai."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "dost"
+  },
+  {
+    "id": "class5-decimals-place-value",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Maths",
+    "chapter": "Decimals",
+    "title": "Decimal ki place-value seedhi",
+    "description": "Tenths aur hundredths ko place-value chart par samjho.",
+    "transcript": "Chalo decimal number ko place-value chart mein rakhte hain. Decimal point ke left mein ones, tens aur hundreds jaise poore numbers hote hain. Point ke right mein tenths, hundredths aur aage chhote parts hote hain. Jaise 3.47 mein three ones, four tenths aur seven hundredths hain. Iska matlab teen poore, chaar-tenths aur saat-hundredths.\n\nSocho ek metre ki ribbon ko das barabar pieces mein kaata. Har piece one-tenth metre hai. Ek piece ko phir das chhote equal parts mein baanto, to har chhota part one-hundredth metre hoga. Decimal place-value isi tarah har step par ten times chhota hota jata hai. Point ko dekhkar direction samjho: left mein bade whole places, right mein chhote fractional places.\n\nAb 2.06 ko padho. Isme two ones, zero tenths aur six hundredths hain. Beech ka zero important hai; ise hata kar 2.6 likhne se value badal jaati hai. 2.06 mein chhe hundredths hain, lekin 2.6 mein chhe tenths. Apni notebook mein ones, tenths aur hundredths ke teen columns banao aur 5.32 ko rakho. Recap: decimal point place-value ka boundary hai, pehli right place tenths hai, aur agla place hundredths. Har digit ki jagah uski value batati hai.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-decimals-place-value-cover.svg",
+    "diagramImage": "/media/images/class5-decimals-place-value-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-decimals-place-value.vtt",
+    "keyPoints": [
+      "Decimal point ke baad pehli place tenths hoti hai.",
+      "Uske baad hundredths aate hain.",
+      "2.06 aur 2.6 alag values hain."
+    ],
+    "quiz": [
+      {
+        "question": "3.47 mein 4 kis place par hai?",
+        "choices": [
+          "Tenths",
+          "Hundredths",
+          "Tens"
+        ],
+        "answer": 0,
+        "explanation": "Decimal point ke turant baad wali place tenths hoti hai."
+      },
+      {
+        "question": "2.06 ka matlab kya hai?",
+        "choices": [
+          "2 ones aur 6 hundredths",
+          "2 ones aur 6 tenths",
+          "206 ones"
+        ],
+        "answer": 0,
+        "explanation": "Six decimal places ke second position par, hundredths hain."
+      },
+      {
+        "question": "Kaunsa number bada hai?",
+        "choices": [
+          "2.06",
+          "2.6",
+          "Dono same"
+        ],
+        "answer": 1,
+        "explanation": "2.6 mein six tenths hain, jo six hundredths se zyada hain."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "master-ji"
+  },
+  {
+    "id": "class5-geometry-shapes-around-us",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Maths",
+    "chapter": "Geometry",
+    "title": "Ghar aur gali ke shapes",
+    "description": "Apne aas-paas lines, angles aur shapes pehchano.",
+    "transcript": "Aaj geometry ko ghar aur gali mein dhoondhenge. Darwaaze ka saamne wala hissa rectangle jaisa hota hai. Khidki mein square ya rectangle ho sakta hai. Cycle ka pahiya circle hai. Geometry sirf kitaab ki drawing nahi; yeh objects ke shape, size, lines aur corners ko samajhne ka tareeka hai.\n\nEk shape ko dhyaan se dekho. Rectangle mein chaar sides aur chaar corners hote hain. Opposite sides barabar hoti hain. Square mein bhi chaar sides aur chaar corners hote hain, lekin square ki sab sides barabar hoti hain. Circle mein straight sides aur corners nahi hote. Apni pencil se notebook mein ek square, rectangle aur circle banao. Har shape ke sides aur corners gino.\n\nAb angle dekho. Do lines ek hi point par milti hain, to unke beech ka khulna angle hota hai. Kitaab ka kona right angle jaisa dikhta hai. Darwaaza dheere kholkar dekho; jaise-jaise khulta hai, angle badalta hai. Kisi garam ya unsafe cheez ko chhoone ki zaroorat nahi—sirf nazar se dekhna. Aaj ka mini walk: ghar mein teen objects dhoondho aur unka shape batao. Recap: sides line segments hain, corners par sides milti hain, aur angle batata hai lines kitni khuli hain. Geometry ko dekhne ke liye aankhen hi kaafi hain.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-geometry-shapes-around-us-cover.svg",
+    "diagramImage": "/media/images/class5-geometry-shapes-around-us-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-geometry-shapes-around-us.vtt",
+    "keyPoints": [
+      "Geometry shapes, lines, corners aur angles ka study hai.",
+      "Square aur rectangle mein chaar sides aur corners hote hain.",
+      "Angle do lines ke beech ka opening hai."
+    ],
+    "quiz": [
+      {
+        "question": "Circle mein kitne straight corners hote hain?",
+        "choices": [
+          "Zero",
+          "Four",
+          "Three"
+        ],
+        "answer": 0,
+        "explanation": "Circle ke straight sides ya corners nahi hote."
+      },
+      {
+        "question": "Square ki sides kaisi hoti hain?",
+        "choices": [
+          "Sab barabar",
+          "Sirf do",
+          "Koi side nahi"
+        ],
+        "answer": 0,
+        "explanation": "Square ki chaaron sides equal length ki hoti hain."
+      },
+      {
+        "question": "Angle kya dikhata hai?",
+        "choices": [
+          "Do lines ka opening",
+          "Shape ka colour",
+          "Object ka weight"
+        ],
+        "answer": 0,
+        "explanation": "Angle do lines ke beech ke khulne ko describe karta hai."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "story-mode"
+  },
+  {
+    "id": "class5-geometry-perimeter-walk",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Maths",
+    "chapter": "Geometry",
+    "title": "Boundary walk aur perimeter",
+    "description": "Khel ke maidan ki boundary ghoomkar perimeter samjho.",
+    "transcript": "Maan lo school ke chhote garden ke chaaron taraf chalna hai. Boundary ke poore chakkar ki lambai ko perimeter kehte hain. Rectangle garden ke chaar sides hote hain. Har side ki length add karo: length plus width plus length plus width. Agar length aath metre aur width paanch metre ho, to perimeter aath plus paanch plus aath plus paanch, yaani chhabbees metre hai.\n\nPerimeter shape ke bahar ke kinaare ka total distance hai. Area alag hota hai: woh andar ki surface kitni jagah leti hai. Abhi hum boundary par dhyaan de rahe hain. Ek notebook page ko ungli se kinaare par trace karo. Tum page ke perimeter ke raaste par chal rahe ho. Chhoti sides aur badi sides dono count karo; ek bhi side chhootni nahi chahiye.\n\nEk square ka har side chhe centimetre hai. Uska perimeter kya hoga? Chaar sides ko jodo: six plus six plus six plus six, yaani twenty-four centimetres. Square mein four times side bhi keh sakte ho. Ghar par kisi table ka measure karne se pehle adult se poochho aur ruler ka sahi istemal karo. Aaj ke recap mein: perimeter outside boundary ka total, sab side lengths add karna, aur answer mein length ki unit likhna yaad rakho. Apne desk ki boundary ko aankhon se trace karo aur socho, kaun si sides add hongi?",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-geometry-perimeter-walk-cover.svg",
+    "diagramImage": "/media/images/class5-geometry-perimeter-walk-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-geometry-perimeter-walk.vtt",
+    "keyPoints": [
+      "Perimeter bahari boundary ki total length hai.",
+      "Har side ki length ko add karte hain.",
+      "Answer ke saath centimetre ya metre jaisi unit likho."
+    ],
+    "quiz": [
+      {
+        "question": "Perimeter kya measure karta hai?",
+        "choices": [
+          "Boundary ki total length",
+          "Andar ka colour",
+          "Object ka mass"
+        ],
+        "answer": 0,
+        "explanation": "Perimeter shape ke outer edge ki total length hai."
+      },
+      {
+        "question": "Side 6 cm wale square ka perimeter kya hai?",
+        "choices": [
+          "12 cm",
+          "24 cm",
+          "36 cm"
+        ],
+        "answer": 1,
+        "explanation": "Square ke chaar equal sides hain: 4 times 6 = 24 cm."
+      },
+      {
+        "question": "Rectangle ke perimeter ke liye kya karte hain?",
+        "choices": [
+          "Chaar sides add",
+          "Sirf ek side",
+          "Sides multiply by colour"
+        ],
+        "answer": 0,
+        "explanation": "Chaaron boundary sides ki lengths ko jodte hain."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "master-ji"
+  },
+  {
+    "id": "class5-water-cycle-sun-to-cloud",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Science",
+    "chapter": "Water cycle",
+    "title": "Dhoop se baadal tak paani ka safar",
+    "description": "Dhoop, evaporation aur clouds ke beech paani ka safar jaaniye.",
+    "transcript": "Aaj paani ki ek boond ke saath safar karte hain. Socho, baarish ke baad chhat par thoda paani reh gaya. Dhoop padne par kuch der mein paani kam dikhne lagta hai. Liquid paani garam hokar water vapour naam ki gas banta hai. Is process ko evaporation kehte hain. Water vapour hawa mein upar jaata hai, lekin hum ise aksar dekh nahi paate.\n\nUpar hawa thandi hoti hai. Water vapour thanda hokar bahut chhoti liquid droplets mein badalta hai. Is process ka naam condensation hai. Bahut si droplets milkar clouds banati hain. Bathroom ke thande mirror par nahaane ke baad chhote water drops dikhte hain; yeh condensation ka ek everyday example hai. Clouds mein paani jama hota rehta hai.\n\nJab droplets badi aur bhaari hoti hain, to baarish ke roop mein neeche gir sakti hain. Paani mitti, nadi, talaab aur samundar tak pahunchta hai. Phir dhoop ise dobara garam karti hai aur cycle chalta rehta hai. Aasmaan ke clouds cotton jaise dikhte hain, par unmein water droplets hoti hain. Recap: dhoop evaporation mein madad karti hai, thandi hawa condensation karti hai, aur droplets milkar clouds banati hain. Khidki se aasman dekho aur socho, paani ki boond abhi cycle ke kis step par hai?",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-water-cycle-sun-to-cloud-cover.svg",
+    "diagramImage": "/media/images/class5-water-cycle-sun-to-cloud-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-water-cycle-sun-to-cloud.vtt",
+    "keyPoints": [
+      "Dhoop liquid paani ko water vapour bana sakti hai.",
+      "Thanda water vapour droplets banata hai; ise condensation kehte hain.",
+      "Bahut si droplets milkar cloud banati hain."
+    ],
+    "quiz": [
+      {
+        "question": "Liquid paani se water vapour banne ko kya kehte hain?",
+        "choices": [
+          "Evaporation",
+          "Condensation",
+          "Freezing"
+        ],
+        "answer": 0,
+        "explanation": "Garmi se liquid paani vapour bane to evaporation hota hai."
+      },
+      {
+        "question": "Clouds kaise bante hain?",
+        "choices": [
+          "Chhoti droplets milkar",
+          "Ret se",
+          "Sirf dhoop se"
+        ],
+        "answer": 0,
+        "explanation": "Thandi hawa mein vapour droplets banata hai aur droplets cloud banati hain."
+      },
+      {
+        "question": "Thande mirror par water drops kis process ka example hain?",
+        "choices": [
+          "Condensation",
+          "Evaporation",
+          "Melting"
+        ],
+        "answer": 0,
+        "explanation": "Vapour thandi surface par liquid drops banata hai."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "didi"
+  },
+  {
+    "id": "class5-water-cycle-rain-returns",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Science",
+    "chapter": "Water cycle",
+    "title": "Baadal se baarish, phir zameen tak",
+    "description": "Precipitation aur collection ko apne shehar ke paani se jodo.",
+    "transcript": "Cloud mein droplets chhoti hoti hain. Jab droplets ek doosre se milti hain, ve badi aur bhaari ho sakti hain. Phir paani cloud se neeche girta hai—baarish, snow ya hail ke roop mein, jagah aur temperature par depend karta hai. Paani ke is neeche aane wale step ko precipitation kehte hain. Aaj hum aam baarish ko example bana rahe hain.\n\nBaarish ka paani chhat se pipe mein, phir naali aur nadi mein ja sakta hai. Kuch paani mitti ke andar soak hokar groundwater banata hai. Talaab aur jheel paani ko kuch samay ke liye jama rakhte hain. Is jama hone wale step ko collection keh sakte hain. Isliye barsaat ka paani sirf sadak par behkar gayab nahi hota; uska kuch hissa zameen aur jalashayon tak pahunchta hai.\n\nAgar baarish bahut tez ho, to sadkon par paani bhar sakta hai. Safai se drains khule rakhna aur rainwater harvesting jaise tareeke paani ko sambhalne mein madad karte hain. Bina adult ke permission ke baarish ke tez paani ke paas mat jao. Notebook mein arrows banao: cloud, rain, soil, river, sun. Arrows se dikhao paani cycle mein kaise wapas jaata hai. Recap: precipitation paani ko neeche laata hai, collection use rivers/lakes/ground mein jama karta hai, aur dhoop cycle ko phir se shuru kar sakti hai.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-water-cycle-rain-returns-cover.svg",
+    "diagramImage": "/media/images/class5-water-cycle-rain-returns-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-water-cycle-rain-returns.vtt",
+    "keyPoints": [
+      "Cloud droplets badi hokar precipitation ke roop mein girti hain.",
+      "Rainwater river, lake aur mitti tak pahunch sakta hai.",
+      "Collection ke baad dhoop water cycle ko dobara chala sakti hai."
+    ],
+    "quiz": [
+      {
+        "question": "Cloud se rain ya snow ke roop mein paani girna kya hai?",
+        "choices": [
+          "Precipitation",
+          "Collection",
+          "Evaporation"
+        ],
+        "answer": 0,
+        "explanation": "Cloud se paani neeche aane ko precipitation kehte hain."
+      },
+      {
+        "question": "Groundwater ka kuch paani kahan se aata hai?",
+        "choices": [
+          "Mitti mein soak hui baarish",
+          "Sirf clouds",
+          "Sunlight"
+        ],
+        "answer": 0,
+        "explanation": "Baarish ka kuch paani mitti mein soak hota hai."
+      },
+      {
+        "question": "Rainwater harvesting ka ek fayda kya hai?",
+        "choices": [
+          "Paani sambhalna",
+          "Cloud hataana",
+          "Dhoop rokna"
+        ],
+        "answer": 0,
+        "explanation": "Harvesting baarish ke paani ko store ya recharge karne mein madad karti hai."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "guru-ji"
+  },
+  {
+    "id": "class5-water-cycle-cycle-in-a-cup",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Science",
+    "chapter": "Water cycle",
+    "title": "Ek cup se samjho water cycle",
+    "description": "Ghar par dekhe ja sakne wale safe examples se cycle dohrao.",
+    "transcript": "Water cycle ko yaad rakhne ke liye ek chhota thought experiment karte hain. Ek cup mein paani hai. Agar paani dhoop mein khula rahe, samay ke saath kuch paani hawa mein vapour ban kar ja sakta hai. Yeh evaporation hai. Vapour upar jaakar thandi hawa se milta hai; chhoti droplets banne ko condensation kehte hain. Aasmaan mein droplets ikatthi ho sakti hain.\n\nClouds se paani baarish ban kar neeche aaye, to use precipitation kehte hain. Paani sadak ke drain, nadi, talaab aur zameen tak jaata hai. Wahan jama hone ko collection kaha ja sakta hai. Phir dhoop paani ko dobara warm karti hai. Isliye cycle ka koi fixed starting point nahi; tum kisi bhi step se kahani shuru kar sakte ho.\n\nEk safe demonstration sirf adult ke saath karo: bahar rakhe paani ke cup ke level ko kuch ghanton baad dekho. Cup ko peena nahi, aur garam paani ki zaroorat nahi. Level kam hona evaporation ka hint hai, par hawa aur temperature bhi asar karte hain. Ab chaar cards banao: evaporation, condensation, precipitation, collection. Unhe arrows se cycle mein jodo. Recap ko zor se bolo: paani upar jaata, clouds mein droplets banta, neeche girta aur jalashayon mein lautkar phir upar ja sakta hai. Paani ghoomta rehta hai, isliye ise water cycle kehte hain.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-water-cycle-cycle-in-a-cup-cover.svg",
+    "diagramImage": "/media/images/class5-water-cycle-cycle-in-a-cup-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-water-cycle-cycle-in-a-cup.vtt",
+    "keyPoints": [
+      "Water cycle ko kisi bhi stage se samjha ja sakta hai.",
+      "Evaporation, condensation, precipitation aur collection iske main steps hain.",
+      "Safe observation mein hot water ya unsafe jagah ki zaroorat nahi."
+    ],
+    "quiz": [
+      {
+        "question": "Water cycle mein paani vapour ban kar upar jaata hai, ise kya kehte hain?",
+        "choices": [
+          "Evaporation",
+          "Collection",
+          "Precipitation"
+        ],
+        "answer": 0,
+        "explanation": "Liquid paani ka vapour banna evaporation hai."
+      },
+      {
+        "question": "Water cycle ka starting point hamesha fixed hota hai?",
+        "choices": [
+          "Haan",
+          "Nahi, kisi bhi stage se kahani shuru kar sakte hain",
+          "Sirf river"
+        ],
+        "answer": 1,
+        "explanation": "Cycle repeat hota hai, isliye fixed start nahi hota."
+      },
+      {
+        "question": "Observation mein kis baat ka dhyaan rakhen?",
+        "choices": [
+          "Adult ke saath safe observation",
+          "Boiling water use karo",
+          "Drain mein jao"
+        ],
+        "answer": 0,
+        "explanation": "Bachchon ko simple, adult-supervised safe observations karni chahiye."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "dada-ji"
+  },
+  {
+    "id": "class5-plants-roots-stems-leaves",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Science",
+    "chapter": "Plants",
+    "title": "Roots, stem aur leaves ki team",
+    "description": "Ek paudhe ke parts ko school garden ke example se samjho.",
+    "transcript": "Aaj ek paudhe ki team se milte hain. Roots aksar mitti ke andar hoti hain. Ve plant ko zameen mein pakad kar rakhne aur mitti se paani lene mein madad karti hain. Stem paudhe ko sahara deta hai. Stem paani aur zaroori cheezon ko plant ke alag parts tak pahunchane mein madad karta hai. Leaves aksar hara rang hoti hain aur sunlight, hawa aur paani ka use karke plant ke liye food banane mein madad karti hain.\n\nSchool garden mein dhaniya ya tulsi ka plant dekho, lekin bina permission paudha mat todo. Roots ko samajhne ke liye transparent cup mein sprout hota bean dekha ja sakta hai, adult ki dekh-rekh mein. Chhoti root neeche ki taraf grow karti hai. Stem upar jaata hai aur leaves roshni ki taraf khul sakti hain. Har part ka alag kaam hai, lekin plant milkar jeeta hai.\n\nSocho agar roots ko paani na mile, to plant par kya asar ho sakta hai? Leaves murjha sakti hain, kyunki poore plant ko paani chahiye. Agar stem ko nuksaan ho, paani aur support ka safar mushkil ho sakta hai. Isliye plant ko dekhna, paani dena aur bina zaroorat damage na karna achha hai. Notebook mein root, stem, leaves label karo. Recap: roots pakad aur paani, stem support aur transport, leaves food banane mein madad. Ek chhota paudha ek team ki tarah kaam karta hai.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-plants-roots-stems-leaves-cover.svg",
+    "diagramImage": "/media/images/class5-plants-roots-stems-leaves-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-plants-roots-stems-leaves.vtt",
+    "keyPoints": [
+      "Roots plant ko anchor aur paani lene mein madad karti hain.",
+      "Stem sahara aur paani ka transport karta hai.",
+      "Leaves sunlight se food banane mein madad karti hain."
+    ],
+    "quiz": [
+      {
+        "question": "Plant ko mitti mein pakad kar kaun rakhta hai?",
+        "choices": [
+          "Roots",
+          "Flower",
+          "Fruit"
+        ],
+        "answer": 0,
+        "explanation": "Roots plant ko soil mein anchor karti hain."
+      },
+      {
+        "question": "Stem ka ek kaam kya hai?",
+        "choices": [
+          "Support aur transport",
+          "Mitti banana",
+          "Sunlight band karna"
+        ],
+        "answer": 0,
+        "explanation": "Stem plant ko support deta aur paani ko move karne mein madad karta hai."
+      },
+      {
+        "question": "Leaves kis kaam mein madad karti hain?",
+        "choices": [
+          "Food banana",
+          "Roots ko kaatna",
+          "Paani ko rokna"
+        ],
+        "answer": 0,
+        "explanation": "Leaves sunlight ka use karke plant food banane mein madad karti hain."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "story-mode"
+  },
+  {
+    "id": "class5-plants-seed-to-sprout",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Science",
+    "chapter": "Plants",
+    "title": "Beej se nanha sprout",
+    "description": "Moong ke beej ko dekhkar germination ke basic steps jaano.",
+    "transcript": "Ek beej chhota hota hai, par uske andar naya plant shuru karne ki sambhaavna hoti hai. Jab beej ko sahi nami, hawa aur temperature milta hai, to germination shuru ho sakti hai. Beej ka outer cover naram hota hai, root pehle bahar aa sakti hai aur neeche grow karne lagti hai. Phir shoot upar ki taraf badhta hai. Chhoti leaves nikalne lagti hain.\n\nMoong ka sprout ek familiar example hai. Is process ko sirf adult ke saath, clean container mein observe karo. Beej ko saaf geele cotton ya tissue par rakho, par use paani mein dubo kar mat chhodo. Har din dekho ki kya badla: cover, root, shoot aur leaves. Observation likho; plant ko kheenchkar bahar mat nikalo. Germination ka speed har beej aur condition mein alag ho sakta hai.\n\nKya beej ko andhere mein forever rakhna chahiye? Sprout shuru hone ke baad growing plant ko roshni ki zaroorat hoti hai. Paani bhi chahiye, lekin bahut zyada paani se hawa kam mil sakti hai. Isliye balance aur observation important hain. Beej ka har sprout ek hi din mein nahi aata. Recap: moisture, air aur suitable warmth germination mein madad karte hain; root neeche aur shoot upar grow karte hain; phir leaves dikhai deti hain. Apni observation se plant growth ki chhoti diary banao.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-plants-seed-to-sprout-cover.svg",
+    "diagramImage": "/media/images/class5-plants-seed-to-sprout-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-plants-seed-to-sprout.vtt",
+    "keyPoints": [
+      "Suitable moisture, air aur warmth germination mein madad karte hain.",
+      "Nanha root aam taur par neeche aur shoot upar badhta hai.",
+      "Sprout ko clean aur adult-supervised tareeke se observe karo."
+    ],
+    "quiz": [
+      {
+        "question": "Germination mein kis cheez ki zaroorat hoti hai?",
+        "choices": [
+          "Moisture, air aur suitable warmth",
+          "Sirf paint",
+          "Bahut zyada paani"
+        ],
+        "answer": 0,
+        "explanation": "In suitable conditions mein beej sprout kar sakta hai."
+      },
+      {
+        "question": "Nanha root kis taraf grow karta hai?",
+        "choices": [
+          "Neeche ki taraf",
+          "Hamesha aasman ki taraf",
+          "Kahin nahi"
+        ],
+        "answer": 0,
+        "explanation": "Root aam taur par neeche grow karti hai."
+      },
+      {
+        "question": "Sprout observation kaise karein?",
+        "choices": [
+          "Clean setup aur adult ke saath",
+          "Beej ko kheenchkar",
+          "Ganda paani bhar kar"
+        ],
+        "answer": 0,
+        "explanation": "Safe, clean observation beej ko damage kiye bina dekhti hai."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "didi"
+  },
+  {
+    "id": "class5-plants-flowers-and-fruits",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Science",
+    "chapter": "Plants",
+    "title": "Phool se fruit tak ka safar",
+    "description": "Phool ke parts aur seed-bearing fruit ka simple connection.",
+    "transcript": "Aaj phool aur fruit ka connection samjhenge. Kai plants mein flower reproductive part hota hai. Flower ke rang aur khushboo pollinators, jaise bees ya butterflies, ko attract kar sakte hain. Jab pollen ek flower ke suitable part tak pahunchta hai, pollination ho sakti hai. Iske baad kuch plants mein flower ka kuch hissa fruit banne lagta hai aur andar seeds develop ho sakte hain.\n\nAmrud, aam aur tomato jaise familiar fruits mein seeds dekh sakte ho. Har plant ka process bilkul same nahi hota, aur kuch foods jo hum fruit kehte hain, unki botanical categories aur bhi detail wali hoti hain. Class five ke liye itna yaad rakho: flower, seed formation aur fruit development ek connected story hai. Bee ko chhoone ya flower todne ki zaroorat nahi; garden mein door se observe karo.\n\nEk fruit ka diagram banao: outer part, andar ka edible portion aur seeds ko label karo. Phir kisi teacher ya adult se poochho, is plant ka flower kaisa dikhta hai? Har fruit ek hi flower se banta hai, aisa universal rule nahi—plant ke type par depend karta hai. Recap: flower plant ka important part hai, pollination seed development mein help kar sakti hai, aur kai plants mein fruit seeds ko protect karta hai. Nature ko observe karna seekhne ka safe tareeka hai: dekho, sketch karo, aur bina damage kiye sawaal poochho.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-plants-flowers-and-fruits-cover.svg",
+    "diagramImage": "/media/images/class5-plants-flowers-and-fruits-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-plants-flowers-and-fruits.vtt",
+    "keyPoints": [
+      "Flower kai plants ka reproductive part hota hai.",
+      "Pollination seed development mein madad kar sakti hai.",
+      "Kai plants mein fruit seeds ko protect karta hai."
+    ],
+    "quiz": [
+      {
+        "question": "Kai plants mein flower ka ek important role kya hai?",
+        "choices": [
+          "Reproduction mein madad",
+          "Mitti ko kaatna",
+          "Paani ko jamana"
+        ],
+        "answer": 0,
+        "explanation": "Flower pollination aur seed formation se juda hota hai."
+      },
+      {
+        "question": "Fruit ke andar aksar kya develop ho sakta hai?",
+        "choices": [
+          "Seeds",
+          "Pebbles",
+          "Clouds"
+        ],
+        "answer": 0,
+        "explanation": "Kai plants ke fruits mein seeds hote hain."
+      },
+      {
+        "question": "Garden observe karne ka safe tareeka kya hai?",
+        "choices": [
+          "Door se dekho aur sketch karo",
+          "Har flower tod do",
+          "Bee ko pakdo"
+        ],
+        "answer": 0,
+        "explanation": "Plants aur pollinators ko bina chhede observe karna safe hai."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "dada-ji"
+  },
+  {
+    "id": "class5-body-breath-and-heart",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Science",
+    "chapter": "Our body",
+    "title": "Saans aur heartbeat ka teamwork",
+    "description": "Breathing aur blood circulation ko simple body systems ke roop mein jaaniye.",
+    "transcript": "Hamare body mein kai systems ek team ki tarah kaam karte hain. Jab hum saans lete hain, hawa lungs tak pahunchti hai. Lungs hawa se oxygen lene mein help karte hain. Heart ek muscular organ hai jo blood ko body ke parts tak pump karta hai. Blood oxygen aur nutrients ko transport karta hai. Isliye breathing system aur circulatory system ek doosre se connected hain.\n\nJab tum dheere se chal kar class se ghar aate ho, body ko energy chahiye. Movement ke baad saans kuch tez lag sakti hai aur heartbeat bhi fast mehsoos ho sakti hai. Yeh body ka response hai. Sirf apni normal feeling ko notice karo; kisi aur ke body se compare karne ki zaroorat nahi. Agar exercise karte waqt pain ya discomfort ho, rukkar trusted adult ko batao.\n\nEk picture mein lungs, heart aur body tak jaati blood vessels ka simple sketch banao. Details perfect hona zaroori nahi. Arrows dikhao ki oxygen lungs se blood mein, aur blood ke through body tak pahunchti hai. Heartbeat ko haath se chest par press karke check mat karo; safe observation ke liye bas rest aur normal movement ke baad body ka response notice karo. Recap: lungs oxygen lene mein madad, heart blood pump, blood oxygen carry karta hai. Body ke organs milkar kaam karte hain, aur har body alag hoti hai.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-body-breath-and-heart-cover.svg",
+    "diagramImage": "/media/images/class5-body-breath-and-heart-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-body-breath-and-heart.vtt",
+    "keyPoints": [
+      "Lungs saans ki hawa se oxygen lene mein madad karte hain.",
+      "Heart blood ko body mein pump karta hai.",
+      "Blood oxygen aur nutrients ko transport karta hai."
+    ],
+    "quiz": [
+      {
+        "question": "Lungs ka ek kaam kya hai?",
+        "choices": [
+          "Oxygen lene mein madad",
+          "Food ko chabana",
+          "Bones banana"
+        ],
+        "answer": 0,
+        "explanation": "Lungs breathing ke through oxygen lene mein madad karte hain."
+      },
+      {
+        "question": "Heart blood ke saath kya karta hai?",
+        "choices": [
+          "Body mein pump karta hai",
+          "Use freeze karta hai",
+          "Use lungs mein store karta hai"
+        ],
+        "answer": 0,
+        "explanation": "Heart blood ko body ke parts tak pump karta hai."
+      },
+      {
+        "question": "Blood kya transport kar sakta hai?",
+        "choices": [
+          "Oxygen aur nutrients",
+          "School books",
+          "Sunlight"
+        ],
+        "answer": 0,
+        "explanation": "Blood oxygen aur nutrients body mein le jaata hai."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "guru-ji"
+  },
+  {
+    "id": "class5-body-food-to-energy",
+    "class": 5,
+    "board": "NCERT",
+    "subject": "Science",
+    "chapter": "Our body",
+    "title": "Khaane se energy tak",
+    "description": "Digestive system ko lunchbox ke safar se samjho.",
+    "transcript": "Aaj lunchbox ke ek bite ka body ke andar ka safar samjhenge. Hum khana khaate hain, to teeth use chhote pieces mein todne mein madad karte hain. Saliva khane ko moist karta hai. Khana food pipe se stomach tak jaata hai. Stomach aur digestive system ke doosre parts food ko aur break karte hain, taaki body nutrients ko use kar sake.\n\nSmall intestine mein nutrients blood mein absorb hote hain. Blood unhe body ke parts tak le jaata hai. Jo cheezein body use nahi karti, unka waste alag route se bahar nikalta hai. Yeh system automatic teamwork hai; humein har step ko control nahi karna padta. Healthy food ke saath saaf paani aur haath dhona bhi achhi daily habits hain.\n\nSocho lunch mein dal, roti aur sabzi hai. Har food mein nutrients ka mix ho sakta hai. Ek single food se har zaroorat poori ho, yeh zaroori nahi; variety helpful hoti hai. Apne meal ke baare mein family ke saath baat karo aur kisi food ko lekar sharminda mehsoos mat karo—ghar ke foods aur needs alag hoti hain. Diagram mein mouth, food pipe, stomach aur intestine ko arrows se jodo. Recap: digestion food ko chhote useful parts mein todta hai, nutrients blood mein jaate hain, aur body energy aur growth ke liye unka use karti hai. Body ka system dheere-dheere apna kaam karta rehta hai.",
+    "durationSec": 240,
+    "difficulty": "beginner",
+    "coverImage": "/media/images/class5-body-food-to-energy-cover.svg",
+    "diagramImage": "/media/images/class5-body-food-to-energy-diagram.svg",
+    "audioUrl": null,
+    "videoUrl": null,
+    "captionsUrl": "/media/video/class5-body-food-to-energy.vtt",
+    "keyPoints": [
+      "Digestion food ko chhote useful parts mein todta hai.",
+      "Small intestine nutrients ko blood mein absorb karne mein madad karti hai.",
+      "Body nutrients ko energy, growth aur repair mein use karti hai."
+    ],
+    "quiz": [
+      {
+        "question": "Food ko chhote pieces mein todna kahan se shuru hota hai?",
+        "choices": [
+          "Mouth",
+          "Knee",
+          "Ear"
+        ],
+        "answer": 0,
+        "explanation": "Teeth aur saliva mouth mein digestion shuru karte hain."
+      },
+      {
+        "question": "Nutrients blood mein absorb hone mein kaun madad karta hai?",
+        "choices": [
+          "Small intestine",
+          "Hair",
+          "Nails"
+        ],
+        "answer": 0,
+        "explanation": "Small intestine nutrients absorb karne mein important hai."
+      },
+      {
+        "question": "Body nutrients ka use kisliye karti hai?",
+        "choices": [
+          "Energy aur growth",
+          "Cloud banana",
+          "Awaaz rangna"
+        ],
+        "answer": 0,
+        "explanation": "Nutrients body ko energy aur growth support karte hain."
+      }
+    ],
+    "license": "Original StudyAI script; AI-generated image or original SVG fallback; no third-party assets. Original StudyAI SVG gradient illustration; no third-party assets.",
+    "status": "draft - needs teacher review",
+    "voiceId": "dost"
+  }
+]
