@@ -7,6 +7,7 @@ const progressMemory = new Map();
 const subscriptionsMemory = new Map();
 const childProfilesMemory = new Map();
 const paymentEventsMemory = new Set();
+const tutorRequestUsageMemory = new Map();
 const storeMode = pool ? "postgres" : "memory";
 
 export async function initializeStore() {
@@ -28,7 +29,9 @@ export async function saveProgress(userId, lessonId, positionSeconds, completed 
     [userId, lessonId, positionSeconds, completed]);
     return;
   }
-  progressMemory.set(`${userId}:${lessonId}`, { lessonId, positionSeconds, completed, updatedAt: new Date().toISOString() });
+  const key = `${userId}:${lessonId}`;
+  const previous = progressMemory.get(key);
+  progressMemory.set(key, { lessonId, positionSeconds, completed: Boolean(previous?.completed || completed), updatedAt: new Date().toISOString() });
 }
 
 export async function getProgress(userId) {
@@ -96,6 +99,23 @@ export async function recordPaymentEvent(eventId, eventType) {
   }
   if (paymentEventsMemory.has(eventId)) return false;
   paymentEventsMemory.add(eventId);
+  return true;
+}
+
+export async function consumeTutorRequest(userId, feature, dailyLimit) {
+  const usageDate = new Date().toISOString().slice(0, 10);
+  if (pool) {
+    const result = await pool.query(`INSERT INTO tutor_request_usage (user_id, usage_date, feature, requests)
+      VALUES ($1, $2, $3, 1) ON CONFLICT (user_id, usage_date, feature) DO UPDATE
+      SET requests = tutor_request_usage.requests + 1
+      WHERE tutor_request_usage.requests < $4
+      RETURNING requests`, [userId, usageDate, feature, dailyLimit]);
+    return result.rowCount === 1;
+  }
+  const key = `${userId}:${usageDate}:${feature}`;
+  const requests = tutorRequestUsageMemory.get(key) ?? 0;
+  if (requests >= dailyLimit) return false;
+  tutorRequestUsageMemory.set(key, requests + 1);
   return true;
 }
 

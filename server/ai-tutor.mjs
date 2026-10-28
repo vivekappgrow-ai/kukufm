@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { consumeTutorRequest } from "./data/store.mjs";
 
 const unsafeInputPatterns = [
   /\b(?:suicide|self[- ]?harm|kill myself|weapon|bomb|porn|sexual|nude|drug dealer)\b/i,
@@ -6,8 +7,6 @@ const unsafeInputPatterns = [
 ];
 const contactPattern = /(?:\b[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}\b|(?:\+?91[ -]?)?[6-9]\d{9})/;
 const unsafeOutputPattern = /\b(?:suicide instructions|how to make a bomb|explicit sexual content)\b/i;
-const dailyUsage = new Map();
-
 export function inspectTutorQuestion(value) {
   if (typeof value !== "string") return { ok: false, reason: "Enter a question to continue." };
   const question = value.trim();
@@ -56,10 +55,6 @@ async function moderateImage(apiKey, text, imageDataUrl) {
   return result.results?.[0]?.flagged === true;
 }
 
-function usageKey(userId) {
-  return `${userId}:${new Date().toISOString().slice(0, 10)}`;
-}
-
 function streamReply(response, text) {
   response.status(200);
   response.setHeader("Content-Type", "text/event-stream; charset=utf-8");
@@ -82,9 +77,10 @@ export function registerTutorRoutes(app, { apiKey, manifestPath }) {
       const lessons = JSON.parse(await readFile(manifestPath, "utf8"));
       const lesson = lessons.find((item) => item.id === lessonId && item.status === "approved");
       if (!lesson) return response.status(404).json({ error: "This lesson has not been teacher-approved for tutor context." });
-      const key = usageKey(String(request.user.sub));
       const limit = request.user.plan === "premium" ? 100 : 3;
-      if ((dailyUsage.get(key) ?? 0) >= limit) return response.status(429).json({ error: "Your free tutor messages for today are used. Ask a parent to review plan options." });
+      if (!await consumeTutorRequest(String(request.user.sub), "chat", limit)) {
+        return response.status(429).json({ error: "Your free tutor messages for today are used. Ask a parent to review plan options." });
+      }
       if (await moderate(apiKey, inspected.question)) return response.status(422).json({ error: "I can’t help with that. Is topic ke liye apne teacher ya parent se poochho." });
       const result = await providerJson(apiKey, "chat/completions", {
         model: process.env.OPENAI_CHAT_MODEL ?? "gpt-4o-mini",
@@ -99,7 +95,6 @@ export function registerTutorRoutes(app, { apiKey, manifestPath }) {
       if (!answer || answer.length > 5000 || unsafeOutputPattern.test(answer) || await moderate(apiKey, answer)) {
         return response.status(422).json({ error: "The answer did not pass the safety check. Ask about another part of the approved lesson." });
       }
-      dailyUsage.set(key, (dailyUsage.get(key) ?? 0) + 1);
       streamReply(response, answer);
     } catch (error) {
       console.error("Tutor request failed.", error);

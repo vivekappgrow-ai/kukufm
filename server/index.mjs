@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { randomInt, randomUUID, timingSafeEqual, createHmac } from "node:crypto";
+import { randomBytes, randomInt, randomUUID, timingSafeEqual, createHmac } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { createServer } from "node:http";
 import express from "express";
@@ -9,7 +9,8 @@ import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import { registerTutorRoutes } from "./ai-tutor.mjs";
 import { registerPaymentRoutes } from "./payments.mjs";
-import { getStoreMode } from "./data/store.mjs";
+import { registerProgressRoutes } from "./progress.mjs";
+import { closeStore, getStoreMode, initializeStore } from "./data/store.mjs";
 
 const PORT = Number(process.env.ROOMS_PORT ?? 8787);
 const HOST = process.env.ROOMS_HOST ?? "127.0.0.1";
@@ -20,7 +21,7 @@ const LIVEKIT_API_SECRET = process.env.LIVEKIT_API_SECRET;
 const AUTH_JWT_SECRET = process.env.AUTH_JWT_SECRET;
 const AUTH_JWT_ISSUER = process.env.AUTH_JWT_ISSUER;
 const AUTH_JWT_AUDIENCE = process.env.AUTH_JWT_AUDIENCE;
-const DEMO_JWT_SECRET = AUTH_JWT_SECRET ?? "studyai-local-demo-session-do-not-deploy";
+const DEMO_JWT_SECRET = AUTH_JWT_SECRET ?? (DEMO_MODE ? randomBytes(32) : undefined);
 const LIVEKIT_HTTP_URL = LIVEKIT_URL?.replace(/^wss:\/\//, "https://").replace(/^ws:\/\//, "http://");
 const LIVEKIT_WS_URL = LIVEKIT_URL?.replace(/^https:\/\//, "wss://").replace(/^http:\/\//, "ws://");
 const roomService = LIVEKIT_HTTP_URL && LIVEKIT_API_KEY && LIVEKIT_API_SECRET
@@ -31,7 +32,6 @@ const livekitApi = LIVEKIT_HTTP_URL && LIVEKIT_API_KEY && LIVEKIT_API_SECRET
   : undefined;
 const rooms = new Map();
 const VOICE_AGENT_NAME = process.env.VOICE_AGENT_NAME ?? "studyai-voice-tutor";
-const CALL_INTERNAL_SECRET = process.env.CALL_INTERNAL_SECRET ?? "studyai-call-secret";
 const CALL_MAX_SECONDS = Number(process.env.VOICE_CALL_MAX_SECONDS ?? 600);
 const callUsage = new Map();
 const roomSeed = JSON.parse(await readFile(new URL("./data/room-question-bank.json", import.meta.url), "utf8"));
@@ -134,8 +134,12 @@ app.post("/api/session", sessionLimiter, (request, response) => {
     response.status(403).json({ error: "A parent or guardian must provide consent before demo room access." });
     return;
   }
+  const classLevel = Number.isInteger(request.body?.classLevel) && request.body.classLevel >= 1 && request.body.classLevel <= 12
+    ? request.body.classLevel
+    : 5;
+  const language = ["Hindi", "Hinglish", "English"].includes(request.body?.language) ? request.body.language : "Hindi";
   response.json({
-    token: issueDemoJwt({ sub: `demo-${randomUUID()}`, name: cleanText(request.body?.name, 48) || "Demo learner", ageBand, parentConsent }),
+    token: issueDemoJwt({ sub: `demo-${randomUUID()}`, name: cleanText(request.body?.name, 48) || "Demo learner", ageBand, parentConsent, classLevel, language }),
     demoOnly: true,
     warning: "This signed demo session is for local development only and is not a production student account.",
   });
@@ -147,6 +151,7 @@ registerTutorRoutes(app, {
   manifestPath: new URL("../src/data/lesson-manifest.json", import.meta.url),
 });
 registerPaymentRoutes(app, { storeMode: getStoreMode() });
+registerProgressRoutes(app);
 
 app.get("/api/lessons", async (request, response) => {
   try {
@@ -555,6 +560,31 @@ io.on("connection", (socket) => {
   });
 });
 
+try {
+  await initializeStore();
+} catch (error) {
+  console.error("Database initialization failed. The API was not started.", error);
+  process.exitCode = 1;
+  throw error;
+}
+
 httpServer.listen(PORT, HOST, () => {
   console.log(`StudyAI Live Rooms API listening on http://${HOST}:${PORT} (${DEMO_MODE ? "demo mode" : "authenticated mode"})`);
 });
+
+let shuttingDown = false;
+async function shutdown() {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  io.close(async () => {
+    try {
+      await closeStore();
+    } catch (error) {
+      console.error("Database connection pool could not be closed cleanly.", error);
+      process.exitCode = 1;
+    }
+  });
+}
+
+process.once("SIGINT", shutdown);
+process.once("SIGTERM", shutdown);

@@ -180,32 +180,41 @@ function makeSlideSvg(lesson, point, index, total) {
 }
 
 async function generateVideo(lesson, audioPath, videoPath, captionsPath) {
-  const directory = join(tmpdir(), `studyai-${lesson.id}-${randomUUID()}`);
-  await mkdir(directory, { recursive: true });
-  try {
-    const slides = lesson.keyPoints.map((point, index) => {
-      const slidePath = join(directory, `slide-${index + 1}.svg`);
-      return writeFile(slidePath, makeSlideSvg(lesson, point, index, lesson.keyPoints.length), "utf8").then(() => slidePath);
-    });
-    const slidePaths = await Promise.all(slides);
-    const slideSeconds = lesson.durationSec / slidePaths.length;
-    const inputArgs = slidePaths.flatMap((slidePath) => ["-loop", "1", "-framerate", "1", "-t", String(slideSeconds), "-i", slidePath]);
-    const filters = slidePaths.map((_slide, index) => `[${index}:v]scale=1280:720,setsar=1,fps=24[v${index}]`).join(";");
-    const concat = `${slidePaths.map((_slide, index) => `[v${index}]`).join("")}concat=n=${slidePaths.length}:v=1:a=0,format=yuv420p[outv]`;
-    await mkdir(dirname(videoPath), { recursive: true });
-    await runFfmpeg([
-      "-hide_banner", "-loglevel", "error", "-y",
-      ...inputArgs,
-      "-i", audioPath,
-      "-filter_complex", `${filters};${concat}`,
-      "-map", "[outv]", "-map", `${slidePaths.length}:a:0`,
-      "-shortest", "-c:v", "libx264", "-preset", "veryfast", "-crf", "27",
-      "-c:a", "aac", "-b:a", "96k", "-movflags", "+faststart", videoPath,
-    ]);
-    await writeFile(captionsPath, makeVtt(lesson), "utf8");
-  } finally {
-    await rm(directory, { recursive: true, force: true });
-  }
+  const slideCount = lesson.keyPoints.length;
+  const slideSeconds = lesson.durationSec / slideCount;
+  const colors = lesson.subject === "Maths"
+    ? ["#7061c7", "#d49b62", "#2d7e9f"]
+    : ["#267ca4", "#5e9f79", "#98536b"];
+  const textFilterForSlide = (index, point) => {
+    const chapter = lesson.chapter.replace(/'/g, "\\'");
+    const title = lesson.title.replace(/'/g, "\\'");
+    const pointText = point.replace(/'/g, "\\'");
+    const accent = colors[index % colors.length].slice(1);
+    return `drawbox=x=0:y=0:w=iw:h=110:color=0x${accent}@0.92:t=fill,drawbox=x=0:y=610:w=iw:h=110:color=0x1f2540@0.82:t=fill,drawtext=fontcolor=white:fontsize=21:font='Arial':text='STUDYAI · CLASS 5 ${lesson.subject.toUpperCase()}':x=80:y=28,drawtext=fontcolor=white:fontsize=40:font='Arial':text='${chapter}':x=80:y=110,drawtext=fontcolor=white:fontsize=56:font='Arial':text='${pointText}':x=80:y=270:line_spacing=12,drawtext=fontcolor=white:fontsize=18:font='Arial':text='${index + 1}/${slideCount} · ${title}':x=80:y=645`;
+  };
+
+  const slideInputs = lesson.keyPoints.map((point, index) => {
+    const colorValue = colors[index % colors.length];
+    return ["-f", "lavfi", "-i", `color=c=${colorValue}:s=1280x720:d=${slideSeconds}`];
+  }).flat();
+  const filters = lesson.keyPoints.map((point, index) => `[${index}:v]${textFilterForSlide(index, point)}[v${index}]`).join(";");
+  const concat = `${lesson.keyPoints.map((_point, index) => `[v${index}]`).join("")}concat=n=${lesson.keyPoints.length}:v=1:a=0,format=yuv420p[outv]`;
+
+  const hasAudio = typeof audioPath === "string" && existsSync(audioPath);
+  const ffmpegArgs = [
+    "-hide_banner", "-loglevel", "error", "-y",
+    ...slideInputs,
+  ];
+  if (hasAudio) ffmpegArgs.push("-i", audioPath);
+  ffmpegArgs.push("-filter_complex", `${filters};${concat}`);
+  ffmpegArgs.push("-map", "[outv]");
+  if (hasAudio) ffmpegArgs.push("-map", `${slideCount}:a:0`);
+  ffmpegArgs.push("-shortest", "-c:v", "libx264", "-preset", "veryfast", "-crf", "27");
+  if (hasAudio) ffmpegArgs.push("-c:a", "aac", "-b:a", "96k");
+  ffmpegArgs.push("-movflags", "+faststart", videoPath);
+  await mkdir(dirname(videoPath), { recursive: true });
+  await runFfmpeg(ffmpegArgs);
+  await writeFile(captionsPath, makeVtt(lesson), "utf8");
 }
 
 async function ensureImage(lesson, kind, width, height) {
@@ -253,7 +262,7 @@ async function main() {
     const captionsPath = join(mediaRoot, "video", `${lesson.id}.vtt`);
 
     if (apiKey && (force || !existsSync(audioPath))) await generateSpeech(lesson, audioPath);
-    if (existsSync(audioPath) && (force || !existsSync(videoPath))) await generateVideo(lesson, audioPath, videoPath, captionsPath);
+    if (force || !existsSync(videoPath)) await generateVideo(lesson, audioPath, videoPath, captionsPath);
     else if (!existsSync(captionsPath) || force) {
       await mkdir(dirname(captionsPath), { recursive: true });
       await writeFile(captionsPath, makeVtt(lesson), "utf8");
@@ -278,7 +287,7 @@ async function main() {
   const audioCount = manifest.filter((lesson) => lesson.audioUrl).length;
   const videoCount = manifest.filter((lesson) => lesson.videoUrl).length;
   console.log(`Wrote ${manifest.length} draft lessons, ${manifest.length * 2} images, ${audioCount} audio files, and ${videoCount} narrated videos.`);
-  if (!apiKey) console.warn("OPENAI_API_KEY is not set: original SVG covers, diagrams, and caption files were generated; audio and narrated videos are deferred.");
+  if (!apiKey) console.warn("OPENAI_API_KEY is not set: original SVG covers and diagrams were generated; local slide-based MP4 explainers were created without narration.");
   else if (audioCount !== manifest.length || videoCount !== manifest.length) throw new Error("Media generation completed with missing audio/video outputs.");
 }
 

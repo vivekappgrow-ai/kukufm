@@ -249,13 +249,49 @@ function formatTime(seconds: number) {
   return `${Math.floor(wholeSeconds / 60)}:${String(wholeSeconds % 60).padStart(2, "0")}`;
 }
 
-function persistAudioPosition(key: string, seconds: number) {
+function persistAudioPosition(key: string, seconds: number, completed = false) {
   try {
     const positions = JSON.parse(localStorage.getItem("studyai-audio-positions") ?? "{}") as Record<string, number>;
     positions[key] = seconds;
     localStorage.setItem("studyai-audio-positions", JSON.stringify(positions));
   } catch (error) {
     console.error("Audio position could not be saved.", error);
+  }
+
+  const token = sessionStorage.getItem("studyai-auth-token") ?? sessionStorage.getItem("studyai-ai-tutor-token");
+  if (!token) return;
+  const progressCacheKey = `studyai-progress:${token}`;
+  try {
+    const cached = JSON.parse(sessionStorage.getItem(progressCacheKey) ?? "{}") as Record<string, { positionSeconds: number; completed?: boolean }>;
+    cached[key] = { positionSeconds: Math.floor(Math.max(0, seconds)), completed: Boolean(cached[key]?.completed || completed) };
+    sessionStorage.setItem(progressCacheKey, JSON.stringify(cached));
+  } catch (error) {
+    console.error("Authenticated learning progress cache could not be updated.", error);
+  }
+  void fetch("/api/progress", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ lessonId: key, positionSeconds: Math.floor(Math.max(0, seconds)), completed }),
+  }).then(async (response) => {
+    if (!response.ok) {
+      const result = await response.json().catch(() => ({})) as { error?: string };
+      throw new Error(result.error ?? `Progress sync failed (${response.status}).`);
+    }
+  }).catch((error: unknown) => console.error("Learning progress could not sync with the server.", error));
+}
+
+function readAudioPosition(key: string) {
+  const token = sessionStorage.getItem("studyai-auth-token") ?? sessionStorage.getItem("studyai-ai-tutor-token");
+  try {
+    if (token) {
+      const cached = JSON.parse(sessionStorage.getItem(`studyai-progress:${token}`) ?? "{}") as Record<string, { positionSeconds?: number }>;
+      return Number.isFinite(cached[key]?.positionSeconds) ? Math.max(0, cached[key].positionSeconds ?? 0) : 0;
+    }
+    const positions = JSON.parse(localStorage.getItem("studyai-audio-positions") ?? "{}") as Record<string, number>;
+    return Number.isFinite(positions[key]) ? Math.max(0, positions[key]) : 0;
+  } catch (error) {
+    console.error("Saved audio position could not be read.", error);
+    return 0;
   }
 }
 
@@ -363,6 +399,10 @@ export default function App() {
   useEffect(() => saveLocalRecord("studyai-bookmarks", bookmarks), [bookmarks]);
   useEffect(() => saveLocalRecord("studyai-notes", notes), [notes]);
   useEffect(() => saveLocalRecord("studyai-recent-courses", recentCourseIds), [recentCourseIds]);
+  useEffect(() => {
+    const token = sessionStorage.getItem("studyai-auth-token") ?? sessionStorage.getItem("studyai-ai-tutor-token");
+    if (token) void syncAuthenticatedProgress(token);
+  }, []);
 
   useEffect(() => () => {
     audioRef.current?.pause();
@@ -385,13 +425,8 @@ export default function App() {
     const progressKey = `${activeCourse.id}:${chapterIndex}`;
     const handleMetadata = () => {
       setAudioDuration(Number.isFinite(audio.duration) ? audio.duration : 0);
-      try {
-        const positions = JSON.parse(localStorage.getItem("studyai-audio-positions") ?? "{}") as Record<string, number>;
-        audio.currentTime = Math.min(positions[progressKey] ?? 0, Math.max(0, audio.duration - 1));
-        setElapsed(audio.currentTime);
-      } catch (error) {
-        console.error("Saved audio position could not be read.", error);
-      }
+      audio.currentTime = Math.min(readAudioPosition(progressKey), Math.max(0, audio.duration - 1));
+      setElapsed(audio.currentTime);
     };
     const handleTimeUpdate = () => {
       setElapsed(audio.currentTime);
@@ -402,7 +437,7 @@ export default function App() {
     const handleEnded = () => {
       setPlaying(false);
       setAudioLoading(false);
-      persistAudioPosition(progressKey, 0);
+      persistAudioPosition(progressKey, 0, true);
       setCompleted((value) => value + 1);
       setMinutes((value) => value + Math.max(1, Math.round(audio.duration / 60)));
       setCourses((items) => items.map((item) => item.id === activeCourse.id
@@ -790,6 +825,54 @@ export default function App() {
     setSavedIds((ids) => ids.includes(courseId) ? ids.filter((id) => id !== courseId) : [...ids, courseId]);
   }
 
+  async function createTutorSession() {
+    const authenticatedToken = sessionStorage.getItem("studyai-auth-token");
+    if (authenticatedToken) {
+      await syncAuthenticatedProgress(authenticatedToken);
+      return authenticatedToken;
+    }
+    if (!import.meta.env.DEV) {
+      throw new Error("Sign in with the configured identity provider to use the tutor.");
+    }
+    if (!guardianConsent) {
+      throw new Error("A parent or guardian must confirm the local demo profile before connecting the tutor.");
+    }
+    const response = await fetch("/api/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name || "Demo learner", ageBand: "under18", parentConsent: guardianConsent, classLevel: studentClass, language: studyLanguage }),
+    });
+    const session = await response.json() as { token?: string; demoOnly?: boolean; error?: string };
+    if (!response.ok) throw new Error(session.error ?? `Tutor session request failed (${response.status}).`);
+    if (!session.token || session.demoOnly !== true) throw new Error("The development tutor session could not be verified.");
+    sessionStorage.setItem("studyai-ai-tutor-token", session.token);
+    await syncAuthenticatedProgress(session.token);
+    setNotice("Local development session only. This is not verified student authentication or consent.");
+    return session.token;
+  }
+
+  async function syncAuthenticatedProgress(token: string) {
+    try {
+      const response = await fetch("/api/progress", { headers: { Authorization: `Bearer ${token}` } });
+      const result = await response.json() as { progress?: { lessonId: string; positionSeconds: number; completed: boolean }[]; error?: string };
+      if (!response.ok) throw new Error(result.error ?? `Progress sync failed (${response.status}).`);
+      if (!Array.isArray(result.progress)) throw new Error("The progress API returned an invalid response.");
+      const cached = Object.fromEntries(result.progress.map((entry) => [
+        entry.lessonId,
+        { positionSeconds: entry.positionSeconds, completed: entry.completed },
+      ]));
+      sessionStorage.setItem(`studyai-progress:${token}`, JSON.stringify(cached));
+      const activeProgress = cached[`${activeCourse.id}:${chapterIndex}`] as { positionSeconds: number } | undefined;
+      if (!playing && activeProgress && audioRef.current && Number.isFinite(audioRef.current.duration)) {
+        audioRef.current.currentTime = Math.min(activeProgress.positionSeconds, Math.max(0, audioRef.current.duration - 1));
+        setElapsed(audioRef.current.currentTime);
+      }
+    } catch (error) {
+      console.error("Authenticated learning progress could not be loaded.", error);
+      setNotice("Your saved progress could not sync. Playback will continue with this device's saved position.");
+    }
+  }
+
   async function signIn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!name.trim() || !guardianConsent) return;
@@ -905,6 +988,7 @@ export default function App() {
     onNavigate: setView,
     onPlayback: togglePlayback,
     onNotice: setNotice,
+    onCreateTutorSession: createTutorSession,
   };
 
   return (

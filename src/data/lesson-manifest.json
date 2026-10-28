@@ -13,7 +13,7 @@
     "coverImage": "/media/images/class5-fractions-sharing-roti-cover.svg",
     "diagramImage": "/media/images/class5-fractions-sharing-roti-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-fractions-sharing-roti.mp4",
     "captionsUrl": "/media/video/class5-fractions-sharing-roti.vtt",
     "keyPoints": [
       "Fraction poori cheez ke equal parts dikhata hai.",
@@ -70,7 +70,7 @@
     "coverImage": "/media/images/class5-fractions-number-line-cover.svg",
     "diagramImage": "/media/images/class5-fractions-number-line-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-fractions-number-line.mp4",
     "captionsUrl": "/media/video/class5-fractions-number-line.vtt",
     "keyPoints": [
       "Zero se one tak ki line ek whole hoti hai.",
@@ -127,7 +127,7 @@
     "coverImage": "/media/images/class5-fractions-equivalent-cover.svg",
     "diagramImage": "/media/images/class5-fractions-equivalent-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-fractions-equivalent.mp4",
     "captionsUrl": "/media/video/class5-fractions-equivalent.vtt",
     "keyPoints": [
       "Equivalent fractions same amount dikhate hain.",
@@ -184,7 +184,7 @@
     "coverImage": "/media/images/class5-decimals-rupees-paise-cover.svg",
     "diagramImage": "/media/images/class5-decimals-rupees-paise-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-decimals-rupees-paise.mp4",
     "captionsUrl": "/media/video/class5-decimals-rupees-paise.vtt",
     "keyPoints": [
       "Decimal point rupees aur paise ko alag karta hai.",
@@ -241,7 +241,7 @@
     "coverImage": "/media/images/class5-decimals-place-value-cover.svg",
     "diagramImage": "/media/images/class5-decimals-place-value-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-decimals-place-value.mp4",
     "captionsUrl": "/media/video/class5-decimals-place-value.vtt",
     "keyPoints": [
       "Decimal point ke baad pehli place tenths hoti hai.",
@@ -298,7 +298,7 @@
     "coverImage": "/media/images/class5-geometry-shapes-around-us-cover.svg",
     "diagramImage": "/media/images/class5-geometry-shapes-around-us-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-geometry-shapes-around-us.mp4",
     "captionsUrl": "/media/video/class5-geometry-shapes-around-us.vtt",
     "keyPoints": [
       "Geometry shapes, lines, corners aur angles ka study hai.",
@@ -355,7 +355,7 @@
     "coverImage": "/media/images/class5-geometry-perimeter-walk-cover.svg",
     "diagramImage": "/media/images/class5-geometry-perimeter-walk-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-geometry-perimeter-walk.mp4",
     "captionsUrl": "/media/video/class5-geometry-perimeter-walk.vtt",
     "keyPoints": [
       "Perimeter bahari boundary ki total length hai.",
@@ -412,7 +412,7 @@
     "coverImage": "/media/images/class5-water-cycle-sun-to-cloud-cover.svg",
     "diagramImage": "/media/images/class5-water-cycle-sun-to-cloud-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-water-cycle-sun-to-cloud.mp4",
     "captionsUrl": "/media/video/class5-water-cycle-sun-to-cloud.vtt",
     "keyPoints": [
       "Dhoop liquid paani ko water vapour bana sakti hai.",
@@ -469,7 +469,7 @@
     "coverImage": "/media/images/class5-water-cycle-rain-returns-cover.svg",
     "diagramImage": "/media/images/class5-water-cycle-rain-returns-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-water-cycle-rain-returns.mp4",
     "captionsUrl": "/media/video/class5-water-cycle-rain-returns.vtt",
     "keyPoints": [
       "Cloud droplets badi hokar precipitation ke roop mein girti hain.",
@@ -526,7 +526,7 @@
     "coverImage": "/media/images/class5-water-cycle-cycle-in-a-cup-cover.svg",
     "diagramImage": "/media/images/class5-water-cycle-cycle-in-a-cup-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-water-cycle-cycle-in-a-cup.mp4",
     "captionsUrl": "/media/video/class5-water-cycle-cycle-in-a-cup.vtt",
     "keyPoints": [
       "Water cycle ko kisi bhi stage se samjha ja sakta hai.",
@@ -583,7 +583,7 @@
     "coverImage": "/media/images/class5-plants-roots-stems-leaves-cover.svg",
     "diagramImage": "/media/images/class5-plants-roots-stems-leaves-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-plants-roots-stems-leaves.mp4",
     "captionsUrl": "/media/video/class5-plants-roots-stems-leaves.vtt",
     "keyPoints": [
       "Roots plant ko anchor aur paani lene mein madad karti hain.",
@@ -640,7 +640,7 @@
     "coverImage": "/media/images/class5-plants-seed-to-sprout-cover.svg",
     "diagramImage": "/media/images/class5-plants-seed-to-sprout-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-plants-seed-to-sprout.mp4",
     "captionsUrl": "/media/video/class5-plants-seed-to-sprout.vtt",
     "keyPoints": [
       "Suitable moisture, air aur warmth germination mein madad karte hain.",
@@ -697,7 +697,7 @@
     "coverImage": "/media/images/class5-plants-flowers-and-fruits-cover.svg",
     "diagramImage": "/media/images/class5-plants-flowers-and-fruits-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-plants-flowers-and-fruits.mp4",
     "captionsUrl": "/media/video/class5-plants-flowers-and-fruits.vtt",
     "keyPoints": [
       "Flower kai plants ka reproductive part hota hai.",
@@ -754,7 +754,7 @@
     "coverImage": "/media/images/class5-body-breath-and-heart-cover.svg",
     "diagramImage": "/media/images/class5-body-breath-and-heart-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-body-breath-and-heart.mp4",
     "captionsUrl": "/media/video/class5-body-breath-and-heart.vtt",
     "keyPoints": [
       "Lungs saans ki hawa se oxygen lene mein madad karte hain.",
@@ -811,7 +811,7 @@
     "coverImage": "/media/images/class5-body-food-to-energy-cover.svg",
     "diagramImage": "/media/images/class5-body-food-to-energy-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-body-food-to-energy.mp4",
     "captionsUrl": "/media/video/class5-body-food-to-energy.vtt",
     "keyPoints": [
       "Digestion food ko chhote useful parts mein todta hai.",
@@ -868,7 +868,7 @@
     "coverImage": "/media/images/class5-maths-fractions-fractions-in-a-recipe-cover.svg",
     "diagramImage": "/media/images/class5-maths-fractions-fractions-in-a-recipe-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-fractions-fractions-in-a-recipe.mp4",
     "captionsUrl": "/media/video/class5-maths-fractions-fractions-in-a-recipe.vtt",
     "keyPoints": [
       "Fraction ek whole cheez ke barabar hisson mein se kuch hisson ko dikhata hai.",
@@ -925,7 +925,7 @@
     "coverImage": "/media/images/class5-maths-fractions-compare-fractions-visually-cover.svg",
     "diagramImage": "/media/images/class5-maths-fractions-compare-fractions-visually-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-fractions-compare-fractions-visually.mp4",
     "captionsUrl": "/media/video/class5-maths-fractions-compare-fractions-visually.vtt",
     "keyPoints": [
       "Same denominator wale fractions mein numerator batata hai ki kitne equal parts liye gaye.",
@@ -982,7 +982,7 @@
     "coverImage": "/media/images/class5-maths-decimals-tenths-on-a-number-line-cover.svg",
     "diagramImage": "/media/images/class5-maths-decimals-tenths-on-a-number-line-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-decimals-tenths-on-a-number-line.mp4",
     "captionsUrl": "/media/video/class5-maths-decimals-tenths-on-a-number-line.vtt",
     "keyPoints": [
       "Decimal point ke baad pehla digit tenths batata hai.",
@@ -1039,7 +1039,7 @@
     "coverImage": "/media/images/class5-maths-decimals-rupees-and-paise-cover.svg",
     "diagramImage": "/media/images/class5-maths-decimals-rupees-and-paise-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-decimals-rupees-and-paise.mp4",
     "captionsUrl": "/media/video/class5-maths-decimals-rupees-and-paise.vtt",
     "keyPoints": [
       "Ek rupaye mein 100 paise hote hain; decimal rupees aur paise ko saath dikhata hai.",
@@ -1096,7 +1096,7 @@
     "coverImage": "/media/images/class5-maths-decimals-compare-decimal-amounts-cover.svg",
     "diagramImage": "/media/images/class5-maths-decimals-compare-decimal-amounts-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-decimals-compare-decimal-amounts.mp4",
     "captionsUrl": "/media/video/class5-maths-decimals-compare-decimal-amounts.vtt",
     "keyPoints": [
       "Decimal numbers compare karte waqt place value aur equal decimal places dekho.",
@@ -1153,7 +1153,7 @@
     "coverImage": "/media/images/class5-maths-geometry-angles-around-us-cover.svg",
     "diagramImage": "/media/images/class5-maths-geometry-angles-around-us-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-geometry-angles-around-us.mp4",
     "captionsUrl": "/media/video/class5-maths-geometry-angles-around-us.vtt",
     "keyPoints": [
       "Angle do lines ya rays ke beech ka opening hota hai.",
@@ -1210,7 +1210,7 @@
     "coverImage": "/media/images/class5-maths-geometry-perimeter-walk-cover.svg",
     "diagramImage": "/media/images/class5-maths-geometry-perimeter-walk-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-geometry-perimeter-walk.mp4",
     "captionsUrl": "/media/video/class5-maths-geometry-perimeter-walk.vtt",
     "keyPoints": [
       "Closed shape ka perimeter uski boundary ke sab side lengths ka total hai.",
@@ -1267,7 +1267,7 @@
     "coverImage": "/media/images/class5-maths-geometry-symmetry-in-patterns-cover.svg",
     "diagramImage": "/media/images/class5-maths-geometry-symmetry-in-patterns-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-geometry-symmetry-in-patterns.mp4",
     "captionsUrl": "/media/video/class5-maths-geometry-symmetry-in-patterns.vtt",
     "keyPoints": [
       "Line symmetry mein shape fold karne par dono taraf ke parts match karte hain.",
@@ -1324,7 +1324,7 @@
     "coverImage": "/media/images/class5-maths-word-problems-choose-the-operation-cover.svg",
     "diagramImage": "/media/images/class5-maths-word-problems-choose-the-operation-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-word-problems-choose-the-operation.mp4",
     "captionsUrl": "/media/video/class5-maths-word-problems-choose-the-operation.vtt",
     "keyPoints": [
       "Pehle sawaal mein dekho ki cheezein jud rahi hain, baanti ja rahi hain, ya compare ho rahi hain.",
@@ -1381,7 +1381,7 @@
     "coverImage": "/media/images/class5-maths-word-problems-sharing-equally-cover.svg",
     "diagramImage": "/media/images/class5-maths-word-problems-sharing-equally-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-word-problems-sharing-equally.mp4",
     "captionsUrl": "/media/video/class5-maths-word-problems-sharing-equally.vtt",
     "keyPoints": [
       "Barabar baantne wale sawaal mein total vastuon ko logon ki sankhya se divide karte hain.",
@@ -1438,7 +1438,7 @@
     "coverImage": "/media/images/class5-maths-word-problems-compare-two-amounts-cover.svg",
     "diagramImage": "/media/images/class5-maths-word-problems-compare-two-amounts-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-word-problems-compare-two-amounts.mp4",
     "captionsUrl": "/media/video/class5-maths-word-problems-compare-two-amounts.vtt",
     "keyPoints": [
       "Difference poochha ho to badi sankhya mein se chhoti sankhya ghatao.",
@@ -1495,7 +1495,7 @@
     "coverImage": "/media/images/class5-maths-word-problems-two-step-story-sums-cover.svg",
     "diagramImage": "/media/images/class5-maths-word-problems-two-step-story-sums-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-word-problems-two-step-story-sums.mp4",
     "captionsUrl": "/media/video/class5-maths-word-problems-two-step-story-sums.vtt",
     "keyPoints": [
       "Kuch sawaalon mein pehle total banta hai, phir us total ko groups mein baantna hota hai.",
@@ -1552,7 +1552,7 @@
     "coverImage": "/media/images/class5-maths-word-problems-estimate-before-solving-cover.svg",
     "diagramImage": "/media/images/class5-maths-word-problems-estimate-before-solving-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-word-problems-estimate-before-solving.mp4",
     "captionsUrl": "/media/video/class5-maths-word-problems-estimate-before-solving.vtt",
     "keyPoints": [
       "Estimate ka matlab exact jawab se pehle aas-paas ka jawab sochna hai.",
@@ -1609,7 +1609,7 @@
     "coverImage": "/media/images/class5-maths-measurement-metres-and-centimetres-cover.svg",
     "diagramImage": "/media/images/class5-maths-measurement-metres-and-centimetres-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-measurement-metres-and-centimetres.mp4",
     "captionsUrl": "/media/video/class5-maths-measurement-metres-and-centimetres.vtt",
     "keyPoints": [
       "Ek metre mein 100 centimetres hote hain; unit badalte waqt 100 ke groups gino.",
@@ -1666,7 +1666,7 @@
     "coverImage": "/media/images/class5-maths-measurement-mass-in-grams-and-kilograms-cover.svg",
     "diagramImage": "/media/images/class5-maths-measurement-mass-in-grams-and-kilograms-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-measurement-mass-in-grams-and-kilograms.mp4",
     "captionsUrl": "/media/video/class5-maths-measurement-mass-in-grams-and-kilograms.vtt",
     "keyPoints": [
       "Ek kilogram mein 1000 grams hote hain, isliye chhoti cheezon ke liye gram kaam aata hai.",
@@ -1723,7 +1723,7 @@
     "coverImage": "/media/images/class5-maths-measurement-litres-and-millilitres-cover.svg",
     "diagramImage": "/media/images/class5-maths-measurement-litres-and-millilitres-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-measurement-litres-and-millilitres.mp4",
     "captionsUrl": "/media/video/class5-maths-measurement-litres-and-millilitres.vtt",
     "keyPoints": [
       "Ek litre mein 1000 millilitres hote hain; bottle ki capacity isi relation se samjho.",
@@ -1780,7 +1780,7 @@
     "coverImage": "/media/images/class5-maths-measurement-read-a-clock-cover.svg",
     "diagramImage": "/media/images/class5-maths-measurement-read-a-clock-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-measurement-read-a-clock.mp4",
     "captionsUrl": "/media/video/class5-maths-measurement-read-a-clock.vtt",
     "keyPoints": [
       "Clock par chhoti sui hour aur lambi sui minutes dikhati hai.",
@@ -1837,7 +1837,7 @@
     "coverImage": "/media/images/class5-maths-measurement-perimeter-with-units-cover.svg",
     "diagramImage": "/media/images/class5-maths-measurement-perimeter-with-units-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-maths-measurement-perimeter-with-units.mp4",
     "captionsUrl": "/media/video/class5-maths-measurement-perimeter-with-units.vtt",
     "keyPoints": [
       "Perimeter kisi band shape ke sab side lengths ka total hota hai.",
@@ -1894,7 +1894,7 @@
     "coverImage": "/media/images/class5-science-water-cycle-water-changes-state-cover.svg",
     "diagramImage": "/media/images/class5-science-water-cycle-water-changes-state-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-water-cycle-water-changes-state.mp4",
     "captionsUrl": "/media/video/class5-science-water-cycle-water-changes-state.vtt",
     "keyPoints": [
       "Garmi se liquid paani vapour ban sakta hai aur thandak se vapour boondon mein badal sakta hai.",
@@ -1951,7 +1951,7 @@
     "coverImage": "/media/images/class5-science-water-cycle-rain-returns-water-cover.svg",
     "diagramImage": "/media/images/class5-science-water-cycle-rain-returns-water-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-water-cycle-rain-returns-water.mp4",
     "captionsUrl": "/media/video/class5-science-water-cycle-rain-returns-water.vtt",
     "keyPoints": [
       "Badalon ki boondein jab bhaari hoti hain to varsha ke roop mein neeche gir sakti hain.",
@@ -2008,7 +2008,7 @@
     "coverImage": "/media/images/class5-science-plants-leaves-use-sunlight-cover.svg",
     "diagramImage": "/media/images/class5-science-plants-leaves-use-sunlight-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-plants-leaves-use-sunlight.mp4",
     "captionsUrl": "/media/video/class5-science-plants-leaves-use-sunlight.vtt",
     "keyPoints": [
       "Patte sunlight, hawa aur paani ki madad se plant ke liye food banane mein kaam karte hain.",
@@ -2065,7 +2065,7 @@
     "coverImage": "/media/images/class5-science-plants-roots-hold-and-absorb-cover.svg",
     "diagramImage": "/media/images/class5-science-plants-roots-hold-and-absorb-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-plants-roots-hold-and-absorb.mp4",
     "captionsUrl": "/media/video/class5-science-plants-roots-hold-and-absorb.vtt",
     "keyPoints": [
       "Jadein paudhe ko mitti mein pakadti hain aur paani lene mein madad karti hain.",
@@ -2122,7 +2122,7 @@
     "coverImage": "/media/images/class5-science-our-body-food-travels-through-the-body-cover.svg",
     "diagramImage": "/media/images/class5-science-our-body-food-travels-through-the-body-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-our-body-food-travels-through-the-body.mp4",
     "captionsUrl": "/media/video/class5-science-our-body-food-travels-through-the-body.vtt",
     "keyPoints": [
       "Khaana chabane ke baad body use chhote parts mein todti hai taaki nutrients mil saken.",
@@ -2179,7 +2179,7 @@
     "coverImage": "/media/images/class5-science-our-body-lungs-help-us-breathe-cover.svg",
     "diagramImage": "/media/images/class5-science-our-body-lungs-help-us-breathe-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-our-body-lungs-help-us-breathe.mp4",
     "captionsUrl": "/media/video/class5-science-our-body-lungs-help-us-breathe.vtt",
     "keyPoints": [
       "Saans lete waqt hawa lungs tak jaati hai; body oxygen ka use karti hai.",
@@ -2236,7 +2236,7 @@
     "coverImage": "/media/images/class5-science-our-body-the-heart-moves-blood-cover.svg",
     "diagramImage": "/media/images/class5-science-our-body-the-heart-moves-blood-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-our-body-the-heart-moves-blood.mp4",
     "captionsUrl": "/media/video/class5-science-our-body-the-heart-moves-blood.vtt",
     "keyPoints": [
       "Heart ek muscle hai jo blood ko body ke alag parts tak pump karta hai.",
@@ -2293,7 +2293,7 @@
     "coverImage": "/media/images/class5-science-food-build-a-balanced-plate-cover.svg",
     "diagramImage": "/media/images/class5-science-food-build-a-balanced-plate-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-food-build-a-balanced-plate.mp4",
     "captionsUrl": "/media/video/class5-science-food-build-a-balanced-plate.vtt",
     "keyPoints": [
       "Alag-alag food groups body ko energy, growth aur sehat ke liye alag nutrients dete hain.",
@@ -2350,7 +2350,7 @@
     "coverImage": "/media/images/class5-science-food-carbohydrates-give-energy-cover.svg",
     "diagramImage": "/media/images/class5-science-food-carbohydrates-give-energy-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-food-carbohydrates-give-energy.mp4",
     "captionsUrl": "/media/video/class5-science-food-carbohydrates-give-energy.vtt",
     "keyPoints": [
       "Roti aur chawal jaise foods carbohydrates dete hain, jo daily activity ke liye energy mein madad karte hain.",
@@ -2407,7 +2407,7 @@
     "coverImage": "/media/images/class5-science-food-protein-helps-growth-cover.svg",
     "diagramImage": "/media/images/class5-science-food-protein-helps-growth-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-food-protein-helps-growth.mp4",
     "captionsUrl": "/media/video/class5-science-food-protein-helps-growth.vtt",
     "keyPoints": [
       "Protein body ko grow aur repair karne mein madad karta hai.",
@@ -2464,7 +2464,7 @@
     "coverImage": "/media/images/class5-science-food-food-hygiene-matters-cover.svg",
     "diagramImage": "/media/images/class5-science-food-food-hygiene-matters-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-food-food-hygiene-matters.mp4",
     "captionsUrl": "/media/video/class5-science-food-food-hygiene-matters.vtt",
     "keyPoints": [
       "Saaf haath aur clean utensils food ke saath germs pahunchne ka risk kam karte hain.",
@@ -2521,7 +2521,7 @@
     "coverImage": "/media/images/class5-science-food-store-food-safely-cover.svg",
     "diagramImage": "/media/images/class5-science-food-store-food-safely-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-food-store-food-safely.mp4",
     "captionsUrl": "/media/video/class5-science-food-store-food-safely.vtt",
     "keyPoints": [
       "Food ko dhak kar aur sahi jagah rakhna use dust aur insects se bachane mein madad karta hai.",
@@ -2578,7 +2578,7 @@
     "coverImage": "/media/images/class5-science-light-light-travels-from-a-source-cover.svg",
     "diagramImage": "/media/images/class5-science-light-light-travels-from-a-source-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-light-light-travels-from-a-source.mp4",
     "captionsUrl": "/media/video/class5-science-light-light-travels-from-a-source.vtt",
     "keyPoints": [
       "Hum tab dekhte hain jab roshni kisi object se reflect hokar aankhon tak pahunchti hai.",
@@ -2635,7 +2635,7 @@
     "coverImage": "/media/images/class5-science-light-shadows-need-light-cover.svg",
     "diagramImage": "/media/images/class5-science-light-shadows-need-light-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-light-shadows-need-light.mp4",
     "captionsUrl": "/media/video/class5-science-light-shadows-need-light.vtt",
     "keyPoints": [
       "Shadow tab banti hai jab object light ka raasta rokta hai.",
@@ -2692,7 +2692,7 @@
     "coverImage": "/media/images/class5-science-light-mirrors-reflect-light-cover.svg",
     "diagramImage": "/media/images/class5-science-light-mirrors-reflect-light-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-light-mirrors-reflect-light.mp4",
     "captionsUrl": "/media/video/class5-science-light-mirrors-reflect-light.vtt",
     "keyPoints": [
       "Smooth mirror light ko reflect karta hai, isliye usme image dikh sakti hai.",
@@ -2749,7 +2749,7 @@
     "coverImage": "/media/images/class5-science-light-materials-and-light-cover.svg",
     "diagramImage": "/media/images/class5-science-light-materials-and-light-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-light-materials-and-light.mp4",
     "captionsUrl": "/media/video/class5-science-light-materials-and-light.vtt",
     "keyPoints": [
       "Kuch materials light ko pass karte, kuch thoda pass karte, aur kuch rok dete hain.",
@@ -2806,7 +2806,7 @@
     "coverImage": "/media/images/class5-science-light-colours-in-white-light-cover.svg",
     "diagramImage": "/media/images/class5-science-light-colours-in-white-light-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-light-colours-in-white-light.mp4",
     "captionsUrl": "/media/video/class5-science-light-colours-in-white-light.vtt",
     "keyPoints": [
       "White light alag colours ka mix ho sakti hai; prism use rangon mein baant sakta hai.",
@@ -2863,7 +2863,7 @@
     "coverImage": "/media/images/class5-science-animals-animals-need-habitats-cover.svg",
     "diagramImage": "/media/images/class5-science-animals-animals-need-habitats-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-animals-animals-need-habitats.mp4",
     "captionsUrl": "/media/video/class5-science-animals-animals-need-habitats.vtt",
     "keyPoints": [
       "Habitat woh jagah hai jahan animal ko food, water aur shelter milta hai.",
@@ -2920,7 +2920,7 @@
     "coverImage": "/media/images/class5-science-animals-body-parts-help-animals-cover.svg",
     "diagramImage": "/media/images/class5-science-animals-body-parts-help-animals-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-animals-body-parts-help-animals.mp4",
     "captionsUrl": "/media/video/class5-science-animals-body-parts-help-animals.vtt",
     "keyPoints": [
       "Animals ke body parts unhe chalne, khane, bachne aur apne environment mein rehne mein madad karte hain.",
@@ -2977,7 +2977,7 @@
     "coverImage": "/media/images/class5-science-animals-animal-life-cycles-cover.svg",
     "diagramImage": "/media/images/class5-science-animals-animal-life-cycles-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-animals-animal-life-cycles.mp4",
     "captionsUrl": "/media/video/class5-science-animals-animal-life-cycles.vtt",
     "keyPoints": [
       "Kai animals life ke alag stages se guzarte hain; har stage ka shape aur kaam badal sakta hai.",
@@ -3034,7 +3034,7 @@
     "coverImage": "/media/images/class5-science-animals-food-chains-connect-life-cover.svg",
     "diagramImage": "/media/images/class5-science-animals-food-chains-connect-life-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-animals-food-chains-connect-life.mp4",
     "captionsUrl": "/media/video/class5-science-animals-food-chains-connect-life.vtt",
     "keyPoints": [
       "Food chain dikhati hai ki energy ek living thing se doosri tak kaise jaati hai.",
@@ -3091,7 +3091,7 @@
     "coverImage": "/media/images/class5-science-animals-care-for-local-wildlife-cover.svg",
     "diagramImage": "/media/images/class5-science-animals-care-for-local-wildlife-diagram.svg",
     "audioUrl": null,
-    "videoUrl": null,
+    "videoUrl": "/media/video/class5-science-animals-care-for-local-wildlife.mp4",
     "captionsUrl": "/media/video/class5-science-animals-care-for-local-wildlife.vtt",
     "keyPoints": [
       "Animals ko space, clean water aur respectful distance chahiye hoti hai.",

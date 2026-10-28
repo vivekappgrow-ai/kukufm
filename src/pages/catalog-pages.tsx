@@ -3,6 +3,7 @@ import {
   ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, AudioLines, BookOpen,
   Bookmark, Check, ChevronDown, Clock3, Compass, Download, Filter, Headphones,
   Heart, Mic, Play, Search, Sparkles, Star, Video,
+  ShieldCheck,
 } from "lucide-react";
 
 export type CatalogCourse = {
@@ -73,6 +74,7 @@ export type CatalogProps = {
   onNavigate: (view: CatalogView) => void;
   onPlayback: () => void;
   onNotice: (message: string) => void;
+  onCreateTutorSession: () => Promise<string>;
 };
 
 export function Chip({ children, active = false, onClick }: { children: React.ReactNode; active?: boolean; onClick?: () => void }) {
@@ -463,7 +465,148 @@ function ProfilePage(props: CatalogProps) {
 }
 
 function AiTutorPage(props: CatalogProps) {
-  return <div className="catalog-page"><Header eyebrow="A FRIENDLY PLACE TO ASK" title="AI Tutor" detail="Chat, voice, and camera learning modes are part of the next implementation phase." /><section className="ai-preview-card"><span><Sparkles size={24} /></span><div><h2>Learn one step at a time</h2><p>Ask a question about the lesson you’re listening to. This app’s current tutor is a local demo and does not send questions to an AI provider.</p><button className="catalog-secondary" onClick={() => props.onNotice("Live AI modes are planned for Phase 3.")}>See what’s available <ArrowRight size={15} /></button></div></section><div className="catalog-prompt-row">{["Explain simply", "Give an example", "Quiz me"].map((prompt) => <Chip key={prompt} onClick={() => props.onNotice("Live AI responses are not enabled in this demo.")}>{prompt}</Chip>)}</div></div>;
+  const [token, setToken] = useState(() => sessionStorage.getItem("studyai-auth-token") ?? sessionStorage.getItem("studyai-ai-tutor-token") ?? "");
+  const [lessons, setLessons] = useState<{ id: string; title: string; subject: string; chapter: string }[]>([]);
+  const [lessonId, setLessonId] = useState("");
+  const [messages, setMessages] = useState<{ role: "student" | "tutor"; text: string }[]>([]);
+  const [question, setQuestion] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [connecting, setConnecting] = useState(false);
+  const [consent, setConsent] = useState(false);
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+
+  useEffect(() => {
+    if (!token) return;
+    let cancelled = false;
+    void (async () => {
+      setError("");
+      try {
+        const response = await fetch("/api/lessons", { headers: { Authorization: `Bearer ${token}` } });
+        const result = await response.json() as { lessons?: unknown; error?: string };
+        if (!response.ok) throw new Error(result.error ?? `Lesson request failed (${response.status}).`);
+        if (!Array.isArray(result.lessons)) throw new Error("The lesson service returned an invalid response.");
+        const approved = result.lessons.filter((lesson): lesson is { id: string; title: string; subject: string; chapter: string; status: string } =>
+          typeof lesson === "object" && lesson !== null
+          && typeof (lesson as Record<string, unknown>).id === "string"
+          && typeof (lesson as Record<string, unknown>).title === "string"
+          && typeof (lesson as Record<string, unknown>).subject === "string"
+          && typeof (lesson as Record<string, unknown>).chapter === "string"
+          && (lesson as Record<string, unknown>).status === "approved");
+        if (!cancelled) {
+          setLessons(approved);
+          setLessonId((current) => approved.some((lesson) => lesson.id === current) ? current : approved[0]?.id ?? "");
+        }
+      } catch (reason) {
+        if (!cancelled) setError(reason instanceof Error ? reason.message : "Approved lessons could not be loaded.");
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [token]);
+
+  async function connect() {
+    setConnecting(true);
+    setError("");
+    setNotice("");
+    try {
+      const nextToken = await props.onCreateTutorSession();
+      setToken(nextToken);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "A tutor session could not be created.");
+    } finally {
+      setConnecting(false);
+    }
+  }
+
+  async function askTutor(text = question) {
+    const prompt = text.trim();
+    if (!prompt || !token || !lessonId || loading) return;
+    setQuestion("");
+    setError("");
+    setNotice("");
+    setMessages((items) => [...items, { role: "student", text: prompt }]);
+    setLoading(true);
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ question: prompt, lessonId }),
+      });
+      if (!response.ok) {
+        const result = await response.json() as { error?: string };
+        throw new Error(result.error ?? `Tutor request failed (${response.status}).`);
+      }
+      if (!response.body) throw new Error("The tutor returned no response stream.");
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let answer = "";
+      let done = false;
+      while (!done) {
+        const chunk = await reader.read();
+        done = chunk.done;
+        buffer += decoder.decode(chunk.value, { stream: !done });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6);
+          if (data === "[DONE]") continue;
+          const event = JSON.parse(data) as { delta?: string; error?: string };
+          if (event.error) throw new Error(event.error);
+          if (typeof event.delta === "string") answer += event.delta;
+        }
+      }
+      if (buffer.startsWith("data: ") && buffer.slice(6) !== "[DONE]") {
+        const event = JSON.parse(buffer.slice(6)) as { delta?: string; error?: string };
+        if (event.error) throw new Error(event.error);
+        if (typeof event.delta === "string") answer += event.delta;
+      }
+      if (!answer.trim()) throw new Error("The tutor returned an empty answer. Please try again.");
+      setMessages((items) => [...items, { role: "tutor", text: answer }]);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "The tutor could not answer right now.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return <div className="catalog-page">
+    <Header eyebrow="A FRIENDLY PLACE TO ASK" title="AI Tutor" detail="Get a lesson-grounded explanation from the configured AI provider." />
+    {!token ? <section className="ai-preview-card">
+      <span><Sparkles size={24} /></span>
+      <div>
+        <h2>Connect to the tutor</h2>
+        <p>Questions are sent to the server-configured AI provider and are not saved by this chat. Never include names, contact details, or other personal information.</p>
+        <label className="ai-tutor-consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /><span>I understand this local development tutor sends my lesson question to the configured AI service. I will not submit personal or sensitive information.</span></label>
+        <button className="catalog-primary" disabled={!consent || connecting} onClick={() => void connect()}>{connecting ? "Connecting…" : "Connect tutor"} <ArrowRight size={15} /></button>
+        {import.meta.env.DEV && <small className="ai-tutor-caption">A development session is available locally. Production requires a trusted identity-provider token.</small>}
+      </div>
+    </section> : <>
+      {error && <p className="ai-tutor-error" role="alert">{error}</p>}
+      {notice && <p className="ai-tutor-notice" role="status">{notice}</p>}
+      <section className="ai-tutor-workspace">
+        <label className="ai-tutor-lesson">Approved lesson
+          <select value={lessonId} onChange={(event) => { setLessonId(event.target.value); setMessages([]); }} disabled={!lessons.length || loading}>
+            {lessons.length ? lessons.map((lesson) => <option key={lesson.id} value={lesson.id}>{lesson.title} · {lesson.subject}</option>) : <option value="">No approved lessons</option>}
+          </select>
+        </label>
+        {!lessons.length ? <div className="ai-tutor-empty"><BookOpen size={22} /><strong>No teacher-approved lessons yet</strong><span>For learner safety, the tutor only answers from approved lesson material. A teacher must review and publish a lesson before it can be used here.</span></div> : <>
+          <div className="ai-tutor-messages" aria-live="polite">
+            {!messages.length && <p className="ai-tutor-empty-copy">Choose a lesson and ask a question. The tutor uses that approved lesson as its source.</p>}
+            {messages.map((message, index) => <article key={`${index}-${message.role}`} className={`ai-tutor-message ${message.role}`}>{message.role === "tutor" && <Sparkles size={15} />}<div><strong>{message.role === "student" ? "You" : "StudyAI tutor"}</strong><p>{message.text}</p></div></article>)}
+            {loading && <p className="ai-tutor-loading" role="status">Checking the lesson and preparing an explanation…</p>}
+          </div>
+          <div className="ai-tutor-prompts">{["Explain this simply", "Give me an example", "Quiz me"].map((prompt) => <button key={prompt} disabled={loading} onClick={() => void askTutor(prompt)}>{prompt}</button>)}</div>
+          <form className="ai-tutor-compose" onSubmit={(event) => { event.preventDefault(); void askTutor(); }}>
+            <textarea value={question} onChange={(event) => setQuestion(event.target.value)} maxLength={1000} rows={2} disabled={loading} placeholder="Ask about the selected lesson…" aria-label="Ask the AI tutor" />
+            <button className="catalog-primary" type="submit" disabled={loading || !question.trim()}>{loading ? "Thinking…" : "Ask"} <ArrowRight size={15} /></button>
+          </form>
+        </>}
+      </section>
+      <p className="ai-tutor-caption"><ShieldCheck size={14} /> Answers are checked for safety and limited to teacher-approved lesson content. Chat history is not saved.</p>
+    </>}
+  </div>;
 }
 
 function ParentPage(props: CatalogProps) {

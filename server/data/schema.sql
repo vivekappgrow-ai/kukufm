@@ -37,6 +37,14 @@ CREATE TABLE IF NOT EXISTS tutor_usage (
   PRIMARY KEY (user_id, usage_date, feature)
 );
 
+CREATE TABLE IF NOT EXISTS tutor_request_usage (
+  user_id TEXT NOT NULL,
+  usage_date DATE NOT NULL,
+  feature TEXT NOT NULL,
+  requests INTEGER NOT NULL DEFAULT 0 CHECK (requests >= 0),
+  PRIMARY KEY (user_id, usage_date, feature)
+);
+
 CREATE TABLE IF NOT EXISTS subscriptions (
   user_id TEXT PRIMARY KEY,
   plan_id TEXT NOT NULL DEFAULT 'free',

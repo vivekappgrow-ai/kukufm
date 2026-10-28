@@ -9,6 +9,8 @@
     "agent": "node agent/index.mjs start",
     "agent:dev": "node agent/index.mjs dev",
     "build": "tsc -b && vite build",
+    "test:ai": "node --test tests/ai-tutor.test.mjs",
+    "test:backend": "node --test tests/ai-tutor.test.mjs tests/progress.test.mjs",
     "preview": "vite preview",
     "seed:demo": "node scripts/seed-demo.mjs",
     "content:seed": "node scripts/seed-class5-lessons.mjs",
