@@ -63,6 +63,7 @@ export function CurrentAffairsPage({ onCreateTutorSession }: { onCreateTutorSess
   const [loading, setLoading] = useState(true);
   const [exam, setExam] = useState("");
   const [subject, setSubject] = useState("");
+  const [quizLength, setQuizLength] = useState("10");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number | null>>({});
   const [attempt, setAttempt] = useState<AttemptResult>();
@@ -133,7 +134,7 @@ export function CurrentAffairsPage({ onCreateTutorSession }: { onCreateTutorSess
     setSelectedAnswers({});
     setError("");
     try {
-      const query = new URLSearchParams({ exam: exam.trim() });
+      const query = new URLSearchParams({ exam: exam.trim(), count: quizLength });
       if (subject.trim()) query.set("subject", subject.trim());
       const result = await requestApi<{ questions: Question[] }>(`/api/competitive/questions?${query}`, token);
       setQuestions(result.questions);
@@ -275,6 +276,7 @@ export function CurrentAffairsPage({ onCreateTutorSession }: { onCreateTutorSess
       <form className="current-affairs-filters" onSubmit={(event) => void loadQuestions(event)}>
         <label>Exam <input required maxLength={80} value={exam} onChange={(event) => setExam(event.target.value)} placeholder="Enter an exam configured by your admin" /></label>
         <label>Subject <input maxLength={80} value={subject} onChange={(event) => setSubject(event.target.value)} placeholder="Optional subject filter" /></label>
+        <label>Quiz length <select value={quizLength} onChange={(event) => setQuizLength(event.target.value)}><option value="10">10 questions</option><option value="25">25 questions</option><option value="50">50 questions</option></select></label>
         <button className="catalog-primary" type="submit" disabled={!token}>Load approved questions</button>
       </form>
       {questions.length > 0 && !attempt && <div className="current-affairs-quiz">

@@ -138,3 +138,37 @@ CREATE TABLE IF NOT EXISTS current_affairs_bookmarks (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   PRIMARY KEY (user_id, article_id)
 );
+
+CREATE TABLE IF NOT EXISTS study_goals (
+  user_id TEXT PRIMARY KEY,
+  daily_target_minutes SMALLINT NOT NULL DEFAULT 30 CHECK (daily_target_minutes BETWEEN 5 AND 600),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS study_plan_tasks (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  title TEXT NOT NULL,
+  subject TEXT NOT NULL DEFAULT '',
+  due_date DATE NOT NULL,
+  planned_minutes SMALLINT NOT NULL CHECK (planned_minutes BETWEEN 5 AND 600),
+  completed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS study_plan_tasks_user_date_idx
+  ON study_plan_tasks (user_id, due_date, created_at);
+
+CREATE TABLE IF NOT EXISTS study_focus_sessions (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  session_type TEXT NOT NULL CHECK (session_type IN ('focus', 'break')),
+  planned_minutes SMALLINT NOT NULL CHECK (planned_minutes BETWEEN 1 AND 120),
+  started_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  completed_at TIMESTAMPTZ,
+  elapsed_seconds INTEGER CHECK (elapsed_seconds IS NULL OR elapsed_seconds BETWEEN 0 AND 7200),
+  status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'completed', 'cancelled'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS study_focus_sessions_one_active_per_user
+  ON study_focus_sessions (user_id) WHERE status = 'active';
+CREATE INDEX IF NOT EXISTS study_focus_sessions_user_start_idx
+  ON study_focus_sessions (user_id, started_at DESC);

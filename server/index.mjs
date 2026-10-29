@@ -10,6 +10,7 @@ import helmet from "helmet";
 import { registerTutorRoutes } from "./ai-tutor.mjs";
 import { registerPaymentRoutes } from "./payments.mjs";
 import { registerProgressRoutes } from "./progress.mjs";
+import { registerStudyPlanRoutes } from "./study-plan.mjs";
 import { registerCurrentAffairsRoutes } from "./current-affairs-routes.mjs";
 import { scheduleCurrentAffairsIngestion } from "./current-affairs.mjs";
 import { closeStore, getStoreMode, initializeStore } from "./data/store.mjs";
@@ -154,6 +155,7 @@ registerTutorRoutes(app, {
 });
 registerPaymentRoutes(app, { storeMode: getStoreMode() });
 registerProgressRoutes(app);
+registerStudyPlanRoutes(app);
 registerCurrentAffairsRoutes(app);
 
 app.get("/api/lessons", async (request, response) => {

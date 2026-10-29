@@ -187,3 +187,13 @@ test("RSS sync retries transient feed failures before inserting new items", asyn
   assert.equal(result.errors.length, 0);
   assert.equal(result.inserted, 1);
 });
+
+test("competitive practice accepts only 10, 25 or 50 question limits", async () => {
+  const api = await startApi();
+  for (const count of [10, 25, 50]) {
+    const response = await fetch(`${api}/api/competitive/questions?count=${count}`);
+    assert.equal(response.status, 200);
+  }
+  const invalid = await fetch(`${api}/api/competitive/questions?count=12`);
+  assert.equal(invalid.status, 400);
+});

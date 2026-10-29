@@ -66,11 +66,13 @@ export function registerCurrentAffairsRoutes(app) {
   app.get("/api/competitive/questions", async (request, response) => {
     const exam = safeFilter(request.query.exam);
     const subject = safeFilter(request.query.subject);
+    const count = request.query.count === undefined ? 50 : Number(request.query.count);
     if ((request.query.exam !== undefined && exam === undefined) || (request.query.subject !== undefined && subject === undefined)) {
       return response.status(400).json({ error: "The exam or subject filter is invalid." });
     }
+    if (![10, 25, 50].includes(count)) return response.status(400).json({ error: "Choose a 10, 25 or 50-question daily quiz." });
     try {
-      response.json({ questions: await listCompetitiveQuestions({ exam, subject }) });
+      response.json({ questions: await listCompetitiveQuestions({ exam, subject, limit: count }) });
     } catch (error) {
       console.error("Approved competitive questions could not be loaded.", error);
       response.status(503).json({ error: "The question bank is temporarily unavailable." });

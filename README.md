@@ -62,7 +62,45 @@ Current affairs and practice API routes (all require the existing authenticated 
 - Admin-only `GET|POST /api/admin/current-affairs/sources`, `GET /api/admin/current-affairs/articles`, `PUT /api/admin/current-affairs/articles/:id`, `POST /api/admin/current-affairs/sync`
 - Admin-only `GET|POST /api/admin/competitive/questions`, `PUT /api/admin/competitive/questions/:id`
 
-Run the backend tests with `npm run test:backend`. This working slice does **not** yet include generated bilingual study notes/PDFs, a verified exam/syllabus catalog, previous-year papers, full-length timed mock scheduling, rank analytics, notifications, or AI-generated question validation. Those features need licensed/official content, verified exam data, and additional review workflows; empty/unconfigured content is intentionally not replaced with sample facts.
+Daily quiz length can be capped at 10, 25 or 50 approved questions using `GET /api/competitive/questions?exam=...&count=10|25|50`; if fewer questions have been approved, the API returns only those available rather than inventing filler.
+
+## Study planner, timetable and Pomodoro
+
+The authenticated `/study-planner` route replaces the former “coming soon” action. Learners can save a private 5–600 minute daily target, add/complete/delete dated subject tasks, and use one active server-timed focus or break session at a time. Focus sessions last 1–120 minutes; break sessions last 1–30 minutes. Only completed focus timers of at least one minute count toward study totals, and a focus timer cannot be marked complete before its server-measured duration expires. Early cancellation is not counted. Active sessions expire after two hours. The weekly chart and today’s goal use UTC day boundaries.
+
+Study plan APIs (authenticated bearer token required):
+
+- `GET /api/study/plan`
+- `PUT /api/study/goal` with `{ "dailyTargetMinutes": 45 }`
+- `POST /api/study/tasks` with `{ "title": "...", "subject": "...", "dueDate": "YYYY-MM-DD", "plannedMinutes": 30 }`
+- `PATCH /api/study/tasks/:id` with `{ "completed": true }`; `DELETE /api/study/tasks/:id`
+- `POST /api/study/sessions/start` with `{ "sessionType": "focus", "plannedMinutes": 25 }`
+- `POST /api/study/sessions/:id/finish` with `{ "cancelled": false }`
+
+PostgreSQL persists plans and timers across devices. Without `DATABASE_URL`, memory-mode data is lost when the process restarts. The timer deliberately has no pause/sync-to-calendar/reminder notifications yet.
+
+Run the backend tests with `npm run test:backend`. Current affairs still does **not** include generated bilingual study notes/PDFs, a verified exam/syllabus catalog, previous-year papers, timed full-length mocks, ranks, notification delivery, or automated fact verification.
+
+## Advanced add-on delivery status
+
+This table is the feature boundary; the prompts describe a much larger roadmap than the modules currently implemented:
+
+| Area | Implemented now | Not implemented / limitation |
+|---|---|---|
+| Live classes & coaching | LiveKit/Socket.IO room join, room chat/Q&A, host moderation, quiz rounds, and a local room schedule preview already exist. | No persistent class catalog/attendance/recordings, calendar reminders, or class polls lifecycle. Rooms/reports still use process memory. |
+| Current affairs | Allowlisted RSS/Atom fetch, dates/source links, category/language filters, approval, bookmarks, and retrying daily ingestion. | No editorial analysis, vocabulary, scheme explainers, magazine/PDF/audio generation, state/exam tagging, push alerts, or independent fact verification. |
+| AI learning | Existing lesson-grounded AI tutor routes and the local LiveKit voice tutor scaffolding. | No PDF/image OCR ingestion, mind maps/flashcards, revision from mistakes, persisted doubt history, interview practice, or generated-question fact validation. |
+| Exam preparation | Admin-reviewed MCQs, 10/25/50 question-count caps, server scoring, explanations, negative marking, saved attempts. | No authoritative syllabus catalog, previous-year papers, countdowns, timed section mocks, speed/accuracy reports, predictions, revision calendar, or verified exam alerts. |
+| Community | Existing private live-room chat, hand raise, reactions, and report-to-host flows. | No public study groups, Q&A board, friend graph, block lists, persistent moderation queue, or team challenges. |
+| Subscriptions | Existing plan/pricing preview and Razorpay route scaffolding. | No tested end-to-end subscription lifecycle, configurable tier entitlements, tax/invoice/refund/coupon/trial/family/pause/renewal handling, or production payment reconciliation. |
+| Gamification | Existing local learning-time indicator. | No server-backed streaks, XP, badges, leaderboards, rewards, referrals, certificates, or anti-abuse ledger. |
+| Careers & jobs | Source-attributed RSS categories can label reviewed vacancy/notification items. | No verified official job feed directory, eligibility checker, deadline reminders, application workflow, resume builder, or scholarship/internship portal. |
+| Productivity | Server-persisted daily focus goal, dated tasks, server-timed Pomodoro, and weekly summary. | No reminder delivery, calendar sync, downloadable reports, or pause/resume timer. |
+| Accessibility/languages | Responsive layout, keyboard focus support, Hindi/English study setting, and existing lesson transcripts/captions. | Not all screens/content are translated; no global font-size/low-bandwidth controls or offline downloads. |
+| Admin/business | Admin-only current-affairs and MCQ create/review endpoints. | No full user/teacher/moderator role lifecycle, audit log, correction history, support ticketing, revenue dashboard, or AI cost dashboard. |
+| Security/reliability | Existing bearer-JWT middleware, API rate limits, PostgreSQL schema startup, and owner-scoped study/quiz records. | No production identity/recovery/consent lifecycle, distributed workers, backups/restore automation, comprehensive audit monitoring, or legal compliance review. |
+
+No sample official notifications, vacancies, test questions, pricing benefits, AI answers, or news are represented as verified live data. Configure trusted identities and PostgreSQL before real-user use. Production launch still requires provider configuration, content/legal review, privacy/consumer-law review, security assessment, backups, and monitoring.
 
 ## Included in this starter
 
@@ -84,6 +122,7 @@ Run the backend tests with `npm run test:backend`. This working slice does **not
 - LiveKit SFU media tokens issued only by the server; Socket.IO room signaling and server-timed quiz scoring when LiveKit credentials are configured
 - A provider-backed, lesson-grounded AI tutor at `/ai-tutor`, with moderation checks, approved-lesson-only context, visible provider errors, and daily request limits
 - An authenticated Current Affairs & Practice page with allowlisted RSS ingestion, source/date links, admin approval, bookmarks, a review-gated MCQ bank, negative-marked server scoring, and per-user attempt history
+- An authenticated Study Planner with persistent daily goals, owner-scoped timetable tasks, server-timed Pomodoro focus/break sessions and a UTC-based weekly focus summary
 - Local demo profile and progress in `localStorage`
 - Authenticated `GET /api/progress` and `PUT /api/progress` endpoints for per-user chapter playback positions and completion; progress remains local-only unless an authenticated bearer token is available
 - First-run learner setup for classes 1–12, UP Board/NCERT/CBSE, Hindi/Hinglish/English, and a persisted voice preference

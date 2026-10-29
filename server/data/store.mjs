@@ -13,6 +13,9 @@ const currentAffairsArticlesMemory = new Map();
 const competitiveQuestionsMemory = new Map();
 const competitiveAttemptsMemory = [];
 const currentAffairsBookmarksMemory = new Set();
+const studyGoalsMemory = new Map();
+const studyPlanTasksMemory = new Map();
+const studyFocusSessionsMemory = new Map();
 const storeMode = pool ? "postgres" : "memory";
 
 export async function initializeStore() {
@@ -245,7 +248,7 @@ export async function saveCompetitiveQuestion(question) {
   competitiveQuestionsMemory.set(question.id, { ...question, status: "pending", createdAt: new Date().toISOString() });
 }
 
-export async function listCompetitiveQuestions({ status = "approved", exam, subject, includeAnswers = false } = {}) {
+export async function listCompetitiveQuestions({ status = "approved", exam, subject, includeAnswers = false, limit = 50 } = {}) {
   if (pool) {
     const values = [status];
     let conditions = "status = $1";
@@ -257,15 +260,16 @@ export async function listCompetitiveQuestions({ status = "approved", exam, subj
       values.push(subject);
       conditions += ` AND subject = $${values.length}`;
     }
+    values.push(limit);
     const { rows } = await pool.query(`SELECT id, exam, subject, topic, language, prompt, options,
       ${includeAnswers ? "correct_answer AS \"correctAnswer\", explanation," : ""}
       negative_marks AS "negativeMarks", status
-      FROM competitive_questions WHERE ${conditions} ORDER BY created_at DESC LIMIT 100`, values);
+      FROM competitive_questions WHERE ${conditions} ORDER BY created_at DESC LIMIT $${values.length}`, values);
     return rows;
   }
   return [...competitiveQuestionsMemory.values()]
     .filter((question) => question.status === status && (!exam || question.exam === exam) && (!subject || question.subject === subject))
-    .slice(0, 100)
+    .slice(0, limit)
     .map((question) => {
       const { correctAnswer, explanation, ...publicFields } = question;
       return includeAnswers ? { ...publicFields, correctAnswer, explanation } : publicFields;
@@ -340,6 +344,186 @@ export async function saveCurrentAffairsBookmark(userId, articleId, saved) {
   if (saved) currentAffairsBookmarksMemory.add(key);
   else currentAffairsBookmarksMemory.delete(key);
   return true;
+}
+
+function dateKey(date = new Date()) {
+  return date.toISOString().slice(0, 10);
+}
+
+export async function getStudyPlan(userId) {
+  if (pool) {
+    const [goal, tasks, sessions, activeSession] = await Promise.all([
+      pool.query(`SELECT daily_target_minutes AS "dailyTargetMinutes"
+        FROM study_goals WHERE user_id = $1`, [userId]),
+      pool.query(`SELECT id, title, subject, due_date AS "dueDate", planned_minutes AS "plannedMinutes",
+        completed_at AS "completedAt", created_at AS "createdAt"
+        FROM study_plan_tasks WHERE user_id = $1 AND due_date >= CURRENT_DATE
+        ORDER BY due_date, created_at LIMIT 100`, [userId]),
+      pool.query(`SELECT COALESCE(SUM(elapsed_seconds), 0)::integer AS "totalFocusSeconds",
+        COALESCE(SUM(elapsed_seconds) FILTER (WHERE started_at >= (date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC')), 0)::integer AS "todayFocusSeconds",
+        COUNT(*) FILTER (WHERE started_at >= (date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC') AND elapsed_seconds >= 60)::integer AS "todaySessions",
+        COUNT(*) FILTER (WHERE elapsed_seconds >= 60)::integer AS "weekSessions"
+        FROM study_focus_sessions WHERE user_id = $1 AND status = 'completed' AND session_type = 'focus'
+        AND started_at >= (date_trunc('week', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC')`, [userId]),
+      pool.query(`SELECT id, session_type AS "sessionType", planned_minutes AS "plannedMinutes",
+        started_at AS "startedAt"
+        FROM study_focus_sessions WHERE user_id = $1 AND status = 'active' LIMIT 1`, [userId]),
+    ]);
+    const weekly = await pool.query(`SELECT (started_at AT TIME ZONE 'UTC')::date::text AS date,
+      (COALESCE(SUM(elapsed_seconds), 0)::integer / 60) AS "focusMinutes"
+      FROM study_focus_sessions WHERE user_id = $1 AND status = 'completed' AND session_type = 'focus'
+      AND started_at >= (date_trunc('week', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC')
+      GROUP BY (started_at AT TIME ZONE 'UTC')::date ORDER BY (started_at AT TIME ZONE 'UTC')::date`, [userId]);
+    return {
+      dailyTargetMinutes: goal.rows[0]?.dailyTargetMinutes ?? 30,
+      tasks: tasks.rows,
+      stats: {
+        focusMinutes: Math.floor(Number(sessions.rows[0]?.totalFocusSeconds ?? 0) / 60),
+        todayFocusMinutes: Math.floor(Number(sessions.rows[0]?.todayFocusSeconds ?? 0) / 60),
+        todaySessions: sessions.rows[0]?.todaySessions ?? 0,
+        weekSessions: sessions.rows[0]?.weekSessions ?? 0,
+        weeklyMinutes: weekly.rows,
+      },
+      activeSession: activeSession.rows[0] ?? null,
+    };
+  }
+  const today = dateKey();
+  const now = Date.now();
+  const tasks = [...studyPlanTasksMemory.values()]
+    .filter((task) => task.userId === userId && task.dueDate >= today)
+    .sort((left, right) => left.dueDate.localeCompare(right.dueDate) || left.createdAt.localeCompare(right.createdAt))
+    .slice(0, 100);
+  const userSessions = [...studyFocusSessionsMemory.values()].filter((session) => session.userId === userId);
+  const weekStart = new Date();
+  weekStart.setUTCHours(0, 0, 0, 0);
+  weekStart.setUTCDate(weekStart.getUTCDate() - ((weekStart.getUTCDay() + 6) % 7));
+  const weeklySessions = userSessions.filter((session) => session.sessionType === "focus" && session.status === "completed" && session.elapsedSeconds >= 60 && Date.parse(session.startedAt) >= weekStart.getTime());
+  const weeklyMinutes = new Map();
+  for (const session of weeklySessions) {
+    const date = session.startedAt.slice(0, 10);
+    weeklyMinutes.set(date, (weeklyMinutes.get(date) ?? 0) + Math.floor(session.elapsedSeconds / 60));
+  }
+  const activeSession = userSessions.find((session) => session.status === "active");
+  if (activeSession && now - Date.parse(activeSession.startedAt) > 2 * 60 * 60 * 1000) {
+    activeSession.status = "cancelled";
+    activeSession.completedAt = new Date().toISOString();
+    activeSession.elapsedSeconds = 0;
+  }
+  return {
+    dailyTargetMinutes: studyGoalsMemory.get(userId) ?? 30,
+    tasks,
+    stats: {
+      focusMinutes: weeklySessions.reduce((total, session) => total + Math.floor(session.elapsedSeconds / 60), 0),
+      todayFocusMinutes: weeklySessions.filter((session) => session.startedAt.slice(0, 10) === today).reduce((total, session) => total + Math.floor(session.elapsedSeconds / 60), 0),
+      todaySessions: weeklySessions.filter((session) => session.startedAt.slice(0, 10) === today).length,
+      weekSessions: weeklySessions.length,
+      weeklyMinutes: [...weeklyMinutes].map(([date, focusMinutes]) => ({ date, focusMinutes })),
+    },
+    activeSession: activeSession?.status === "active" ? activeSession : null,
+  };
+}
+
+export async function saveStudyGoal(userId, dailyTargetMinutes) {
+  if (pool) {
+    await pool.query(`INSERT INTO study_goals (user_id, daily_target_minutes) VALUES ($1, $2)
+      ON CONFLICT (user_id) DO UPDATE SET daily_target_minutes = EXCLUDED.daily_target_minutes, updated_at = now()`,
+    [userId, dailyTargetMinutes]);
+    return;
+  }
+  studyGoalsMemory.set(userId, dailyTargetMinutes);
+}
+
+export async function createStudyPlanTask(task) {
+  if (pool) {
+    const { rows } = await pool.query(`INSERT INTO study_plan_tasks
+      (id, user_id, title, subject, due_date, planned_minutes)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING id, title, subject, due_date AS "dueDate", planned_minutes AS "plannedMinutes",
+      completed_at AS "completedAt", created_at AS "createdAt"`,
+    [task.id, task.userId, task.title, task.subject, task.dueDate, task.plannedMinutes]);
+    return rows[0];
+  }
+  const saved = { ...task, completedAt: null, createdAt: new Date().toISOString() };
+  studyPlanTasksMemory.set(saved.id, saved);
+  return saved;
+}
+
+export async function updateStudyPlanTask(userId, taskId, completed) {
+  if (pool) {
+    const { rows } = await pool.query(`UPDATE study_plan_tasks SET completed_at = $3
+      WHERE id = $1 AND user_id = $2
+      RETURNING id, title, subject, due_date AS "dueDate", planned_minutes AS "plannedMinutes",
+      completed_at AS "completedAt", created_at AS "createdAt"`,
+    [taskId, userId, completed ? new Date() : null]);
+    return rows[0];
+  }
+  const task = studyPlanTasksMemory.get(taskId);
+  if (!task || task.userId !== userId) return undefined;
+  const updated = { ...task, completedAt: completed ? new Date().toISOString() : null };
+  studyPlanTasksMemory.set(taskId, updated);
+  return updated;
+}
+
+export async function deleteStudyPlanTask(userId, taskId) {
+  if (pool) {
+    const result = await pool.query("DELETE FROM study_plan_tasks WHERE id = $1 AND user_id = $2", [taskId, userId]);
+    return result.rowCount > 0;
+  }
+  const task = studyPlanTasksMemory.get(taskId);
+  if (!task || task.userId !== userId) return false;
+  return studyPlanTasksMemory.delete(taskId);
+}
+
+export async function startStudyFocusSession(session) {
+  if (pool) {
+    await pool.query(`UPDATE study_focus_sessions SET status = 'cancelled', completed_at = now(), elapsed_seconds = 0
+      WHERE user_id = $1 AND status = 'active' AND started_at < now() - interval '2 hours'`, [session.userId]);
+    const { rows } = await pool.query(`INSERT INTO study_focus_sessions (id, user_id, session_type, planned_minutes)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, session_type AS "sessionType", planned_minutes AS "plannedMinutes", started_at AS "startedAt"`,
+    [session.id, session.userId, session.sessionType, session.plannedMinutes]);
+    return rows[0];
+  }
+  for (const active of studyFocusSessionsMemory.values()) {
+    if (active.userId === session.userId && active.status === "active") {
+      if (Date.now() - Date.parse(active.startedAt) < 2 * 60 * 60 * 1000) return undefined;
+      active.status = "cancelled";
+      active.completedAt = new Date().toISOString();
+      active.elapsedSeconds = 0;
+    }
+  }
+  const started = { ...session, startedAt: new Date().toISOString(), status: "active", completedAt: null, elapsedSeconds: null };
+  studyFocusSessionsMemory.set(started.id, started);
+  return started;
+}
+
+export async function finishStudyFocusSession(userId, sessionId, cancelled) {
+  if (pool) {
+    const { rows } = await pool.query(`UPDATE study_focus_sessions SET
+      completed_at = now(),
+      elapsed_seconds = LEAST(planned_minutes * 60, GREATEST(0, floor(extract(epoch FROM (now() - started_at)))::integer)),
+      status = $3
+      WHERE id = $1 AND user_id = $2 AND status = 'active'
+      AND ($4::boolean OR now() >= started_at + planned_minutes * interval '1 minute')
+      RETURNING id, session_type AS "sessionType", planned_minutes AS "plannedMinutes",
+      started_at AS "startedAt", completed_at AS "completedAt", elapsed_seconds AS "elapsedSeconds", status`,
+    [sessionId, userId, cancelled ? "cancelled" : "completed", cancelled]);
+    if (rows[0]) return rows[0];
+    const active = await pool.query("SELECT 1 FROM study_focus_sessions WHERE id = $1 AND user_id = $2 AND status = 'active'", [sessionId, userId]);
+    return active.rowCount ? { tooEarly: true } : undefined;
+  }
+  const session = studyFocusSessionsMemory.get(sessionId);
+  if (!session || session.userId !== userId || session.status !== "active") return undefined;
+  const elapsedSeconds = Math.min(session.plannedMinutes * 60, Math.max(0, Math.floor((Date.now() - Date.parse(session.startedAt)) / 1000)));
+  if (!cancelled && elapsedSeconds < session.plannedMinutes * 60) return { tooEarly: true };
+  const updated = {
+    ...session,
+    status: cancelled ? "cancelled" : "completed",
+    completedAt: new Date().toISOString(),
+    elapsedSeconds,
+  };
+  studyFocusSessionsMemory.set(sessionId, updated);
+  return updated;
 }
 
 export async function closeStore() {
