@@ -10,6 +10,8 @@ import helmet from "helmet";
 import { registerTutorRoutes } from "./ai-tutor.mjs";
 import { registerPaymentRoutes } from "./payments.mjs";
 import { registerProgressRoutes } from "./progress.mjs";
+import { registerCurrentAffairsRoutes } from "./current-affairs-routes.mjs";
+import { scheduleCurrentAffairsIngestion } from "./current-affairs.mjs";
 import { closeStore, getStoreMode, initializeStore } from "./data/store.mjs";
 
 const PORT = Number(process.env.ROOMS_PORT ?? 8787);
@@ -152,6 +154,7 @@ registerTutorRoutes(app, {
 });
 registerPaymentRoutes(app, { storeMode: getStoreMode() });
 registerProgressRoutes(app);
+registerCurrentAffairsRoutes(app);
 
 app.get("/api/lessons", async (request, response) => {
   try {
@@ -568,6 +571,8 @@ try {
   throw error;
 }
 
+const stopCurrentAffairsScheduler = scheduleCurrentAffairsIngestion();
+
 httpServer.listen(PORT, HOST, () => {
   console.log(`StudyAI Live Rooms API listening on http://${HOST}:${PORT} (${DEMO_MODE ? "demo mode" : "authenticated mode"})`);
 });
@@ -576,6 +581,7 @@ let shuttingDown = false;
 async function shutdown() {
   if (shuttingDown) return;
   shuttingDown = true;
+  stopCurrentAffairsScheduler();
   io.close(async () => {
     try {
       await closeStore();

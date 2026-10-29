@@ -11,7 +11,7 @@ This ledger reflects verified repository state. Anything labeled partial is not 
 | 5. AI Tutor | Not done | Current tutor is explicitly a local demo; no safe provider adapter, camera vision, RAG, quotas or production LiveKit tutor agent. |
 | 6. Real content and media | Partial | Fifteen original Class 5 Maths/Science lessons and idempotent generation pipeline exist; more curriculum coverage and provider-generated assets require content review, credentials and generation. |
 | 7. Pricing and payments | Partial | Editable plan data and transparent pricing preview exist; Razorpay checkout/webhook route layer is now restored but still requires verified provider credentials and legal review. |
-| 8. Backend, data and admin | Partial | Express/Socket.IO routes, PostgreSQL schema startup, owner-scoped progress API, AI quota storage, and payment scaffolding exist. Production identity/auth lifecycle, persistent rooms/reports/audit data, admin workflows, versioned migrations, and provider credentials remain missing. |
+| 8. Backend, data and admin | Partial | Added PostgreSQL tables and authenticated APIs for allowlisted RSS sources/articles, admin review, bilingual MCQs, negative-marked attempts, bookmarks and attempt history. The in-process RSS scheduler is single-instance only; identity lifecycle, queue/distributed scheduling, persistent room reports/audit, versioned migrations and providers remain missing. |
 | 9. Safety, privacy and quality | Partial | Demo consent boundaries and room rate limits exist; add provider-independent safety, deletion and focused tests before production. |
 
 ## Changed in this implementation
@@ -25,6 +25,10 @@ This ledger reflects verified repository state. Anything labeled partial is not 
 - `server/progress.mjs`: added authenticated owner-scoped read/write routes for course-chapter playback progress.
 - `src/App.tsx`: authenticated tutor sessions load and sync chapter positions; guest progress remains browser-local.
 - `tests/progress.test.mjs`: added API validation and cross-user isolation tests.
+- `server/current-affairs.mjs`, `server/current-affairs-routes.mjs`, `server/data/schema.sql`, and `server/data/store.mjs`: added allowlisted RSS/Atom ingestion with retries, URL deduplication, PostgreSQL/memory persistence, approval-gated publishing, question approval, server-side scoring and user-scoped bookmarks/history.
+- `src/pages/current-affairs-page.tsx` and `src/App.tsx`: added the authenticated Current Affairs & Practice page, filters, source links, MCQ flow, review panel and URL route.
+- `tests/current-affairs.test.mjs`: covers RSS date/source preservation, deduplication, approval, role checks, owner isolation, hidden answer keys, negative marking and retries.
+- `README.md`: documented endpoints, scheduler limits, feed restrictions and the remaining scope gaps.
 
 ## Environment
 
@@ -32,5 +36,6 @@ See `.env.example`. PostgreSQL (`DATABASE_URL`) is optional for local developmen
 
 ## Known gaps
 
-- This remains a local demo; there is no production sign-up/login/verification lifecycle, trusted parental-consent workflow, server-backed billing, downloads or admin content approval. Progress APIs persist only when a configured PostgreSQL database and trusted bearer identity are used.
+- This remains a local demo; there is no production sign-up/login/verification lifecycle, trusted parental-consent workflow, or server-backed billing/downloads. Current affairs persistence requires configured PostgreSQL; memory storage is development-only. The RSS scheduler is process-local and needs a dedicated worker/lock for multiple API replicas.
+- Current affairs has no generated notes/PDFs, verified syllabus/previous-year question catalog, timed full-length mocks, ranks, notification delivery, or verified automated fact-check. Articles/questions are source-preserving drafts until admin approval; no feed or exam data is bundled as real content.
 - Do not collect real child data or accept payments until verified consent, authorization, provider integration, deletion, security review and legal review are complete.

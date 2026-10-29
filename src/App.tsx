@@ -9,7 +9,7 @@ import type { Socket } from "socket.io-client";
 import {
   Activity, ArrowLeft, ArrowRight, AudioLines, Bookmark, BookOpen, Check,
   BarChart3, CheckCircle2, ChevronDown, ChevronRight, CircleHelp, Clock3, Command,
-  Compass, Flame, Gamepad2, Hand, Headphones, Heart, Home, Languages, LockKeyhole, LogOut, Menu,
+  Compass, Flame, Gamepad2, Hand, Headphones, Heart, Home, Languages, LockKeyhole, LogOut, Menu, Newspaper,
   Mic, MicOff, MoreHorizontal, Pause, Play, Plus, Search, Send, ShieldAlert, ScreenShare, Video, VideoOff,
   MessageCircle, Moon, PhoneOff, ShieldCheck, SkipBack, SkipForward, Sparkles, Star, Sun, Target, Timer, Upload, Users, Volume2, X,
 } from "lucide-react";
@@ -33,7 +33,7 @@ type Course = {
   chapters: Chapter[];
   language?: "English" | "Hindi" | "Both";
 };
-type View = "home" | "explore" | "classic-home" | "classic-explore" | "new-hot" | "search" | "library" | "series" | "lesson" | "player" | "ai-tutor" | "my-learning" | "tutor" | "profile" | "profile-preferences" | "progress" | "parent" | "pricing" | "settings" | "games" | "dashboard" | "admin" | "admin-preview" | "live-rooms";
+type View = "home" | "explore" | "classic-home" | "classic-explore" | "new-hot" | "search" | "library" | "series" | "lesson" | "player" | "ai-tutor" | "current-affairs" | "my-learning" | "tutor" | "profile" | "profile-preferences" | "progress" | "parent" | "pricing" | "settings" | "games" | "dashboard" | "admin" | "admin-preview" | "live-rooms";
 type ChatMessage = { role: "student" | "tutor"; text: string };
 type ThemeName = "dark" | "light" | "amoled" | "sunrise" | "forest" | "ocean" | "kids";
 type BoardName = "UP Board" | "NCERT" | "CBSE";
@@ -151,6 +151,7 @@ const navItems: { id: View; label: string; icon: typeof Home }[] = [
   { id: "search", label: "Search", icon: Search },
   { id: "new-hot", label: "New & Hot", icon: Flame },
   { id: "explore", label: "Explore", icon: Compass },
+  { id: "current-affairs", label: "Current Affairs", icon: Newspaper },
   { id: "library", label: "Your Library", icon: BookOpen },
   { id: "ai-tutor", label: "AI Tutor", icon: Sparkles },
   { id: "progress", label: "Progress", icon: BarChart3 },
@@ -172,6 +173,7 @@ const LazyParentRoute = lazy(() => import("./pages/catalog-pages").then((module)
 const LazySettingsRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.SettingsRoute })));
 const LazyProfileRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.ProfileRoute })));
 const LazyAdminRoute = lazy(() => import("./pages/catalog-pages").then((module) => ({ default: module.AdminRoute })));
+const LazyCurrentAffairsPage = lazy(() => import("./pages/current-affairs-page").then((module) => ({ default: module.CurrentAffairsPage })));
 const LazyPricingPage = lazy(() => import("./pages/pricing-page").then((module) => ({ default: module.PricingPage })));
 
 function viewFromPath(pathname: string): View {
@@ -182,6 +184,7 @@ function viewFromPath(pathname: string): View {
     "/": "home", "/explore": "explore", "/classic/home": "classic-home", "/classic/explore": "classic-explore", "/new-hot": "new-hot", "/search": "search",
     "/library": "library", "/series": "series", "/lesson": "lesson", "/player": "player",
     "/ai-tutor": "ai-tutor", "/tutor": "tutor", "/profile": "profile", "/profile/preferences": "profile-preferences", "/progress": "progress",
+    "/current-affairs": "current-affairs",
     "/parent": "parent", "/pricing": "pricing", "/settings": "settings", "/admin": "admin", "/admin/preview": "admin-preview", "/games": "games",
     "/dashboard": "dashboard", "/live-rooms": "live-rooms", "/my-learning": "my-learning",
   };
@@ -197,7 +200,7 @@ function pathForView(view: View, courseId?: string) {
     home: "/", explore: "/explore", "classic-home": "/classic/home", "classic-explore": "/classic/explore", "new-hot": "/new-hot", search: "/search", library: "/library",
     series: `/series/${encodeURIComponent(courseId ?? "")}`.replace(/\/$/, ""),
     lesson: `/lesson/${encodeURIComponent(courseId ?? "")}`.replace(/\/$/, ""),
-    player: "/player", "ai-tutor": "/ai-tutor", "my-learning": "/my-learning", tutor: "/tutor",
+    player: "/player", "ai-tutor": "/ai-tutor", "current-affairs": "/current-affairs", "my-learning": "/my-learning", tutor: "/tutor",
     profile: "/profile", "profile-preferences": "/profile/preferences", progress: "/progress", parent: "/parent", pricing: "/pricing", settings: "/settings",
     games: "/games", dashboard: "/dashboard", admin: "/admin", "admin-preview": "/admin/preview", "live-rooms": "/live-rooms",
   };
@@ -947,6 +950,7 @@ export default function App() {
     lesson: currentChapter.title,
     player: "Now playing",
     "ai-tutor": "AI Tutor",
+    "current-affairs": "Current Affairs & Practice",
     "my-learning": "Pick up where you left off",
     tutor: "Your AI study buddy",
     profile: "Your profile",
@@ -1078,6 +1082,7 @@ export default function App() {
           {view === "lesson" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading lesson"><span /><span /><span /></div>}><LazyLessonRoute {...catalogProps} /></Suspense>}
           {view === "player" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading player"><span /><span /><span /></div>}><LazyPlayerRoute {...catalogProps} /></Suspense>}
           {view === "ai-tutor" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading AI tutor"><span /><span /><span /></div>}><LazyAiTutorRoute {...catalogProps} /></Suspense>}
+          {view === "current-affairs" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading current affairs"><span /><span /><span /></div>}><LazyCurrentAffairsPage onCreateTutorSession={createTutorSession} /></Suspense>}
           {view === "progress" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading progress"><span /><span /><span /></div>}><LazyProgressRoute {...catalogProps} /></Suspense>}
           {view === "parent" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading parent overview"><span /><span /><span /></div>}><LazyParentRoute {...catalogProps} /></Suspense>}
           {view === "pricing" && <Suspense fallback={<div className="route-skeleton" aria-label="Loading plans"><span /><span /><span /></div>}><LazyPricingPage /></Suspense>}

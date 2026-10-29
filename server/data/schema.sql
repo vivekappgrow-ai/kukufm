@@ -68,3 +68,73 @@ CREATE TABLE IF NOT EXISTS safety_incidents (
   reviewed BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE TABLE IF NOT EXISTS current_affairs_sources (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  feed_url TEXT NOT NULL UNIQUE,
+  language TEXT NOT NULL CHECK (language IN ('en', 'hi')),
+  active BOOLEAN NOT NULL DEFAULT true,
+  last_fetched_at TIMESTAMPTZ,
+  last_error TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS current_affairs_articles (
+  id TEXT PRIMARY KEY,
+  source_id TEXT NOT NULL REFERENCES current_affairs_sources(id),
+  title TEXT NOT NULL,
+  summary TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL UNIQUE,
+  category TEXT NOT NULL DEFAULT 'General',
+  language TEXT NOT NULL CHECK (language IN ('en', 'hi')),
+  published_at TIMESTAMPTZ NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  ingested_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  reviewed_at TIMESTAMPTZ,
+  reviewed_by TEXT
+);
+CREATE INDEX IF NOT EXISTS current_affairs_articles_publication_idx
+  ON current_affairs_articles (status, published_at DESC);
+
+CREATE TABLE IF NOT EXISTS competitive_questions (
+  id TEXT PRIMARY KEY,
+  exam TEXT NOT NULL,
+  subject TEXT NOT NULL,
+  topic TEXT NOT NULL,
+  language TEXT NOT NULL CHECK (language IN ('en', 'hi')),
+  prompt TEXT NOT NULL,
+  options JSONB NOT NULL,
+  correct_answer SMALLINT NOT NULL,
+  explanation TEXT NOT NULL,
+  negative_marks NUMERIC(5, 2) NOT NULL DEFAULT 0 CHECK (negative_marks >= 0),
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  reviewed_at TIMESTAMPTZ,
+  reviewed_by TEXT,
+  CHECK (jsonb_typeof(options) = 'array' AND jsonb_array_length(options) BETWEEN 2 AND 6),
+  CHECK (correct_answer >= 0 AND correct_answer < jsonb_array_length(options))
+);
+CREATE INDEX IF NOT EXISTS competitive_questions_public_idx
+  ON competitive_questions (status, exam, subject);
+
+CREATE TABLE IF NOT EXISTS competitive_attempts (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  exam TEXT NOT NULL,
+  question_count SMALLINT NOT NULL,
+  correct_count SMALLINT NOT NULL,
+  wrong_count SMALLINT NOT NULL,
+  score NUMERIC(8, 2) NOT NULL,
+  answers JSONB NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS competitive_attempts_user_idx
+  ON competitive_attempts (user_id, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS current_affairs_bookmarks (
+  user_id TEXT NOT NULL,
+  article_id TEXT NOT NULL REFERENCES current_affairs_articles(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (user_id, article_id)
+);

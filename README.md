@@ -45,6 +45,25 @@ Set `OPENAI_API_KEY` in the server-side `.env` before running the same command t
 
 The authenticated `GET /api/lessons` endpoint returns approved lessons to learners and includes drafts only for authenticated JWTs carrying a trusted `teacher` or `admin` role. The local catalog displays draft status explicitly. Do not publish these lessons until a teacher has reviewed them.
 
+## Current affairs and competitive practice
+
+The authenticated `/current-affairs` page reads only reviewed articles from the database. Admins can add HTTPS RSS/Atom feeds hosted on the allowlist (`pib.gov.in`, `rbi.org.in`, `upsc.gov.in`, `prsindia.org`, `nasa.gov`, BBC feed/news hosts), run a sync, and review each fetched item. Feed redirects, non-HTTPS URLs, non-allowlisted hosts, oversized or malformed XML, missing/future publication dates, and non-allowlisted article links are rejected. Article titles, sanitized source descriptions, the original source link, feed language, and publication timestamp are retained. URL tracking parameters are removed for duplicate detection. Keyword categories are labels only, not fact verification. **Every fetched article remains pending until an admin checks the original source and approves it.** This module does not invent stories or use AI to generate news summaries.
+
+The admin screen can create English/Hindi MCQs with exam, subject, topic, answer, explanation, and negative marks. Questions remain pending until an admin reviews and approves them; learners receive no answer key before submitting. Results are scored and stored on the server, and attempt history/bookmarks are scoped to the authenticated user. Exam identifiers and syllabus coverage are admin-supplied; this implementation does not claim an official syllabus, previous-year question, or exam notice unless an administrator verifies the source and approves the content.
+
+RSS sync runs once on API startup and daily at 02:00 UTC in the API process, retries transient fetch failures, and stores the last sync error on each source. Configure PostgreSQL (`DATABASE_URL`) for durable data; without it, current affairs, sources, questions, bookmarks, and attempts use non-durable process memory. Because scheduling is in-process, run only one API instance for this job; multi-instance deployments need a dedicated scheduler/worker and a distributed lock. Feed operators must confirm the publisher's RSS reuse terms and legal permissions before adding feeds.
+
+Current affairs and practice API routes (all require the existing authenticated bearer token):
+
+- `GET /api/current-affairs/articles?category=...&language=en|hi`
+- `GET /api/current-affairs/bookmarks`; `PUT /api/current-affairs/bookmarks` with `{ "articleId": "...", "saved": true }`
+- `GET /api/competitive/questions?exam=...&subject=...` (approved question text/options only)
+- `POST /api/competitive/attempts` with `{ "answers": [{ "questionId": "...", "selectedOption": 0 }] }`; `GET /api/competitive/attempts`
+- Admin-only `GET|POST /api/admin/current-affairs/sources`, `GET /api/admin/current-affairs/articles`, `PUT /api/admin/current-affairs/articles/:id`, `POST /api/admin/current-affairs/sync`
+- Admin-only `GET|POST /api/admin/competitive/questions`, `PUT /api/admin/competitive/questions/:id`
+
+Run the backend tests with `npm run test:backend`. This working slice does **not** yet include generated bilingual study notes/PDFs, a verified exam/syllabus catalog, previous-year papers, full-length timed mock scheduling, rank analytics, notifications, or AI-generated question validation. Those features need licensed/official content, verified exam data, and additional review workflows; empty/unconfigured content is intentionally not replaced with sample facts.
+
 ## Included in this starter
 
 - Responsive home, course discovery, course lesson, tutor, profile, quiz games, dashboard, and demo content studio screens
@@ -64,6 +83,7 @@ The authenticated `GET /api/lessons` endpoint returns approved lessons to learne
 - Live Rooms screens with pre-join camera preview, invite link/code, schedule + `.ics`, participant grid/speaker/game layouts, mic/camera toggles, room-only chat, hand raise, reactions, host moderation and safety reporting
 - LiveKit SFU media tokens issued only by the server; Socket.IO room signaling and server-timed quiz scoring when LiveKit credentials are configured
 - A provider-backed, lesson-grounded AI tutor at `/ai-tutor`, with moderation checks, approved-lesson-only context, visible provider errors, and daily request limits
+- An authenticated Current Affairs & Practice page with allowlisted RSS ingestion, source/date links, admin approval, bookmarks, a review-gated MCQ bank, negative-marked server scoring, and per-user attempt history
 - Local demo profile and progress in `localStorage`
 - Authenticated `GET /api/progress` and `PUT /api/progress` endpoints for per-user chapter playback positions and completion; progress remains local-only unless an authenticated bearer token is available
 - First-run learner setup for classes 1–12, UP Board/NCERT/CBSE, Hindi/Hinglish/English, and a persisted voice preference

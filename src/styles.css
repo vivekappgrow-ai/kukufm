@@ -736,6 +736,52 @@ h1, h2, h3, p { margin-top: 0; }
 .catalog-page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin: 2px 0 22px; }
 .catalog-page-head h1 { margin: 7px 0 5px; font: 800 clamp(27px, 3.6vw, 38px)/1.1 "Manrope", sans-serif; letter-spacing: -1.5px; }
 .catalog-page-head p { max-width: 650px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.current-affairs-page { max-width: 1040px; }
+.current-affairs-page .catalog-page-head { align-items: flex-start; }
+.current-affairs-section { margin-top: 30px; }
+.current-affairs-section > .catalog-shelf-head > span { color: var(--muted); font-size: 11px; }
+.current-affairs-filters { display: flex; align-items: end; flex-wrap: wrap; gap: 12px; margin: 14px 0; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.current-affairs-filters label, .current-affairs-admin-form label { display: grid; flex: 1 1 190px; gap: 6px; color: var(--muted); font-size: 11px; font-weight: 700; }
+.current-affairs-filters select, .current-affairs-filters input, .current-affairs-admin-form input, .current-affairs-admin-form select, .current-affairs-admin-form textarea { width: 100%; min-height: 40px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: var(--page); font-size: 12px; }
+.current-affairs-filters > span { display: inline-flex; align-items: center; gap: 6px; padding-bottom: 10px; color: var(--muted); font-size: 10px; }
+.current-affairs-list { display: grid; gap: 12px; }
+.current-affairs-card { padding: 18px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); }
+.current-affairs-card-meta, .current-affairs-card-footer, .current-affairs-card-footer > div { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.current-affairs-card-meta { color: var(--muted); font-size: 10px; }
+.current-affairs-card-meta > span { padding: 4px 7px; border-radius: 6px; background: var(--surface-soft); }
+.current-affairs-card-meta time { margin-left: auto; }
+.current-affairs-card h3 { margin: 12px 0 7px; font: 700 17px/1.35 "Manrope", sans-serif; }
+.current-affairs-card > p, .current-affairs-admin-panel > p { margin: 0 0 14px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.current-affairs-card-footer { justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+.current-affairs-card-footer > div { gap: 12px; }
+.current-affairs-card-footer a, .current-affairs-review > a { display: inline-flex; align-items: center; gap: 5px; color: var(--purple-dark); font-size: 11px; font-weight: 700; }
+.current-affairs-icon-button { display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); background: var(--surface); cursor: pointer; }
+.current-affairs-empty, .current-affairs-message { padding: 15px; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.current-affairs-message { border-style: solid; background: var(--surface); }
+.current-affairs-message.error { color: #ba554f; border-color: #ba554f65; }
+.current-affairs-quiz { display: grid; gap: 12px; }
+.current-affairs-question { min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.current-affairs-question legend { padding: 0 5px; font-size: 14px; font-weight: 700; }
+.current-affairs-question > p { margin: 5px 0 10px; color: var(--muted); font-size: 10px; }
+.current-affairs-question label { display: flex; align-items: flex-start; gap: 8px; padding: 8px 0; font-size: 12px; cursor: pointer; }
+.current-affairs-question input { margin-top: 2px; accent-color: var(--purple); }
+.current-affairs-quiz-result { display: grid; gap: 10px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.current-affairs-quiz-result h3, .current-affairs-quiz-result p { margin: 0; }
+.current-affairs-quiz-result > article { padding-top: 10px; border-top: 1px solid var(--line); font-size: 12px; line-height: 1.6; }
+.current-affairs-quiz-result > article p, .current-affairs-history p { margin: 5px 0; color: var(--muted); }
+.current-affairs-history { margin-top: 14px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; font-size: 12px; }
+.current-affairs-history summary { cursor: pointer; font-weight: 700; }
+.current-affairs-admin { padding-top: 20px; border-top: 1px solid var(--line); }
+.current-affairs-admin-panel { margin-top: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.current-affairs-admin-panel .catalog-shelf-head { margin-top: 22px; }
+.current-affairs-admin-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 14px 0 20px; }
+.current-affairs-admin-form textarea { min-height: 92px; resize: vertical; }
+.current-affairs-admin-form .current-affairs-wide-field { grid-column: 1 / -1; }
+.current-affairs-admin-row { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 11px !important; }
+.current-affairs-review { display: grid; gap: 7px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+.current-affairs-review p { margin: 0; color: var(--muted); }
+.current-affairs-review > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.current-affairs-review .catalog-primary, .current-affairs-review .catalog-secondary { min-height: 34px; }
 .catalog-eyebrow { display: inline-flex; align-items: center; gap: 7px; color: var(--purple-dark); font-size: 10px; font-weight: 800; letter-spacing: 1.2px; }
 .catalog-hero { position: relative; min-height: 310px; display: flex; align-items: center; overflow: hidden; padding: clamp(24px, 5vw, 56px); border: 1px solid var(--line); border-radius: 22px; background: linear-gradient(115deg, var(--surface) 15%, var(--purple-light)); }
 .catalog-hero > div:first-child { position: relative; z-index: 1; max-width: 530px; }
@@ -992,6 +1038,9 @@ h1, h2, h3, p { margin-top: 0; }
   .series-hero > .catalog-cover { width: min(100%, 280px); }
   .catalog-filter-row label { flex: 1 1 40%; }
   .catalog-explore-hero, .catalog-exam-banner { align-items: flex-start; flex-direction: column; }
+  .current-affairs-admin-form { grid-template-columns: minmax(0, 1fr); }
+  .current-affairs-admin-form .current-affairs-wide-field { grid-column: auto; }
+  .current-affairs-filters > span { padding-bottom: 0; }
 }
 @media (max-width: 620px) {
   .sidebar-library-card, .sidebar-divider, .sidebar-spacer, .sidebar > .workspace-label, .sidebar .streak-card, .sidebar .profile-switch { display: none; }
